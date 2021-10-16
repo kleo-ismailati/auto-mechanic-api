@@ -1,4 +1,4 @@
-package com.codemonkeys.carmechanicbackend.client;
+package com.codemonkeys.carmechanicbackend.client.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
