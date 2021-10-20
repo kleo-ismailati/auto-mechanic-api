@@ -3,10 +3,11 @@ package com.codemonkeys.carmechanicbackend.admin.dto;
 import lombok.Data;
 
 @Data
-public class AdminDto {
-
+public class NewAdminDto {
+	
 	private String username;
 	private String email;
-	
-	public AdminDto() {}
+	private String password;
+
+	public NewAdminDto() {}
 }
