@@ -13,6 +13,7 @@ public class Client {
 	private String id;
 	private String firstName;
 	private String lastName;
+	private String email;
 	private String phoneNumber;
 	private String address;
 	private String car;
@@ -23,11 +24,12 @@ public class Client {
 	
 	public Client() {}
 
-	public Client(String id, String firstName, String lastName, String phoneNumber, String address, String car,
+	public Client(String id, String firstName, String lastName, String email, String phoneNumber, String address, String car,
 			String carDescription, String repairCost, String repairDetails, String repairStatus) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.car = car;
