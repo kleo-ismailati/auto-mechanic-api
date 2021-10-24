@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codemonkeys.carmechanicbackend.client.NewClientDto;
+import com.codemonkeys.carmechanicbackend.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.client.dto.ClientDto;
 import com.codemonkeys.carmechanicbackend.client.service.ClientService;
 
@@ -36,17 +36,17 @@ public class ClientController {
 	}
 	
 	@PostMapping
-	public void addAdmin(@RequestBody NewClientDto newClient) {
-		clientService.addAdmin(newClient);
+	public void addClient(@RequestBody NewClientDto newClient) {
+		clientService.addClient(newClient);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public void editAdmin(@PathVariable("id") String id, @RequestBody NewClientDto clientDto) {
+	public void editClient(@PathVariable("id") String id, @RequestBody NewClientDto clientDto) {
 		clientService.editClient(id, clientDto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public void deleteAdmin(@PathVariable("id") String id) {
+	public void deleteClient(@PathVariable("id") String id) {
 		clientService.deleteClient(id);
 	}
 

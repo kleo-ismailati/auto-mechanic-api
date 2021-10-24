@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.client.dto.ClientDto;
+import com.codemonkeys.carmechanicbackend.client.dto.ClientMapper;
+import com.codemonkeys.carmechanicbackend.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.client.model.Client;
 import com.codemonkeys.carmechanicbackend.client.repository.ClientRepository;
 
@@ -16,6 +18,9 @@ public class ClientService {
 	
 	@Autowired
 	private ClientRepository clientRepository;
+	
+	@Autowired
+	private ClientMapper clientMapper;
 
 	public List<ClientDto> getAllClients() {
 
