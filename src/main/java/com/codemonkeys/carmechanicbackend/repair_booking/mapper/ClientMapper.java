@@ -1,14 +1,14 @@
 package com.codemonkeys.carmechanicbackend.repair_booking.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.ClientDto;
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.ClientListDto;
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.NewClientDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.car.CarDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.car.CarViewDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.client.ClientDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.client.ClientViewDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.client.NewClientDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.model.Car;
 import com.codemonkeys.carmechanicbackend.repair_booking.model.Client;
 
 @Service
@@ -33,17 +33,19 @@ public class ClientMapper {
 		clientEntity.setAddress(clientDto.getAddress());
 		
 		
-		clientEntity.setCar(carMapper.toNewEntity(clientDto.getCar()));
+		clientEntity.setCar(carMapper.toNewEntity(clientDto.getCarDto()));
 		
 		return clientEntity;
 		
 	}
 
-	public Client toEntity(String id, ClientDto clientDto) {
+	public Client toEntity(ClientDto clientDto) {
 		
 		Client clientEntity = new Client();
 		
-		clientEntity.setId(id);
+		if(clientDto.getId() != null) {
+			clientEntity.setId(clientDto.getId());
+		}
 		
 		if(clientDto.getFirstName() != null) {
 			clientEntity.setFirstName(clientDto.getFirstName());
@@ -65,17 +67,22 @@ public class ClientMapper {
 			clientEntity.setAddress(clientDto.getAddress());
 		}
 		
-		if(clientDto.getCar() != null) {
-			clientEntity.setCar(clientDto.getCar());
+		if(clientDto.getCarDto() != null) {
+			Car car = carMapper.toEntity(clientDto.getCarDto());
+			clientEntity.setCar(car);
 		}
 		
 		return clientEntity;
 		
 	}
 	
-	public ClientListDto toDto(Client client) {
+	public ClientDto toDto(Client client) {
 		
-		ClientListDto clientDto = new ClientListDto();
+		ClientDto clientDto = new ClientDto();
+		
+		if(client.getId() != null) {
+			clientDto.setId(client.getId());
+		}
 		
 		if(client.getFirstName() != null) {
 			clientDto.setFirstName(client.getFirstName());
@@ -85,22 +92,44 @@ public class ClientMapper {
 			clientDto.setLastName(client.getLastName());
 		}
 		
+		if(client.getEmail() != null) {
+			clientDto.setEmail(client.getEmail());
+		}
+		
+		if(client.getPhoneNumber() != null) {
+			clientDto.setPhoneNumber(client.getPhoneNumber());
+		}
+		
+		if(client.getAddress() != null) {
+			clientDto.setAddress(client.getAddress());
+		}
+		
 		if(client.getCar() != null) {
-			clientDto.setCar(client.getCar());
+			CarDto carDto = carMapper.toDto(client.getCar());
+			clientDto.setCarDto(carDto);
 		}
 		
 		return clientDto;
 	}
 	
-	public List<ClientListDto> toDtoList(List<Client> clients){
+	public ClientViewDto toViewDto(Client client) {
 		
-		List<ClientListDto> clientDtoList = new ArrayList<ClientListDto>();
+		ClientViewDto clientViewDto = new ClientViewDto();
 		
-		for(Client client : clients) {
-			clientDtoList.add(toDto(client));
+		if(client.getFirstName() != null) {
+			clientViewDto.setFirstName(client.getFirstName());
 		}
 		
-		return clientDtoList;
+		if(client.getLastName() != null) {
+			clientViewDto.setLastName(client.getLastName());
+		}
+		
+		if(client.getCar() != null) {
+			CarViewDto carViewDto = carMapper.toViewDto(client.getCar());
+			clientViewDto.setCarViewDto(carViewDto);
+		}
+		
+		return clientViewDto;
 	}
 	
 	public Client updateEntity(ClientDto clientDto, Client clientEntity) {
@@ -126,8 +155,9 @@ public class ClientMapper {
 			clientEntity.setAddress(clientDto.getAddress());
 		}
 		
-		if(clientDto.getCar() != null) {
-			clientEntity.setCar(clientDto.getCar());
+		if(clientDto.getCarDto() != null) {
+			Car car = carMapper.updateEntity(clientDto.getCarDto(), clientEntity.getCar());
+			clientEntity.setCar(car);
 		}
 		
 		return clientEntity;

@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.NewRepairBookingDto;
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.RepairBookingDto;
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.RepairBookingListDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.repair_booking.NewRepairBookingDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.repair_booking.RepairBookingDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.repair_booking.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.repair_booking.mapper.RepairBookingMapper;
 import com.codemonkeys.carmechanicbackend.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.repair_booking.repository.RepairBookingRepository;
-
-
 
 @Service
 public class RepairBookingService {
@@ -26,13 +24,13 @@ public class RepairBookingService {
 		this.repairBookingMapper = repairBookingMapper;
 	}
 
-	public List<RepairBookingListDto> getAllRepairBookings() {
+	public List<RepairBookingViewDto> getAllRepairBookings() {
 
 		List<RepairBooking> repairBookings = repairBookingRepository.findAll();
-		return repairBookingMapper.toDtoList(repairBookings);
+		return repairBookingMapper.toViewDtoList(repairBookings);
 	}
 	
-	public RepairBookingListDto getRepairBooking(String id) {
+	public RepairBookingDto getRepairBooking(String id) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id)
 				.orElseThrow(() -> new RepairBookingNotFoundException(id));

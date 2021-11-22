@@ -1,4 +1,6 @@
-package com.codemonkeys.carmechanicbackend.repair_booking.dto;
+package com.codemonkeys.carmechanicbackend.repair_booking.dto.client;
+
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.car.NewCarDto;
 
 import lombok.Data;
 
@@ -10,8 +12,6 @@ public class NewClientDto {
 	private String email;
 	private String phoneNumber;
 	private String address;
-	private NewCarDto car;
+	private NewCarDto carDto;
 	
-	public NewClientDto() {
-	}
 }

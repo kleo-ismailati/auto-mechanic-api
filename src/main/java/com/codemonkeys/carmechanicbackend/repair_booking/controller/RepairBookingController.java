@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.NewRepairBookingDto;
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.RepairBookingDto;
-import com.codemonkeys.carmechanicbackend.repair_booking.dto.RepairBookingListDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.repair_booking.NewRepairBookingDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.repair_booking.RepairBookingDto;
+import com.codemonkeys.carmechanicbackend.repair_booking.dto.repair_booking.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.repair_booking.service.RepairBookingService;
 
 @RestController
@@ -28,13 +28,12 @@ public class RepairBookingController {
 	}
 
 	@GetMapping
-	@ResponseBody
-	public List<RepairBookingListDto> getAllRepairBookings() {
+	public List<RepairBookingViewDto> getAllRepairBookings() {
 		return repairBookingService.getAllRepairBookings();
 	}
 	
 	@GetMapping(value = "/{id}")
-	public RepairBookingListDto getRepairBooking(@PathVariable("id") String id) {
+	public RepairBookingDto getRepairBooking(@PathVariable("id") String id) {
 		return repairBookingService.getRepairBooking(id);
 	}
 	
