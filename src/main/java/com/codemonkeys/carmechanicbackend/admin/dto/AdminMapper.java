@@ -10,49 +10,42 @@ import com.codemonkeys.carmechanicbackend.admin.model.Admin;
 @Service
 public class AdminMapper {
 
-	public Admin toEntity(NewAdminDto newAdmin) {
+	public Admin toNewEntity(NewAdminDto newAdmin) {
 		
 		Admin adminEntity = new Admin();
 		
-		if(newAdmin.getUsername() != null) {
-			adminEntity.setUsername(newAdmin.getUsername());
-		}
-		
-		if(newAdmin.getEmail() != null) {
-			adminEntity.setEmail(newAdmin.getEmail());
-		}
-		
-		if(newAdmin.getPassword() != null) {
-			adminEntity.setPassword(newAdmin.getPassword());
-		}
+		adminEntity.setUsername(newAdmin.getUsername());
+		adminEntity.setEmail(newAdmin.getEmail());
+		adminEntity.setPassword(newAdmin.getPassword());
+		adminEntity.setRole("ADMIN");
 		
 		return adminEntity;
 	}
 	
-	public Admin toEntity(String id, NewAdminDto newAdmin) {
+	public Admin toEntity(String id, AdminDto adminDto) {
 		
 		Admin adminEntity = new Admin();
 		
 		adminEntity.setId(id);
 		
-		if(newAdmin.getUsername() != null) {
-			adminEntity.setUsername(newAdmin.getUsername());
+		if(adminDto.getUsername() != null) {
+			adminEntity.setUsername(adminDto.getUsername());
 		}
 		
-		if(newAdmin.getEmail() != null) {
-			adminEntity.setEmail(newAdmin.getEmail());
+		if(adminDto.getEmail() != null) {
+			adminEntity.setEmail(adminDto.getEmail());
 		}
 		
-		if(newAdmin.getPassword() != null) {
-			adminEntity.setPassword(newAdmin.getPassword());
+		if(adminDto.getPassword() != null) {
+			adminEntity.setPassword(adminDto.getPassword());
 		}
 		
 		return adminEntity;
 	}
 
-	public AdminDto toDto(Admin admin) {
+	public AdminListDto toDto(Admin admin) {
 		
-		AdminDto adminDto = new AdminDto();
+		AdminListDto adminDto = new AdminListDto();
 		
 		adminDto.setUsername(admin.getUsername());
 		adminDto.setEmail(admin.getEmail());
@@ -60,9 +53,9 @@ public class AdminMapper {
 		return adminDto;
 	}
 	
-	public List<AdminDto> toDtoList(List<Admin> admins) {
+	public List<AdminListDto> toDtoList(List<Admin> admins) {
 		
-		List<AdminDto> adminDtoList = new ArrayList<AdminDto> ();
+		List<AdminListDto> adminDtoList = new ArrayList<AdminListDto> ();
 		
 		for(Admin admin : admins) {
 			adminDtoList.add(toDto(admin));
@@ -71,19 +64,19 @@ public class AdminMapper {
 		return adminDtoList;
 	}
 	
-	public Admin updateEntity(NewAdminDto newAdmin, Admin adminEntity) {
+	public Admin updateEntity(AdminDto adminDto, Admin adminEntity) {
 		
 		
-		if(newAdmin.getUsername() != null) {
-			adminEntity.setUsername(newAdmin.getUsername());
+		if(adminDto.getUsername() != null) {
+			adminEntity.setUsername(adminDto.getUsername());
 		}
 		
-		if(newAdmin.getEmail() != null) {
-			adminEntity.setEmail(newAdmin.getEmail());
+		if(adminDto.getEmail() != null) {
+			adminEntity.setEmail(adminDto.getEmail());
 		}
 		
-		if(newAdmin.getPassword() != null) {
-			adminEntity.setPassword(newAdmin.getPassword());
+		if(adminDto.getPassword() != null) {
+			adminEntity.setPassword(adminDto.getPassword());
 		}
 		
 		return adminEntity;

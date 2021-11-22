@@ -2,7 +2,6 @@ package com.codemonkeys.carmechanicbackend.admin.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.admin.dto.AdminDto;
+import com.codemonkeys.carmechanicbackend.admin.dto.AdminListDto;
 import com.codemonkeys.carmechanicbackend.admin.dto.NewAdminDto;
 import com.codemonkeys.carmechanicbackend.admin.service.AdminService;
 
@@ -20,16 +20,19 @@ import com.codemonkeys.carmechanicbackend.admin.service.AdminService;
 @RequestMapping("/admin")
 public class AdminController {
 
-	@Autowired
 	private AdminService adminService;
 	
+	public AdminController(AdminService adminService) {
+		this.adminService = adminService;
+	}
+
 	@GetMapping
-	public List<AdminDto> getAllAdmins() {
+	public List<AdminListDto> getAllAdmins() {
 		return adminService.getAllAdmins();
 	}
 	
 	@GetMapping(value = "/{id}")
-	public AdminDto getAdmin(@PathVariable("id") String id) {
+	public AdminListDto getAdmin(@PathVariable("id") String id) {
 		return adminService.getAdmin(id);
 	}
 	
@@ -39,7 +42,7 @@ public class AdminController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public void editAdmin(@PathVariable("id") String id, @RequestBody NewAdminDto adminDto) {
+	public void editAdmin(@PathVariable("id") String id, @RequestBody AdminDto adminDto) {
 		adminService.editAdmin(id, adminDto);
 	}
 	
