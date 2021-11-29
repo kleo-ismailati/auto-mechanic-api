@@ -1,4 +1,4 @@
-package com.codemonkeys.carmechanicbackend.api.exception;
+package com.codemonkeys.carmechanicbackend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

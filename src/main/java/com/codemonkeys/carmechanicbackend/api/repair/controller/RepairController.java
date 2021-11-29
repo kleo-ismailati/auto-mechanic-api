@@ -12,11 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
-import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair.service.RepairService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/repair")
+@Tag(name = "Repair", description = "Car Repair Controller")
 public class RepairController {
 	
 	private RepairService repairService;
@@ -26,24 +31,43 @@ public class RepairController {
 	}
 	
 	@GetMapping(value = "/{id}")
+	@Operation(summary = "Get Repair by id", tags = { "Repair" })
+	@ApiResponses(value = {
+	  @ApiResponse(responseCode = "200", description = "Repair found"),
+	  @ApiResponse(responseCode = "404", description = "Repair not found") 
+	  })
 	public ResponseEntity<RepairDto> getRepair(@PathVariable("id") Long id) {
 		return repairService.getRepair(id);
 	}
 	
 	@PostMapping(value = "/{id}")
-	public ResponseEntity<Repair> addRepair(@PathVariable("id") Long id,
+	@Operation(summary = "Add new Repair to Existing Car", tags = { "Repair" })
+	@ApiResponses(value = {
+	  @ApiResponse(responseCode = "201", description = "Repair added successfully")
+	  })
+	public ResponseEntity<Void> addRepair(@PathVariable("id") Long id,
 			@RequestBody NewRepairDto newRepair) {
 		return repairService.addRepair(newRepair, id);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Repair> editRepair(@PathVariable("id") Long id, 
+	@Operation(summary = "Update Repair by id", tags = { "Repair" })
+	@ApiResponses(value = {
+	  @ApiResponse(responseCode = "200", description = "Repair updated successfully"),
+	  @ApiResponse(responseCode = "404", description = "Repair not found") 
+	  })
+	public ResponseEntity<Void> editRepair(@PathVariable("id") Long id, 
 			@RequestBody RepairDto repairDto) {
 		return repairService.editRepair(id, repairDto);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Repair> deleteRepair(@PathVariable("id") Long id) {
+	@Operation(summary = "Delete Repair by id", tags = { "Repair" })
+	@ApiResponses(value = {
+	  @ApiResponse(responseCode = "204", description = "Repair deleted successfully"),
+	  @ApiResponse(responseCode = "404", description = "Repair not found") 
+	  })
+	public ResponseEntity<Void> deleteRepair(@PathVariable("id") Long id) {
 		return repairService.deleteRepair(id);
 	}
 

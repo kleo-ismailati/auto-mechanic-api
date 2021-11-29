@@ -9,7 +9,7 @@ import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
-import com.codemonkeys.carmechanicbackend.api.exception.ResourceNotFoundException;
+import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class CarService {
@@ -32,28 +32,28 @@ public class CarService {
 		return ResponseEntity.ok(carMapper.toDto(car));
 	}
 
-	public ResponseEntity<Car> addCar(NewCarDto newCar) {
+	public ResponseEntity<Void> addCar(NewCarDto newCar) {
 		
 		carRepository.save(carMapper.toNewEntity(newCar));
 		
-		return new ResponseEntity<Car>(HttpStatus.CREATED);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<Car> deleteCar(Long id) {
+	public ResponseEntity<Void> deleteCar(Long id) {
 		
 		carRepository.deleteById(id);
 		
-		return new ResponseEntity<Car>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Car> editCar(Long id, CarDto carDto) {
+	public ResponseEntity<Void> editCar(Long id, CarDto carDto) {
 		
 		Car car = carRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
 		carMapper.updateEntity(carDto, car);
 		carRepository.save(car);
 		
-		return new ResponseEntity<Car>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 }

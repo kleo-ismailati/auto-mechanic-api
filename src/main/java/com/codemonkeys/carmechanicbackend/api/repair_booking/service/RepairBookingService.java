@@ -6,13 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.api.exception.ResourceNotFoundException;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.mapper.RepairBookingMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.repository.RepairBookingRepository;
+import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class RepairBookingService {
@@ -41,28 +41,28 @@ public class RepairBookingService {
 		return ResponseEntity.ok(repairBookingMapper.toDto(repairBooking));
 	}
 
-	public ResponseEntity<RepairBooking> addRepairBooking(NewRepairBookingDto newRepairBooking) {
+	public ResponseEntity<Void> addRepairBooking(NewRepairBookingDto newRepairBooking) {
 		
 		repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking));
 		
-		return new ResponseEntity<RepairBooking>(HttpStatus.CREATED);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<RepairBooking> deleteRepairBooking(Long id) {
+	public ResponseEntity<Void> deleteRepairBooking(Long id) {
 		
 		repairBookingRepository.deleteById(id);
 		
-		return new ResponseEntity<RepairBooking>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<RepairBooking> editRepairBooking(Long id, RepairBookingDto repairBookingDto) {
+	public ResponseEntity<Void> editRepairBooking(Long id, RepairBookingDto repairBookingDto) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Repair booking with id: " + id + " not found!"));
 		repairBookingMapper.updateEntity(repairBookingDto, repairBooking);
 		repairBookingRepository.save(repairBooking);
 		
-		return new ResponseEntity<RepairBooking>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 }

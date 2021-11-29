@@ -9,7 +9,7 @@ import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
-import com.codemonkeys.carmechanicbackend.api.exception.ResourceNotFoundException;
+import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class ClientService {
@@ -32,28 +32,28 @@ public class ClientService {
 		return ResponseEntity.ok(clientMapper.toDto(client));
 	}
 
-	public ResponseEntity<Client> addClient(NewClientDto newClient) {
+	public ResponseEntity<Void> addClient(NewClientDto newClient) {
 		
 		clientRepository.save(clientMapper.toNewEntity(newClient));
 		
-		return new ResponseEntity<Client>(HttpStatus.CREATED);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<Client> deleteClient(Long id) {
+	public ResponseEntity<Void> deleteClient(Long id) {
 		
 		clientRepository.deleteById(id);
 		
-		return new ResponseEntity<Client>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Client> editClient(Long id, ClientDto clientDto) {
+	public ResponseEntity<Void> editClient(Long id, ClientDto clientDto) {
 		
 		Client client = clientRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
 		clientMapper.updateEntity(clientDto, client);
 		clientRepository.save(client);
 		
-		return new ResponseEntity<Client>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 }

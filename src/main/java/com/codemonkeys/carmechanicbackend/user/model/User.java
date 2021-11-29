@@ -1,4 +1,4 @@
-package com.codemonkeys.carmechanicbackend.user.admin.model;
+package com.codemonkeys.carmechanicbackend.user.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Admin {
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -19,9 +19,9 @@ public class Admin {
 	private String password;
 	private String role;
 	
-	public Admin() {}
+	public User() {}
 
-	public Admin(Long id, String username, String email, String password, String role) {
+	public User(Long id, String username, String email, String password, String role) {
 		this.id = id;
 		this.username = username;
 		this.email = email;

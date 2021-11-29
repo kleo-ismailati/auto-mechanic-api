@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
-import com.codemonkeys.carmechanicbackend.api.exception.ResourceNotFoundException;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair.repository.RepairRepository;
+import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class RepairService {
@@ -37,31 +37,31 @@ public class RepairService {
 		return ResponseEntity.ok(repairMapper.toDto(repair));
 	}
 
-	public ResponseEntity<Repair> addRepair(NewRepairDto newRepair, Long id) {
+	public ResponseEntity<Void> addRepair(NewRepairDto newRepair, Long id) {
 		
 		Car car = carRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
 		
 		repairRepository.save(repairMapper.toNewEntity(newRepair, car));
 		
-		return new ResponseEntity<Repair>(HttpStatus.CREATED);
+		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
 
-	public ResponseEntity<Repair> deleteRepair(Long id) {
+	public ResponseEntity<Void> deleteRepair(Long id) {
 		
 		repairRepository.deleteById(id);
 		
-		return new ResponseEntity<Repair>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Repair> editRepair(Long id, RepairDto repairDto) {
+	public ResponseEntity<Void> editRepair(Long id, RepairDto repairDto) {
 		
 		Repair repair = repairRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Repair with id: " + id + " not found!"));
 		repairMapper.updateEntity(repairDto, repair);
 		repairRepository.save(repair);
 		
-		return new ResponseEntity<Repair>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 }
