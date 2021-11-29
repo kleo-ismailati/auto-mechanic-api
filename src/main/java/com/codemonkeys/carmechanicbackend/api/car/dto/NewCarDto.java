@@ -1,0 +1,19 @@
+package com.codemonkeys.carmechanicbackend.api.car.dto;
+
+import java.util.List;
+
+import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
+
+import lombok.Data;
+
+@Data
+public class NewCarDto {
+	
+	private String carType;
+	private String carModel;
+	private String year;
+	private String color;
+	private String carDescription;
+	private List<NewRepairDto> repairDtoList;
+
+}
