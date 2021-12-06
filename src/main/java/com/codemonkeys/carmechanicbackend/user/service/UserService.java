@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
-import com.codemonkeys.carmechanicbackend.security.service.PasswordService;
 import com.codemonkeys.carmechanicbackend.user.dto.UserDto;
 import com.codemonkeys.carmechanicbackend.user.dto.UserListDto;
 import com.codemonkeys.carmechanicbackend.user.dto.UserMapper;
@@ -23,9 +23,9 @@ public class UserService {
 	
 	private UserMapper userMapper;
 	
-	private PasswordService passEncrypter;
+	private PasswordEncoder passEncrypter;
 	
-	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordService passEncrypter) {
+	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passEncrypter) {
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
 		this.passEncrypter = passEncrypter;
@@ -47,7 +47,7 @@ public class UserService {
 	public ResponseEntity<Void> addUser(NewUserDto newUser) {
 		
 		User user = userMapper.toNewEntity(newUser);
-		user.setPassword(passEncrypter.encryptPassword(user.getPassword()));
+		user.setPassword(passEncrypter.encode(user.getPassword()));
 		userRepository.save(user);
 		
 		return new ResponseEntity<Void>(HttpStatus.CREATED);

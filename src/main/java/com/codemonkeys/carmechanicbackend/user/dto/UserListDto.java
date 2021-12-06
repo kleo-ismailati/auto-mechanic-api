@@ -8,5 +8,4 @@ public class UserListDto {
 	private String username;
 	private String email;
 	
-	public UserListDto() {}
 }
