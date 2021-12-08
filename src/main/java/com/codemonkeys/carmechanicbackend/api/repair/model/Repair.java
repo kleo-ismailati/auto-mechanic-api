@@ -28,7 +28,7 @@ public class Repair {
 	@ManyToOne
 	@JoinColumn(name = "car_id", nullable = false)
 	private Car car;
-	
+
 	public Repair() {
 	}
 
@@ -39,6 +39,12 @@ public class Repair {
 		this.repairCost = repairCost;
 		this.repairStatus = repairStatus;
 		this.car = car;
+	}
+
+	@Override
+	public String toString() {
+		return "Repair [id=" + id + ", repairType=" + repairType + ", repairDetails=" + repairDetails + ", repairCost="
+				+ repairCost + ", repairStatus=" + repairStatus + ", car=" + car.getId() + "]";
 	}
 
 }

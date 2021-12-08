@@ -51,13 +51,32 @@ public class RepairMapper {
 		return repairViewDtoList;
 	}
 
-	public List<Repair> toEntityList(List<RepairDto> repairDtoList) {
+	public List<Repair> toEntityList(Car car, List<RepairDto> repairDtoList) {
 
 		List<Repair> repairList = new ArrayList<Repair>();
 		
 		for(RepairDto repairDto : repairDtoList) {
 			
-			repairList.add(toEntity(repairDto));
+			repairList.add(toEntity(car, repairDto));
+		}
+		
+		return repairList;
+	}
+	
+	public List<Repair> updateEntityList(Car car, List<RepairDto> repairDtoList) {
+
+		List<Repair> repairList = new ArrayList<Repair>();
+		
+		for(RepairDto repairDto : repairDtoList) {
+			
+			for (Repair repair : car.getRepairs()) {
+				
+				if(repairDto.getId().equals(repair.getId())) {
+					
+					repairList.add(toEntity(car, repairDto));
+				}
+			}
+			
 		}
 		
 		return repairList;
@@ -77,7 +96,7 @@ public class RepairMapper {
 		return repairEntity;
 	}
 	
-	public Repair toEntity(RepairDto repairDto) {
+	public Repair toEntity(Car car, RepairDto repairDto) {
 		
 		Repair repairEntity = new Repair();
 		
@@ -100,6 +119,8 @@ public class RepairMapper {
 		if(repairDto.getRepairStatus() != null) {
 			repairEntity.setRepairStatus(repairDto.getRepairStatus());
 		}
+		
+		repairEntity.setCar(car);
 		
 		return repairEntity;
 	}
@@ -145,6 +166,10 @@ public class RepairMapper {
 		
 		if(repair.getRepairStatus() != null) {
 			repairDto.setRepairStatus(repair.getRepairStatus());
+		}
+		
+		if(repair.getCar() != null) {
+			repairDto.setCarId(repair.getCar().getId());
 		}
 		
 		return repairDto;

@@ -61,14 +61,14 @@ public class ClientController {
 		return clientService.editClient(id, clientDto);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	@Operation(summary = "Delete Client by id", tags = { "Client" })
-	@ApiResponses(value = {
-	  @ApiResponse(responseCode = "204", description = "Client deleted successfully"),
-	  @ApiResponse(responseCode = "404", description = "Client not found") 
-	  })
-	public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id) {
-		return clientService.deleteClient(id);
-	}
+//	@DeleteMapping(value = "/{id}")
+//	@Operation(summary = "Delete Client by id", tags = { "Client" })
+//	@ApiResponses(value = {
+//	  @ApiResponse(responseCode = "204", description = "Client deleted successfully"),
+//	  @ApiResponse(responseCode = "404", description = "Client not found") 
+//	  })
+//	public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id) {
+//		return clientService.deleteClient(id);
+//	}
 
 }

@@ -60,13 +60,13 @@ public class CarController {
 		return carService.editCar(id, carDto);
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	@Operation(summary = "Delete Car by id", tags = { "Car" })
-	@ApiResponses(value = {
-	  @ApiResponse(responseCode = "204", description = "Car deleted successfully"),
-	  @ApiResponse(responseCode = "404", description = "Car not found") 
-	  })
-	public ResponseEntity<Void> deleteCar(@PathVariable("id") Long id) {
-		return carService.deleteCar(id);
-	}
+//	@DeleteMapping(value = "/{id}")
+//	@Operation(summary = "Delete Car by id", tags = { "Car" })
+//	@ApiResponses(value = {
+//	  @ApiResponse(responseCode = "204", description = "Car deleted successfully"),
+//	  @ApiResponse(responseCode = "404", description = "Car not found") 
+//	  })
+//	public ResponseEntity<Void> deleteCar(@PathVariable("id") Long id) {
+//		return carService.deleteCar(id);
+//	}
 }

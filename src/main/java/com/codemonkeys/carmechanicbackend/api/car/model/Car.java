@@ -50,4 +50,10 @@ public class Car {
 		this.repairs = repairs;
 	}
 
+	@Override
+	public String toString() {
+		return "Car [id=" + id + ", carType=" + carType + ", carModel=" + carModel + ", year=" + year + ", color="
+				+ color + ", carDescription=" + carDescription + ", client=" + client + ", repairs=" + repairs + "]";
+	}
+
 }

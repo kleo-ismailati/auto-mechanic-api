@@ -61,7 +61,7 @@ public class CarMapper {
 		
 		if(carDto.getRepairDtoList() != null) {
 			carEntity.setRepairs(
-					repairMapper.toEntityList(carDto.getRepairDtoList())
+					repairMapper.toEntityList(carEntity, carDto.getRepairDtoList())
 					);
 		}
 		
@@ -156,7 +156,7 @@ public class CarMapper {
 		
 		if(carDto.getRepairDtoList() != null) {
 			car.setRepairs(
-					repairMapper.toEntityList(carDto.getRepairDtoList())
+					repairMapper.updateEntityList(car, carDto.getRepairDtoList())
 					);
 		}
 		
