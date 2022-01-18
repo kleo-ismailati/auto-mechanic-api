@@ -3,6 +3,7 @@ package com.codemonkeys.carmechanicbackend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -64,8 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests()
-				.antMatchers("/api/**").authenticated()
-				.antMatchers("/user/**").authenticated()
+				.antMatchers(HttpMethod.GET ,"/api/**").permitAll()
+				.antMatchers(HttpMethod.POST ,"/api/**").authenticated()
+				.antMatchers(HttpMethod.DELETE ,"/api/**").authenticated()
+				.antMatchers(HttpMethod.PUT ,"/api/**").authenticated()
+				.antMatchers(HttpMethod.GET ,"/user/**").permitAll()
+				.antMatchers(HttpMethod.POST ,"/user/**").permitAll()
+				.antMatchers(HttpMethod.DELETE ,"/user/**").authenticated()
+				.antMatchers(HttpMethod.PUT ,"/user/**").authenticated()
 				.antMatchers("/auth/**").permitAll()
 				.anyRequest().permitAll();
 

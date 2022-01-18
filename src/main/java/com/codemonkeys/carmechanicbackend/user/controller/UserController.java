@@ -2,6 +2,8 @@ package com.codemonkeys.carmechanicbackend.user.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,9 +58,9 @@ public class UserController {
 	@PostMapping
 	@Operation(summary = "Add new User", tags = { "User" })
 	@ApiResponses(value = {
-	  @ApiResponse(responseCode = "201", description = "User added successfully") 
+	  @ApiResponse(responseCode = "201", description = "User added successfully")
 	  })
-	public ResponseEntity<Void> addUser(@RequestBody NewUserDto newUser) {
+	public ResponseEntity<Void> addUser(@Valid @RequestBody NewUserDto newUser) {
 		return userService.addUser(newUser);
 	}
 	
@@ -68,7 +70,7 @@ public class UserController {
 	  @ApiResponse(responseCode = "200", description = "User updated successfully"),
 	  @ApiResponse(responseCode = "404", description = "User not found") 
 	  })
-	public ResponseEntity<Void> editUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+	public ResponseEntity<Void> editUser(@PathVariable("id") Long id,@Valid @RequestBody UserDto userDto) {
 		return userService.editUser(id, userDto);
 	}
 	
