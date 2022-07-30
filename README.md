@@ -1,7 +1,7 @@
 # Car Mechanic Backend
 
 ## Name
-Car Mechanic
+Car Mechanic Backend
 
 ## Description
 Car repair status tracking application. Backend project.
