@@ -9,7 +9,6 @@ import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
-import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class CarService {
@@ -26,8 +25,7 @@ public class CarService {
 	
 	public ResponseEntity<CarDto> getCar(Long id) {
 		
-		Car car = carRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
+		Car car = carRepository.findById(id).get();
 		
 		return ResponseEntity.ok(carMapper.toDto(car));
 	}
@@ -48,9 +46,10 @@ public class CarService {
 
 	public ResponseEntity<Void> editCar(Long id, CarDto carDto) {
 		
-		Car car = carRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
+		Car car = carRepository.findById(id).get();
+		
 		carMapper.updateEntity(carDto, car);
+		
 		carRepository.save(car);
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);

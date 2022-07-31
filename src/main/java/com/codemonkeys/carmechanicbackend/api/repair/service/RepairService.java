@@ -11,7 +11,6 @@ import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair.repository.RepairRepository;
-import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class RepairService {
@@ -31,16 +30,14 @@ public class RepairService {
 	
 	public ResponseEntity<RepairDto> getRepair(Long id) {
 		
-		Repair repair = repairRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Repair with id: " + id + " not found!"));
+		Repair repair = repairRepository.findById(id).get();
 		
 		return ResponseEntity.ok(repairMapper.toDto(repair));
 	}
 
 	public ResponseEntity<Void> addRepair(NewRepairDto newRepair, Long id) {
 		
-		Car car = carRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
+		Car car = carRepository.findById(id).get();
 		
 		repairRepository.save(repairMapper.toNewEntity(newRepair, car));
 		
@@ -56,8 +53,8 @@ public class RepairService {
 
 	public ResponseEntity<Void> editRepair(Long id, RepairDto repairDto) {
 		
-		Repair repair = repairRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Repair with id: " + id + " not found!"));
+		Repair repair = repairRepository.findById(id).get();
+		
 		repairMapper.updateEntity(repairDto, repair);
 		repairRepository.save(repair);
 		

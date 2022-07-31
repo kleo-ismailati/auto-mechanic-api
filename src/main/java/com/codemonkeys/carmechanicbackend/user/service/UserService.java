@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 import com.codemonkeys.carmechanicbackend.user.dto.UserDto;
 import com.codemonkeys.carmechanicbackend.user.dto.UserListDto;
 import com.codemonkeys.carmechanicbackend.user.dto.UserMapper;
@@ -39,8 +38,8 @@ public class UserService {
 
 	public ResponseEntity<UserListDto> getUser(Long id) {
 		
-		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User with id: " + id + " not found!"));
+		User user = userRepository.findById(id).get();
+		
 		return ResponseEntity.ok(userMapper.toDto(user));
 	}
 
@@ -62,8 +61,7 @@ public class UserService {
 
 	public ResponseEntity<Void> editUser(Long id, UserDto userDto) {
 		
-		User user = userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("User with id: " + id + " not found!"));
+		User user = userRepository.findById(id).get();
 		
 		userMapper.updateEntity(userDto, user);
 		userRepository.save(user);

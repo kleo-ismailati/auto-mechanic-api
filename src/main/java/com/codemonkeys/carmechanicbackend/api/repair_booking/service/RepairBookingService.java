@@ -12,7 +12,6 @@ import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingVi
 import com.codemonkeys.carmechanicbackend.api.repair_booking.mapper.RepairBookingMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.repository.RepairBookingRepository;
-import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class RepairBookingService {
@@ -35,8 +34,7 @@ public class RepairBookingService {
 	
 	public ResponseEntity<RepairBookingDto> getRepairBooking(Long id) {
 		
-		RepairBooking repairBooking = repairBookingRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Repair booking with id: " + id + " not found!"));
+		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		
 		return ResponseEntity.ok(repairBookingMapper.toDto(repairBooking));
 	}
@@ -57,8 +55,7 @@ public class RepairBookingService {
 
 	public ResponseEntity<Void> editRepairBooking(Long id, RepairBookingDto repairBookingDto) {
 		
-		RepairBooking repairBooking = repairBookingRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Repair booking with id: " + id + " not found!"));
+		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		repairBookingMapper.updateEntity(repairBookingDto, repairBooking);
 		repairBookingRepository.save(repairBooking);
 		

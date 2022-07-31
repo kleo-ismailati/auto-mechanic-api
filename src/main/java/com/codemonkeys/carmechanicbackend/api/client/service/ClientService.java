@@ -9,7 +9,6 @@ import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
-import com.codemonkeys.carmechanicbackend.exception.ResourceNotFoundException;
 
 @Service
 public class ClientService {
@@ -26,8 +25,7 @@ public class ClientService {
 	
 	public ResponseEntity<ClientDto> getClient(Long id) {
 		
-		Client client = clientRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Client with id: " + id + " not found!"));
+		Client client = clientRepository.findById(id).get();
 		
 		return ResponseEntity.ok(clientMapper.toDto(client));
 	}
@@ -48,8 +46,7 @@ public class ClientService {
 
 	public ResponseEntity<Void> editClient(Long id, ClientDto clientDto) {
 		
-		Client client = clientRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Car with id: " + id + " not found!"));
+		Client client = clientRepository.findById(id).get();
 		clientMapper.updateEntity(clientDto, client);
 		clientRepository.save(client);
 		
