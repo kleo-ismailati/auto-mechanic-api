@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.ClientViewDto;
-import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
+import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
+import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
@@ -18,13 +17,13 @@ import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 @Service
 public class RepairBookingMapper {
 	
-	private ClientMapper clientMapper;
+	private RepairMapper repairMapper;
 	
-	public RepairBookingMapper(ClientMapper clientMapper) {
-		this.clientMapper = clientMapper;
+	public RepairBookingMapper(RepairMapper repairMapper) {
+		this.repairMapper = repairMapper;
 	}
 
-	public RepairBooking toNewEntity(NewRepairBookingDto repairBookingDto) {
+	public RepairBooking toNewEntity(NewRepairBookingDto repairBookingDto, Client client, Car car) {
 		
 		RepairBooking repairBookingEntity = new RepairBooking();
 		
@@ -32,7 +31,11 @@ public class RepairBookingMapper {
 		repairBookingEntity.setStatus(RepairStatusEnum.TO_BE_DONE.toString());
 		repairBookingEntity.setTotalPrice(repairBookingDto.getTotalPrice());
 		
-		repairBookingEntity.setClient(clientMapper.toNewEntity(repairBookingDto.getClientDto()));
+		repairBookingEntity.setClient(client);
+		
+		repairBookingEntity.setCar(car);
+		
+		repairBookingEntity.setRepairs(repairMapper.toNewEntityList(repairBookingDto.getRepairs(), repairBookingEntity));
 		
 		return repairBookingEntity;
 		
@@ -56,11 +59,6 @@ public class RepairBookingMapper {
 		
 		if(repairBookingDto.getTotalPrice() != null) {
 			repairBookingEntity.setTotalPrice(repairBookingDto.getTotalPrice());
-		}
-		
-		if(repairBookingDto.getClientDto() != null) {
-			Client client = clientMapper.toEntity(repairBookingDto.getClientDto());
-			repairBookingEntity.setClient(client);
 		}
 		
 		return repairBookingEntity;
@@ -89,9 +87,18 @@ public class RepairBookingMapper {
 		
 		if(repairBooking.getClient() != null) {
 			
-			ClientDto clientDto = clientMapper.toDto(repairBooking.getClient());
+			repairBookingDto.setClientId(repairBooking.getClient().getId());
+		}
+		
+		if(repairBooking.getCar() != null) {
 			
-			repairBookingDto.setClientDto(clientDto);
+			repairBookingDto.setCarId(repairBooking.getCar().getId());
+		}
+		
+		if(repairBooking.getRepairs() != null) {
+			
+			repairBookingDto.setRepairs(repairMapper.toDtoList(repairBooking.getRepairs()));
+			
 		}
 		
 		return repairBookingDto;
@@ -101,10 +108,6 @@ public class RepairBookingMapper {
 		
 		RepairBookingViewDto repairBookingViewDto = new RepairBookingViewDto();
 		
-		if(repairBooking.getId() != null) {
-			repairBookingViewDto.setId(repairBooking.getId());
-		}
-		
 		if(repairBooking.getDate() != null) {
 			repairBookingViewDto.setDate(repairBooking.getDate());
 		}
@@ -113,11 +116,9 @@ public class RepairBookingMapper {
 			repairBookingViewDto.setStatus(repairBooking.getStatus());
 		}
 		
-		if(repairBooking.getClient() != null) {
+		if(repairBooking.getRepairs() != null) {
 			
-			ClientViewDto clientViewDto = clientMapper.toViewDto(repairBooking.getClient());
-			
-			repairBookingViewDto.setClientViewDto(clientViewDto);
+			repairBookingViewDto.setRepairs(repairMapper.toViewDtoList(repairBooking.getRepairs()));;
 		}
 		
 		return repairBookingViewDto;
@@ -147,11 +148,6 @@ public class RepairBookingMapper {
 		
 		if(repairBookingDto.getTotalPrice() != null) {
 			repairBookingEntity.setTotalPrice(repairBookingDto.getTotalPrice());
-		}
-		
-		if(repairBookingDto.getClientDto() != null) {
-			Client client = clientMapper.updateEntity(repairBookingDto.getClientDto(), repairBookingEntity.getClient());
-			repairBookingEntity.setClient(client);
 		}
 		
 		return repairBookingEntity;

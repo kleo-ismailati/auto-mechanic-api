@@ -10,6 +10,6 @@ public class RepairDto {
 	private String repairDetails;
 	private String repairCost;
 	private String repairStatus;
-	private Long carId;
+	private Long rb_id;
 
 }

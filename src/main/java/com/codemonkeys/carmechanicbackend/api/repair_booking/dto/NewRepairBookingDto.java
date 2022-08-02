@@ -1,13 +1,17 @@
 package com.codemonkeys.carmechanicbackend.api.repair_booking.dto;
 
-import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
+import java.util.List;
+
+import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 
 import lombok.Data;
 
 @Data
 public class NewRepairBookingDto {
 	
-	private NewClientDto clientDto;
+	private Long clientId;
+	private Long carId;
+	private List<NewRepairDto> repairs;
 	private String date;
 	private String totalPrice;
 	private String status;

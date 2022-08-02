@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
@@ -48,6 +49,15 @@ public class ClientService {
 		
 		Client client = clientRepository.findById(id).get();
 		clientMapper.updateEntity(clientDto, client);
+		clientRepository.save(client);
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+	
+	public ResponseEntity<Void> addCar(Long id, NewCarDto newCarDto) {
+		
+		Client client = clientRepository.findById(id).get();
+		clientMapper.addCar(newCarDto, client);
 		clientRepository.save(client);
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);

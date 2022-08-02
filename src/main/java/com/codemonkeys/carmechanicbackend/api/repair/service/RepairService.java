@@ -4,27 +4,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.api.car.model.Car;
-import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair.repository.RepairRepository;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.repository.RepairBookingRepository;
 
 @Service
 public class RepairService {
 	
 	private RepairRepository repairRepository;
 	
-	private CarRepository carRepository;
+	private RepairBookingRepository rbRepository;
 	
 	private RepairMapper repairMapper;
 
-	public RepairService(RepairRepository repairRepository, CarRepository carRepository,
+	public RepairService(RepairRepository repairRepository, RepairBookingRepository rbRepository,
 			RepairMapper repairMapper) {
 		this.repairRepository = repairRepository;
-		this.carRepository = carRepository;
+		this.rbRepository = rbRepository;
 		this.repairMapper = repairMapper;
 	}
 	
@@ -35,11 +35,11 @@ public class RepairService {
 		return ResponseEntity.ok(repairMapper.toDto(repair));
 	}
 
-	public ResponseEntity<Void> addRepair(NewRepairDto newRepair, Long id) {
+	public ResponseEntity<Void> addRepair(Long id, NewRepairDto newRepair) {
 		
-		Car car = carRepository.findById(id).get();
+		RepairBooking repairBooking = rbRepository.findById(id).get();
 		
-		repairRepository.save(repairMapper.toNewEntity(newRepair, car));
+		repairRepository.save(repairMapper.toNewEntity(newRepair, repairBooking));
 		
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}

@@ -2,10 +2,8 @@ package com.codemonkeys.carmechanicbackend.api.client.mapper;
 
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.api.car.dto.CarDto;
-import com.codemonkeys.carmechanicbackend.api.car.dto.CarViewDto;
+import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
-import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.ClientViewDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
@@ -29,8 +27,6 @@ public class ClientMapper {
 		clientEntity.setEmail(clientDto.getEmail());
 		clientEntity.setPhoneNumber(clientDto.getPhoneNumber());
 		clientEntity.setAddress(clientDto.getAddress());
-		
-		clientEntity.setCar(carMapper.toNewEntity(clientDto.getCarDto()));
 		
 		return clientEntity;
 		
@@ -62,11 +58,6 @@ public class ClientMapper {
 		
 		if(clientDto.getAddress() != null) {
 			clientEntity.setAddress(clientDto.getAddress());
-		}
-		
-		if(clientDto.getCarDto() != null) {
-			Car car = carMapper.toEntity(clientDto.getCarDto());
-			clientEntity.setCar(car);
 		}
 		
 		return clientEntity;
@@ -101,9 +92,8 @@ public class ClientMapper {
 			clientDto.setAddress(client.getAddress());
 		}
 		
-		if(client.getCar() != null) {
-			CarDto carDto = carMapper.toDto(client.getCar());
-			clientDto.setCarDto(carDto);
+		if (client.getCars() != null) {
+			clientDto.setCarDtoList(carMapper.toDtoList(client.getCars()));
 		}
 		
 		return clientDto;
@@ -119,11 +109,6 @@ public class ClientMapper {
 		
 		if(client.getLastName() != null) {
 			clientViewDto.setLastName(client.getLastName());
-		}
-		
-		if(client.getCar() != null) {
-			CarViewDto carViewDto = carMapper.toViewDto(client.getCar());
-			clientViewDto.setCarViewDto(carViewDto);
 		}
 		
 		return clientViewDto;
@@ -152,11 +137,13 @@ public class ClientMapper {
 			clientEntity.setAddress(clientDto.getAddress());
 		}
 		
-		if(clientDto.getCarDto() != null) {
-			Car car = carMapper.updateEntity(clientDto.getCarDto(), clientEntity.getCar());
-			clientEntity.setCar(car);
-		}
-		
 		return clientEntity;
+	}
+	
+	public Client addCar(NewCarDto newCarDto, Client client) {
+		
+		client.addCar(carMapper.toNewEntity(newCarDto, client));
+		
+		return client;
 	}
 }

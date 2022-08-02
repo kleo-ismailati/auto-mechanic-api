@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.service.ClientService;
@@ -59,6 +60,15 @@ public class ClientController {
 	public ResponseEntity<Void> editClient(@PathVariable("id") Long id, 
 			@RequestBody ClientDto clientDto) {
 		return clientService.editClient(id, clientDto);
+	}
+	
+	@PostMapping(value = "/{id}/addCar")
+	@Operation(summary = "Add new Car to a Client", tags = { "Client" })
+	@ApiResponses(value = {
+	  @ApiResponse(responseCode = "201", description = "Car added successfully")
+	  })
+	public ResponseEntity<Void> addCar(@PathVariable("id") Long id, @RequestBody NewCarDto newCar) {
+		return clientService.addCar(id, newCar);
 	}
 	
 //	@DeleteMapping(value = "/{id}")

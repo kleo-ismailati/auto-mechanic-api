@@ -40,14 +40,13 @@ public class RepairController {
 		return repairService.getRepair(id);
 	}
 	
-	@PostMapping(value = "/{id}")
-	@Operation(summary = "Add new Repair to Existing Car", tags = { "Repair" })
+	@PostMapping(value = "add/{id}")
+	@Operation(summary = "Add new Repair to Existing Repair Booking", tags = { "Repair" })
 	@ApiResponses(value = {
 	  @ApiResponse(responseCode = "201", description = "Repair added successfully")
 	  })
-	public ResponseEntity<Void> addRepair(@PathVariable("id") Long id,
-			@RequestBody NewRepairDto newRepair) {
-		return repairService.addRepair(newRepair, id);
+	public ResponseEntity<Void> addRepair(@PathVariable("id") Long id, @RequestBody NewRepairDto newRepair) {
+		return repairService.addRepair(id, newRepair);
 	}
 	
 	@PutMapping(value = "/{id}")

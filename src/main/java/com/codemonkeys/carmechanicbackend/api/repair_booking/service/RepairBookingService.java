@@ -6,6 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.codemonkeys.carmechanicbackend.api.car.model.Car;
+import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
+import com.codemonkeys.carmechanicbackend.api.client.model.Client;
+import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
@@ -19,11 +23,21 @@ public class RepairBookingService {
 	private RepairBookingRepository repairBookingRepository;
 	
 	private RepairBookingMapper repairBookingMapper;
+	
+	private ClientRepository clientRepository;
+	
+	private CarRepository carRepository;
 
-	public RepairBookingService(RepairBookingRepository repairBookingRepository, 
-			RepairBookingMapper repairBookingMapper) {
+	public RepairBookingService(
+			RepairBookingRepository repairBookingRepository, 
+			RepairBookingMapper repairBookingMapper,
+			ClientRepository clientRepository,
+			CarRepository carRepository
+			) {
 		this.repairBookingRepository = repairBookingRepository;
 		this.repairBookingMapper = repairBookingMapper;
+		this.clientRepository = clientRepository;
+		this.carRepository = carRepository;
 	}
 
 	public ResponseEntity<List<RepairBookingViewDto>> getAllRepairBookings() {
@@ -41,7 +55,11 @@ public class RepairBookingService {
 
 	public ResponseEntity<Void> addRepairBooking(NewRepairBookingDto newRepairBooking) {
 		
-		repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking));
+		Client client = clientRepository.findById(newRepairBooking.getClientId()).get();
+		
+		Car car = carRepository.findById(newRepairBooking.getCarId()).get();
+		
+		repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking, client, car));
 		
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}

@@ -1,25 +1,25 @@
 package com.codemonkeys.carmechanicbackend.api.car.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.CarDto;
 import com.codemonkeys.carmechanicbackend.api.car.dto.CarViewDto;
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
-import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
+import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 
 @Service
 public class CarMapper {
 	
-	private RepairMapper repairMapper;
 	
-	public CarMapper(RepairMapper repairMapper) {
-		this.repairMapper = repairMapper;
-	}
+	public CarMapper() {}
 
 
 
-	public Car toNewEntity(NewCarDto carDto) {
+	public Car toNewEntity(NewCarDto carDto, Client client) {
 		
 		Car carEntity = new Car();
 		
@@ -28,14 +28,12 @@ public class CarMapper {
 		carEntity.setYear(carDto.getYear());
 		carEntity.setColor(carDto.getColor());
 		carEntity.setCarDescription(carDto.getCarDescription());
-		carEntity.setRepairs(
-				repairMapper.toNewEntityList(carDto.getRepairDtoList(), carEntity)
-				);
+		carEntity.setClient(client);
 		
 		return carEntity;
 	}
 	
-	public Car toEntity(CarDto carDto) {
+	public Car toEntity(Client client, CarDto carDto) {
 		
 		Car carEntity = new Car();
 		
@@ -59,11 +57,7 @@ public class CarMapper {
 			carEntity.setCarDescription(carDto.getCarDescription());
 		}
 		
-		if(carDto.getRepairDtoList() != null) {
-			carEntity.setRepairs(
-					repairMapper.toEntityList(carEntity, carDto.getRepairDtoList())
-					);
-		}
+		carEntity.setClient(client);
 		
 		return carEntity;
 	}
@@ -80,12 +74,6 @@ public class CarMapper {
 		
 		if(car.getCarType() != null) {
 			carViewDto.setCarType(car.getCarType());
-		}
-		
-		if(car.getRepairs() != null) {
-			carViewDto.setRepairViewDtoList(
-					repairMapper.toViewDtoList(car.getRepairs())
-					);
 		}
 		
 		return carViewDto;
@@ -121,10 +109,8 @@ public class CarMapper {
 			carDto.setCarType(car.getCarType());
 		}
 		
-		if(car.getRepairs() != null) {
-			carDto.setRepairDtoList(
-					repairMapper.toDtoList(car.getRepairs())
-					);
+		if(car.getClient() != null) {
+			carDto.setClientID(car.getClient().getId());
 		}
 		
 		return carDto;
@@ -154,13 +140,20 @@ public class CarMapper {
 			car.setCarDescription(carDto.getCarDescription());
 		}
 		
-		if(carDto.getRepairDtoList() != null) {
-			car.setRepairs(
-					repairMapper.updateEntityList(car, carDto.getRepairDtoList())
-					);
-		}
-		
 		return car;
+	}
+
+
+
+	public List<CarDto> toDtoList(List<Car> cars) {
+		
+		List<CarDto> carDtoList = new ArrayList<CarDto>();
+		
+		for(Car car : cars) {
+			
+			carDtoList.add(toDto(car));
+		}
+		return carDtoList;
 	}
 
 }

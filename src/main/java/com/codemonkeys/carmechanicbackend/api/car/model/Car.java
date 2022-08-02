@@ -2,17 +2,16 @@ package com.codemonkeys.carmechanicbackend.api.car.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -21,8 +20,7 @@ import lombok.Data;
 public class Car {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "CAR_SEQ")
-	@SequenceGenerator(name = "CAR_SEQ")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String carType;
 	private String carModel;
@@ -30,11 +28,10 @@ public class Car {
 	private String color;
 	private String carDescription;
 	
-	@OneToOne(mappedBy = "car")
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "client_id", nullable = false)
 	private Client client;
-	
-	@OneToMany(mappedBy = "car", cascade=CascadeType.ALL)
-	private List<Repair> repairs;
 	
 	public Car() {}
 
@@ -47,13 +44,12 @@ public class Car {
 		this.color = color;
 		this.carDescription = carDescription;
 		this.client = client;
-		this.repairs = repairs;
 	}
 
 	@Override
 	public String toString() {
 		return "Car [id=" + id + ", carType=" + carType + ", carModel=" + carModel + ", year=" + year + ", color="
-				+ color + ", carDescription=" + carDescription + ", client=" + client + ", repairs=" + repairs + "]";
+				+ color + ", carDescription=" + carDescription + "]";
 	}
 
 }

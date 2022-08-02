@@ -40,15 +40,6 @@ public class CarController {
 		return carService.getCar(id);
 	}
 	
-	@PostMapping
-	@Operation(summary = "Add new Car", tags = { "Car" })
-	@ApiResponses(value = {
-	  @ApiResponse(responseCode = "201", description = "Car added successfully")
-	  })
-	public ResponseEntity<Void> addCar(@RequestBody NewCarDto newCar) {
-		return carService.addCar(newCar);
-	}
-	
 	@PutMapping(value = "/{id}")
 	@Operation(summary = "Update Car by id", tags = { "Car" })
 	@ApiResponses(value = {

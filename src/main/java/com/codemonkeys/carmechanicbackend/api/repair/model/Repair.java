@@ -6,9 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 
-import com.codemonkeys.carmechanicbackend.api.car.model.Car;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -17,34 +17,37 @@ import lombok.Data;
 public class Repair {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "REPAIR_SEQ")
-	@SequenceGenerator(name = "REPAIR_SEQ")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String repairType;
 	private String repairDetails;
 	private String repairCost;
 	private String repairStatus;
 	
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "car_id", nullable = false)
-	private Car car;
+	@JoinColumn(name = "rb_id", nullable = false)
+	private RepairBooking repairBooking;
 
 	public Repair() {
 	}
 
-	public Repair(Long id, String repairType, String repairDetails, String repairCost, String repairStatus, Car car) {
+	public Repair(
+			Long id, String repairType, String repairDetails, String repairCost, 
+			String repairStatus, RepairBooking repairBooking
+			) {
 		this.id = id;
 		this.repairType = repairType;
 		this.repairDetails = repairDetails;
 		this.repairCost = repairCost;
 		this.repairStatus = repairStatus;
-		this.car = car;
+		this.repairBooking = repairBooking;
 	}
 
 	@Override
 	public String toString() {
 		return "Repair [id=" + id + ", repairType=" + repairType + ", repairDetails=" + repairDetails + ", repairCost="
-				+ repairCost + ", repairStatus=" + repairStatus + ", car=" + car.getId() + "]";
+				+ repairCost + ", repairStatus=" + repairStatus + "]";
 	}
 
 }

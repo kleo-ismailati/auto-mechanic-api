@@ -9,17 +9,21 @@ import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
+import com.codemonkeys.carmechanicbackend.api.client.model.Client;
+import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
 
 @Service
 public class CarService {
 	
 	private CarRepository carRepository;
+	private ClientRepository clientRepository;
 	
 	private CarMapper carMapper;
 
-	public CarService(CarRepository carRepository, 
+	public CarService(CarRepository carRepository, ClientRepository clientRepository,
 			CarMapper carMapper) {
 		this.carRepository = carRepository;
+		this.clientRepository = clientRepository;
 		this.carMapper = carMapper;
 	}
 	
@@ -32,7 +36,9 @@ public class CarService {
 
 	public ResponseEntity<Void> addCar(NewCarDto newCar) {
 		
-		carRepository.save(carMapper.toNewEntity(newCar));
+		Client client = clientRepository.findById(newCar.getClientID()).get();
+		
+		carRepository.save(carMapper.toNewEntity(newCar, client));
 		
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
