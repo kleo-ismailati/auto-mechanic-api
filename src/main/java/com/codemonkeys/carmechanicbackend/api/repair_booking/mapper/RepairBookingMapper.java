@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
+import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
@@ -19,8 +21,14 @@ public class RepairBookingMapper {
 	
 	private RepairMapper repairMapper;
 	
-	public RepairBookingMapper(RepairMapper repairMapper) {
+	private ClientMapper clientMapper;
+	
+	private CarMapper carMapper;
+	
+	public RepairBookingMapper(RepairMapper repairMapper, ClientMapper clientMapper, CarMapper carMapper) {
 		this.repairMapper = repairMapper;
+		this.clientMapper = clientMapper;
+		this.carMapper = carMapper;
 	}
 
 	public RepairBooking toNewEntity(NewRepairBookingDto repairBookingDto, Client client, Car car) {
@@ -108,12 +116,24 @@ public class RepairBookingMapper {
 		
 		RepairBookingViewDto repairBookingViewDto = new RepairBookingViewDto();
 		
+		if(repairBooking.getId() != null) {
+			repairBookingViewDto.setId(repairBooking.getId());
+		}
+		
 		if(repairBooking.getDate() != null) {
 			repairBookingViewDto.setDate(repairBooking.getDate());
 		}
 		
 		if(repairBooking.getStatus() != null) {
 			repairBookingViewDto.setStatus(repairBooking.getStatus());
+		}
+		
+		if(repairBooking.getClient() != null) {
+			repairBookingViewDto.setClient(clientMapper.toViewDto(repairBooking.getClient()));
+		}
+		
+		if(repairBooking.getCar() != null) {
+			repairBookingViewDto.setCar(carMapper.toViewDto(repairBooking.getCar()));
 		}
 		
 		if(repairBooking.getRepairs() != null) {
