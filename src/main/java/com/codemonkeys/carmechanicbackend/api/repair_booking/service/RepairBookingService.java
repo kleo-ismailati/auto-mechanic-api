@@ -12,6 +12,7 @@ import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.mapper.RepairBookingMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
@@ -71,7 +72,7 @@ public class RepairBookingService {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Void> editRepairBooking(Long id, RepairBookingDto repairBookingDto) {
+	public ResponseEntity<Void> editRepairBooking(Long id, RepairBookingEditDto repairBookingDto) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		repairBookingMapper.updateEntity(repairBookingDto, repairBooking);

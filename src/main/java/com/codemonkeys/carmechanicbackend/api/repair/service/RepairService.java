@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
+import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair.repository.RepairRepository;
@@ -51,7 +52,7 @@ public class RepairService {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Void> editRepair(Long id, RepairDto repairDto) {
+	public ResponseEntity<Void> editRepair(Long id, RepairEditDto repairDto) {
 		
 		Repair repair = repairRepository.findById(id).get();
 		

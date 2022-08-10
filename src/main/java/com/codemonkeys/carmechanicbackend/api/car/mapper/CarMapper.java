@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.CarDto;
+import com.codemonkeys.carmechanicbackend.api.car.dto.CarEditDto;
 import com.codemonkeys.carmechanicbackend.api.car.dto.CarViewDto;
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
@@ -118,7 +119,7 @@ public class CarMapper {
 
 
 
-	public Car updateEntity(CarDto carDto, Car car) {
+	public Car updateEntity(CarEditDto carDto, Car car) {
 		
 		if(carDto.getCarType() != null) {
 			car.setCarType(carDto.getCarType());

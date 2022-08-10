@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.CarDto;
+import com.codemonkeys.carmechanicbackend.api.car.dto.CarEditDto;
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.service.CarService;
 
@@ -47,7 +48,7 @@ public class CarController {
 	  @ApiResponse(responseCode = "404", description = "Car not found") 
 	  })
 	public ResponseEntity<Void> editCar(@PathVariable("id") Long id, 
-			@RequestBody CarDto carDto) {
+			@RequestBody CarEditDto carDto) {
 		return carService.editCar(id, carDto);
 	}
 	

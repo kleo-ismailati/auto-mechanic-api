@@ -12,6 +12,7 @@ import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
@@ -155,7 +156,7 @@ public class RepairBookingMapper {
 		return repairBookingDtoList;
 	}
 	
-	public RepairBooking updateEntity(RepairBookingDto repairBookingDto, RepairBooking repairBookingEntity) {
+	public RepairBooking updateEntity(RepairBookingEditDto repairBookingDto, RepairBooking repairBookingEntity) {
 		
 		
 		if(repairBookingDto.getDate() != null) {

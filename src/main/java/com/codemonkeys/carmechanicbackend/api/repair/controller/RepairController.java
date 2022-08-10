@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
+import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair.service.RepairService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -56,7 +57,7 @@ public class RepairController {
 	  @ApiResponse(responseCode = "404", description = "Repair not found") 
 	  })
 	public ResponseEntity<Void> editRepair(@PathVariable("id") Long id, 
-			@RequestBody RepairDto repairDto) {
+			@RequestBody RepairEditDto repairDto) {
 		return repairService.editRepair(id, repairDto);
 	}
 	

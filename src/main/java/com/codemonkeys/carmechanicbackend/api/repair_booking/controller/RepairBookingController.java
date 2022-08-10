@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.service.RepairBookingService;
 
@@ -69,7 +70,7 @@ public class RepairBookingController {
 	  @ApiResponse(responseCode = "404", description = "Repair Booking not found") 
 	  })
 	public ResponseEntity<Void> editRepairBooking(@PathVariable("id") Long id, 
-			@RequestBody RepairBookingDto repairBookingDto) {
+			@RequestBody RepairBookingEditDto repairBookingDto) {
 		return repairBookingService.editRepairBooking(id, repairBookingDto);
 	}
 	

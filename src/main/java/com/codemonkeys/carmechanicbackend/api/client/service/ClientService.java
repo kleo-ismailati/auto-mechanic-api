@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
+import com.codemonkeys.carmechanicbackend.api.client.dto.ClientEditDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
@@ -45,7 +46,7 @@ public class ClientService {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Void> editClient(Long id, ClientDto clientDto) {
+	public ResponseEntity<Void> editClient(Long id, ClientEditDto clientDto) {
 		
 		Client client = clientRepository.findById(id).get();
 		clientMapper.updateEntity(clientDto, client);

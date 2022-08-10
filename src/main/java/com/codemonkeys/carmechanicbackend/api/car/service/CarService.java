@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.CarDto;
+import com.codemonkeys.carmechanicbackend.api.car.dto.CarEditDto;
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
@@ -50,7 +51,7 @@ public class CarService {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Void> editCar(Long id, CarDto carDto) {
+	public ResponseEntity<Void> editCar(Long id, CarEditDto carDto) {
 		
 		Car car = carRepository.findById(id).get();
 		

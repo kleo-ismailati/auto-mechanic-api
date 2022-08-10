@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
+import com.codemonkeys.carmechanicbackend.api.client.dto.ClientEditDto;
 import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.service.ClientService;
 
@@ -58,7 +59,7 @@ public class ClientController {
 	  @ApiResponse(responseCode = "404", description = "Client not found") 
 	  })
 	public ResponseEntity<Void> editClient(@PathVariable("id") Long id, 
-			@RequestBody ClientDto clientDto) {
+			@RequestBody ClientEditDto clientDto) {
 		return clientService.editClient(id, clientDto);
 	}
 	

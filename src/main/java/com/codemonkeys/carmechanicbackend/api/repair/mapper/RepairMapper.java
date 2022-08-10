@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
+import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
@@ -175,7 +176,7 @@ public class RepairMapper {
 		return repairDto;
 	}
 	
-	public Repair updateEntity(RepairDto repairDto, Repair repair) {
+	public Repair updateEntity(RepairEditDto repairDto, Repair repair) {
 		
 		if(repairDto.getRepairCost() != null) {
 			repair.setRepairCost(repairDto.getRepairCost());
