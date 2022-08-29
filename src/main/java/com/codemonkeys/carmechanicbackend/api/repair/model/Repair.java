@@ -21,7 +21,7 @@ public class Repair {
 	private Long id;
 	private String repairType;
 	private String repairDetails;
-	private String repairCost;
+	private Long repairCost;
 	private String repairStatus;
 	
 	@JsonIgnore
@@ -33,7 +33,7 @@ public class Repair {
 	}
 
 	public Repair(
-			Long id, String repairType, String repairDetails, String repairCost, 
+			Long id, String repairType, String repairDetails, long repairCost, 
 			String repairStatus, RepairBooking repairBooking
 			) {
 		this.id = id;

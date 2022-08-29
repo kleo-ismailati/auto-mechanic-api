@@ -3,16 +3,19 @@ package com.codemonkeys.carmechanicbackend.api.repair_booking.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.mapper.CarMapper;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
+import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair.mapper.RepairMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
@@ -139,13 +142,25 @@ public class RepairBookingMapper {
 		
 		if(repairBooking.getRepairs() != null) {
 			
-			repairBookingViewDto.setRepairs(repairMapper.toViewDtoList(repairBooking.getRepairs()));;
+			List<RepairViewDto> repairs = repairMapper.toViewDtoList(repairBooking.getRepairs());
+			
+			long total = 0L;
+			
+			repairBookingViewDto.setRepairs(repairs);
+			
+			for(RepairViewDto repair : repairs) {
+				total += repair.getRepairCost();
+			}
+			
+			repairBookingViewDto.setTotalPrice(total);
 		}
 		
 		return repairBookingViewDto;
 	}
 	
-	public List<RepairBookingViewDto> toViewDtoList(List<RepairBooking> repairBookings){
+	public RepairBookingPageDto toViewDtoList(Page<RepairBooking> repairBookings){
+		
+		RepairBookingPageDto repairBookingPageDto = new RepairBookingPageDto();
 		
 		List<RepairBookingViewDto> repairBookingDtoList = new ArrayList<RepairBookingViewDto>();
 		
@@ -153,7 +168,12 @@ public class RepairBookingMapper {
 			repairBookingDtoList.add(toViewDto(repairBooking));
 		}
 		
-		return repairBookingDtoList;
+		repairBookingPageDto.setResult(repairBookingDtoList);
+		repairBookingPageDto.setPageNo(repairBookings.getNumber());
+		repairBookingPageDto.setSize(repairBookings.getSize());
+		repairBookingPageDto.setTotal(repairBookings.getTotalPages());
+		
+		return repairBookingPageDto;
 	}
 	
 	public RepairBooking updateEntity(RepairBookingEditDto repairBookingDto, RepairBooking repairBookingEntity) {

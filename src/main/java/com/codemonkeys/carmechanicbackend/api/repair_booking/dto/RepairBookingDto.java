@@ -14,7 +14,7 @@ public class RepairBookingDto {
 	private Long carId;
 	private List<RepairDto> repairs;
 	private String date;
-	private String totalPrice;
+	private Long totalPrice;
 	private String status;
 	
 }

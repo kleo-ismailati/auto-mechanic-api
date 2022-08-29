@@ -40,7 +40,7 @@ public class RepairBooking {
 	private List<Repair> repairs;
 	
 	@Transient
-	private String totalPrice;
+	private Long totalPrice;
 	
 	
 	public RepairBooking() {}

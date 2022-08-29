@@ -1,7 +1,9 @@
 package com.codemonkeys.carmechanicbackend.api.repair_booking.service;
 
-import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.mapper.RepairBookingMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
@@ -41,17 +44,31 @@ public class RepairBookingService {
 		this.carRepository = carRepository;
 	}
 
-	public ResponseEntity<List<RepairBookingViewDto>> getAllRepairBookings() {
+	public ResponseEntity<RepairBookingPageDto> getAllRepairBookings(
+			Optional<Integer> pageOptional, 
+			Optional<Integer> sizeOptional) {
+		
+		int page = 0;
+		int size = 10;
+		
+		if(pageOptional.isPresent()) {
+			page = pageOptional.get();
+		}
+		
+		if(sizeOptional.isPresent()) {
+			size = sizeOptional.get();
+		}
 
-		List<RepairBooking> repairBookings = repairBookingRepository.findAll();
+		Page<RepairBooking> repairBookings = repairBookingRepository.findAll(PageRequest.of(page, size));
+		
 		return ResponseEntity.ok(repairBookingMapper.toViewDtoList(repairBookings));
 	}
 	
-	public ResponseEntity<RepairBookingDto> getRepairBooking(Long id) {
+	public ResponseEntity<RepairBookingViewDto> getRepairBooking(Long id) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		
-		return ResponseEntity.ok(repairBookingMapper.toDto(repairBooking));
+		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
 	}
 
 	public ResponseEntity<Void> addRepairBooking(NewRepairBookingDto newRepairBooking) {

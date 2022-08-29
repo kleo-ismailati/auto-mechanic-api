@@ -8,7 +8,7 @@ public class RepairDto {
 	private Long id;
 	private String repairType;
 	private String repairDetails;
-	private String repairCost;
+	private Long repairCost;
 	private String repairStatus;
 	private Long rb_id;
 

@@ -35,9 +35,9 @@ public class CarService {
 		return ResponseEntity.ok(carMapper.toDto(car));
 	}
 
-	public ResponseEntity<Void> addCar(NewCarDto newCar) {
+	public ResponseEntity<Void> addCar(Long id, NewCarDto newCar) {
 		
-		Client client = clientRepository.findById(newCar.getClientID()).get();
+		Client client = clientRepository.findById(id).get();
 		
 		carRepository.save(carMapper.toNewEntity(newCar, client));
 		

@@ -110,10 +110,6 @@ public class CarMapper {
 			carDto.setCarType(car.getCarType());
 		}
 		
-		if(car.getClient() != null) {
-			carDto.setClientID(car.getClient().getId());
-		}
-		
 		return carDto;
 	}
 

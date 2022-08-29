@@ -7,7 +7,7 @@ public class RepairEditDto {
 	
 	private String repairType;
 	private String repairDetails;
-	private String repairCost;
+	private Long repairCost;
 	private String repairStatus;
 
 }

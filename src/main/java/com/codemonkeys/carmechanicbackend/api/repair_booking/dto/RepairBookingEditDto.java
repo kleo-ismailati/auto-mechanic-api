@@ -6,7 +6,7 @@ import lombok.Data;
 public class RepairBookingEditDto {
 	
 	private String date;
-	private String totalPrice;
+	private Long totalPrice;
 	private String status;
 	
 }

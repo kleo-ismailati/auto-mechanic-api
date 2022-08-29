@@ -13,7 +13,7 @@ public class NewRepairBookingDto {
 	private Long carId;
 	private List<NewRepairDto> repairs;
 	private String date;
-	private String totalPrice;
+	private Long totalPrice;
 	private String status;
 	
 }

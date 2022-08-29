@@ -1,6 +1,7 @@
 package com.codemonkeys.carmechanicbackend.api.repair_booking.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.service.RepairBookingService;
 
@@ -40,8 +43,10 @@ public class RepairBookingController {
 	  @ApiResponse(responseCode = "200", description = "Repair Bookings List found"),
 	  @ApiResponse(responseCode = "404", description = "Repair Bookings List not found") 
 	  })
-	public ResponseEntity<List<RepairBookingViewDto>> getAllRepairBookings() {
-		return repairBookingService.getAllRepairBookings();
+	public ResponseEntity<RepairBookingPageDto> getAllRepairBookings(
+			@RequestParam(required = false) Optional<Integer> page, 
+			@RequestParam(required = false) Optional<Integer> size) {
+		return repairBookingService.getAllRepairBookings(page, size);
 	}
 	
 	@GetMapping(value = "/{id}")
@@ -50,7 +55,7 @@ public class RepairBookingController {
 	  @ApiResponse(responseCode = "200", description = "Repair Booking found"),
 	  @ApiResponse(responseCode = "404", description = "Repair Booking not found") 
 	  })
-	public ResponseEntity<RepairBookingDto> getRepairBooking(@PathVariable("id") Long id) {
+	public ResponseEntity<RepairBookingViewDto> getRepairBooking(@PathVariable("id") Long id) {
 		return repairBookingService.getRepairBooking(id);
 	}
 	

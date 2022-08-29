@@ -7,6 +7,6 @@ public class NewRepairDto {
 	
 	private String repairType;
 	private String repairDetails;
-	private String repairCost;
+	private Long repairCost;
 
 }

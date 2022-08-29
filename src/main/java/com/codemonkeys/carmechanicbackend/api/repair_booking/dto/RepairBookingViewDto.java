@@ -17,5 +17,6 @@ public class RepairBookingViewDto {
 	private ClientViewDto client;
 	private CarViewDto car;
 	private List<RepairViewDto> repairs;
+	private Long totalPrice;
 	
 }
