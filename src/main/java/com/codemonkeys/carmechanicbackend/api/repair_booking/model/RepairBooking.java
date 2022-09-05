@@ -1,21 +1,15 @@
 package com.codemonkeys.carmechanicbackend.api.repair_booking.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 
+import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 import lombok.Data;
 
 @Data
@@ -25,8 +19,13 @@ public class RepairBooking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String date;
-	private String status;
+
+	private LocalDateTime date;
+
+	@Enumerated(EnumType.ORDINAL)
+	private RepairStatusEnum status;
+
+	private String refID;
 	
 	@OneToOne
 	@JoinColumn(name = "client_id")

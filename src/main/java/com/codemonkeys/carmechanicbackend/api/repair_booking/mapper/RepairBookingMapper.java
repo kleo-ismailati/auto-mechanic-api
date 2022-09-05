@@ -1,7 +1,9 @@
 package com.codemonkeys.carmechanicbackend.api.repair_booking.mapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,11 @@ import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 @Service
 public class RepairBookingMapper {
 	
-	private RepairMapper repairMapper;
+	private final RepairMapper repairMapper;
 	
-	private ClientMapper clientMapper;
+	private final ClientMapper clientMapper;
 	
-	private CarMapper carMapper;
+	private final CarMapper carMapper;
 	
 	public RepairBookingMapper(RepairMapper repairMapper, ClientMapper clientMapper, CarMapper carMapper) {
 		this.repairMapper = repairMapper;
@@ -39,13 +41,15 @@ public class RepairBookingMapper {
 		
 		RepairBooking repairBookingEntity = new RepairBooking();
 		
-		repairBookingEntity.setDate(repairBookingDto.getDate());
-		repairBookingEntity.setStatus(RepairStatusEnum.TO_BE_DONE.toString());
+		repairBookingEntity.setDate(LocalDateTime.now());
+		repairBookingEntity.setStatus(RepairStatusEnum.toBeDone);
 		repairBookingEntity.setTotalPrice(repairBookingDto.getTotalPrice());
 		
 		repairBookingEntity.setClient(client);
 		
 		repairBookingEntity.setCar(car);
+
+		repairBookingEntity.setRefID(String.valueOf(UUID.randomUUID()));
 		
 		repairBookingEntity.setRepairs(repairMapper.toNewEntityList(repairBookingDto.getRepairs(), repairBookingEntity));
 		

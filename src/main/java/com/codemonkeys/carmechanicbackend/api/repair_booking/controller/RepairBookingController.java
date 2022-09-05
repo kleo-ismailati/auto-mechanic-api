@@ -1,6 +1,5 @@
 package com.codemonkeys.carmechanicbackend.api.repair_booking.controller;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
@@ -31,7 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @Tag(name = "Repair Booking", description = "Repair Booking Controller")
 public class RepairBookingController {
 	
-	private RepairBookingService repairBookingService;
+	private final RepairBookingService repairBookingService;
 	
 	public RepairBookingController(RepairBookingService repairBookingService) {
 		this.repairBookingService = repairBookingService;
@@ -48,6 +46,18 @@ public class RepairBookingController {
 			@RequestParam(required = false) Optional<Integer> size) {
 		return repairBookingService.getAllRepairBookings(page, size);
 	}
+
+	@GetMapping(value = "/tbd")
+	@Operation(summary = "Get unfinished Repair Bookings", tags = { "Repair Booking" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Repair Bookings List found"),
+			@ApiResponse(responseCode = "404", description = "Repair Bookings List not found")
+	})
+	public ResponseEntity<RepairBookingPageDto> getUnfinishedRepairBookings(
+			@RequestParam(required = false) Optional<Integer> page,
+			@RequestParam(required = false) Optional<Integer> size) {
+		return repairBookingService.getUnfinishedRepairBookings(page, size);
+	}
 	
 	@GetMapping(value = "/{id}")
 	@Operation(summary = "Get Repair Booking by id", tags = { "Repair Booking" })
@@ -57,6 +67,16 @@ public class RepairBookingController {
 	  })
 	public ResponseEntity<RepairBookingViewDto> getRepairBooking(@PathVariable("id") Long id) {
 		return repairBookingService.getRepairBooking(id);
+	}
+
+	@GetMapping(value = "/view/{refID}")
+	@Operation(summary = "Get Repair Booking by reference id", tags = { "Repair Booking" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Repair Booking found"),
+			@ApiResponse(responseCode = "404", description = "Repair Booking not found")
+	})
+	public ResponseEntity<RepairBookingViewDto> viewRepairBooking(@PathVariable("refID") String refID) {
+		return repairBookingService.viewRepairBooking(refID);
 	}
 	
 	@PostMapping

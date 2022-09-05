@@ -91,7 +91,7 @@ public class RepairMapper {
 		repairEntity.setRepairCost(repairDto.getRepairCost());
 		repairEntity.setRepairDetails(repairDto.getRepairDetails());
 		repairEntity.setRepairType(repairDto.getRepairType());
-		repairEntity.setRepairStatus(RepairStatusEnum.TO_BE_DONE.toString());
+		repairEntity.setRepairStatus(RepairStatusEnum.toBeDone.toString());
 		repairEntity.setRepairBooking(repairBooking);
 		
 		return repairEntity;

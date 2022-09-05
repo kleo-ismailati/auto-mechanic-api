@@ -2,6 +2,7 @@ package com.codemonkeys.carmechanicbackend.api.repair_booking.service;
 
 import java.util.Optional;
 
+import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
@@ -24,13 +24,13 @@ import com.codemonkeys.carmechanicbackend.api.repair_booking.repository.RepairBo
 @Service
 public class RepairBookingService {
 	
-	private RepairBookingRepository repairBookingRepository;
+	private final RepairBookingRepository repairBookingRepository;
 	
-	private RepairBookingMapper repairBookingMapper;
+	private final RepairBookingMapper repairBookingMapper;
 	
-	private ClientRepository clientRepository;
+	private final ClientRepository clientRepository;
 	
-	private CarRepository carRepository;
+	private final CarRepository carRepository;
 
 	public RepairBookingService(
 			RepairBookingRepository repairBookingRepository, 
@@ -63,11 +63,42 @@ public class RepairBookingService {
 		
 		return ResponseEntity.ok(repairBookingMapper.toViewDtoList(repairBookings));
 	}
+
+	public ResponseEntity<RepairBookingPageDto> getUnfinishedRepairBookings(
+			Optional<Integer> pageOptional,
+			Optional<Integer> sizeOptional
+	) {
+		int page = 0;
+		int size = 10;
+
+		if(pageOptional.isPresent()) {
+			page = pageOptional.get();
+		}
+
+		if(sizeOptional.isPresent()) {
+			size = sizeOptional.get();
+		}
+
+		Page<RepairBooking> repairBookings =
+				repairBookingRepository.findAllByStatusOrStatus(
+						RepairStatusEnum.toBeDone, RepairStatusEnum.inProgress,
+						PageRequest.of(page, size)
+				);
+
+		return ResponseEntity.ok(repairBookingMapper.toViewDtoList(repairBookings));
+	}
 	
 	public ResponseEntity<RepairBookingViewDto> getRepairBooking(Long id) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		
+		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
+	}
+
+	public ResponseEntity<RepairBookingViewDto> viewRepairBooking(String refID) {
+
+		RepairBooking repairBooking = repairBookingRepository.findFirstByRefID(refID).get();
+
 		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
 	}
 
@@ -97,5 +128,4 @@ public class RepairBookingService {
 		
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
-
 }
