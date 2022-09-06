@@ -22,4 +22,6 @@ public interface RepairBookingRepository extends JpaRepository<RepairBooking, Lo
 	);
 
 	Optional<RepairBooking> findFirstByRefID(String refID);
+
+	long countAllByStatusOrStatus(RepairStatusEnum toBeDone, RepairStatusEnum inProgress);
 }
