@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
 
-import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 import lombok.Data;
 
 @Data
@@ -14,6 +13,5 @@ public class NewRepairBookingDto {
 	private Long carId;
 	private List<NewRepairDto> repairs;
 	private Long totalPrice;
-	private RepairStatusEnum status;
 	
 }

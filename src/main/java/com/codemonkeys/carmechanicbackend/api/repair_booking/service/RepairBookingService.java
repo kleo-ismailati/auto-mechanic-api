@@ -2,6 +2,7 @@ package com.codemonkeys.carmechanicbackend.api.repair_booking.service;
 
 import java.util.Optional;
 
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.*;
 import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,10 +14,6 @@ import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.car.repository.CarRepository;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.mapper.RepairBookingMapper;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.repository.RepairBookingRepository;
@@ -88,11 +85,11 @@ public class RepairBookingService {
 		return ResponseEntity.ok(repairBookingMapper.toViewDtoList(repairBookings));
 	}
 	
-	public ResponseEntity<RepairBookingViewDto> getRepairBooking(Long id) {
+	public ResponseEntity<RepairBookingDto> getRepairBooking(Long id) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		
-		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
+		return ResponseEntity.ok(repairBookingMapper.toDto(repairBooking));
 	}
 
 	public ResponseEntity<RepairBookingViewDto> viewRepairBooking(String refID) {
@@ -107,10 +104,17 @@ public class RepairBookingService {
 		Client client = clientRepository.findById(newRepairBooking.getClientId()).get();
 		
 		Car car = carRepository.findById(newRepairBooking.getCarId()).get();
-		
-		repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking, client, car));
-		
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+
+		for (Car aCar : client.getCars()){
+			if(aCar.getId() == car.getId()){
+				repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking, client, car));
+
+				return new ResponseEntity<Void>(HttpStatus.CREATED);
+			}
+		}
+
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
 	}
 
 	public ResponseEntity<Void> deleteRepairBooking(Long id) {

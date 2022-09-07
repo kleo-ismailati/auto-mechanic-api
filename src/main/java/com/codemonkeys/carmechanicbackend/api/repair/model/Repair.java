@@ -1,13 +1,9 @@
 package com.codemonkeys.carmechanicbackend.api.repair.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
+import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -22,27 +18,16 @@ public class Repair {
 	private String repairType;
 	private String repairDetails;
 	private Long repairCost;
-	private String repairStatus;
+
+	@Enumerated(EnumType.ORDINAL)
+	private RepairStatusEnum repairStatus;
 	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "rb_id", nullable = false)
 	private RepairBooking repairBooking;
 
-	public Repair() {
-	}
-
-	public Repair(
-			Long id, String repairType, String repairDetails, long repairCost, 
-			String repairStatus, RepairBooking repairBooking
-			) {
-		this.id = id;
-		this.repairType = repairType;
-		this.repairDetails = repairDetails;
-		this.repairCost = repairCost;
-		this.repairStatus = repairStatus;
-		this.repairBooking = repairBooking;
-	}
+	public Repair() {}
 
 	@Override
 	public String toString() {

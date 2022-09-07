@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -97,24 +98,29 @@ public class RepairBookingMapper {
 			repairBookingDto.setStatus(repairBooking.getStatus());
 		}
 		
-		if(repairBooking.getTotalPrice() != null) {
-			repairBookingDto.setTotalPrice(repairBooking.getTotalPrice());
-		}
-		
 		if(repairBooking.getClient() != null) {
 			
-			repairBookingDto.setClientId(repairBooking.getClient().getId());
+			repairBookingDto.setClient(clientMapper.toViewDto(repairBooking.getClient()));
 		}
 		
 		if(repairBooking.getCar() != null) {
 			
-			repairBookingDto.setCarId(repairBooking.getCar().getId());
+			repairBookingDto.setCar(carMapper.toViewDto(repairBooking.getCar()));
 		}
-		
+
 		if(repairBooking.getRepairs() != null) {
-			
-			repairBookingDto.setRepairs(repairMapper.toDtoList(repairBooking.getRepairs()));
-			
+
+			List<RepairDto> repairs = repairMapper.toDtoList(repairBooking.getRepairs());
+
+			long total = 0L;
+
+			repairBookingDto.setRepairs(repairs);
+
+			for(RepairDto repair : repairs) {
+				total += repair.getRepairCost();
+			}
+
+			repairBookingDto.setTotalPrice(total);
 		}
 		
 		return repairBookingDto;
@@ -123,7 +129,7 @@ public class RepairBookingMapper {
 	public RepairBookingViewDto toViewDto(RepairBooking repairBooking) {
 		
 		RepairBookingViewDto repairBookingViewDto = new RepairBookingViewDto();
-		
+
 		if(repairBooking.getId() != null) {
 			repairBookingViewDto.setId(repairBooking.getId());
 		}
@@ -182,22 +188,13 @@ public class RepairBookingMapper {
 	
 	public RepairBooking updateEntity(RepairBookingEditDto repairBookingDto, RepairBooking repairBookingEntity) {
 		
-		
-		if(repairBookingDto.getDate() != null) {
-			repairBookingEntity.setDate(repairBookingDto.getDate());
-		}
-		
 		if(repairBookingDto.getStatus() != null) {
 			repairBookingEntity.setStatus(repairBookingDto.getStatus());
-		}
-		
-		if(repairBookingDto.getTotalPrice() != null) {
-			repairBookingEntity.setTotalPrice(repairBookingDto.getTotalPrice());
 		}
 		
 		return repairBookingEntity;
 	}
 
-	
+
 
 }

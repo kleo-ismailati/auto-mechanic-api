@@ -2,6 +2,7 @@ package com.codemonkeys.carmechanicbackend.api.repair_booking.controller;
 
 import java.util.Optional;
 
+import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.NewRepairBookingDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingEditDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingPageDto;
-import com.codemonkeys.carmechanicbackend.api.repair_booking.dto.RepairBookingViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.service.RepairBookingService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,7 +62,7 @@ public class RepairBookingController {
 	  @ApiResponse(responseCode = "200", description = "Repair Booking found"),
 	  @ApiResponse(responseCode = "404", description = "Repair Booking not found") 
 	  })
-	public ResponseEntity<RepairBookingViewDto> getRepairBooking(@PathVariable("id") Long id) {
+	public ResponseEntity<RepairBookingDto> getRepairBooking(@PathVariable("id") Long id) {
 		return repairBookingService.getRepairBooking(id);
 	}
 
