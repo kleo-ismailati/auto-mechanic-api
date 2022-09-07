@@ -16,11 +16,11 @@ import com.codemonkeys.carmechanicbackend.api.repair_booking.repository.RepairBo
 @Service
 public class RepairService {
 	
-	private RepairRepository repairRepository;
+	private final RepairRepository repairRepository;
 	
-	private RepairBookingRepository rbRepository;
+	private final RepairBookingRepository rbRepository;
 	
-	private RepairMapper repairMapper;
+	private final RepairMapper repairMapper;
 
 	public RepairService(RepairRepository repairRepository, RepairBookingRepository rbRepository,
 			RepairMapper repairMapper) {
@@ -42,14 +42,14 @@ public class RepairService {
 		
 		repairRepository.save(repairMapper.toNewEntity(newRepair, repairBooking));
 		
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<Void> deleteRepair(Long id) {
 		
 		repairRepository.deleteById(id);
 		
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	public ResponseEntity<Void> editRepair(Long id, RepairEditDto repairDto) {
@@ -59,7 +59,7 @@ public class RepairService {
 		repairMapper.updateEntity(repairDto, repair);
 		repairRepository.save(repair);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

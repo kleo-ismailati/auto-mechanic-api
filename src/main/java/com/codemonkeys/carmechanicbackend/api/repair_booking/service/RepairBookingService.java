@@ -106,10 +106,10 @@ public class RepairBookingService {
 		Car car = carRepository.findById(newRepairBooking.getCarId()).get();
 
 		for (Car aCar : client.getCars()){
-			if(aCar.getId() == car.getId()){
+			if(aCar.getId().equals(car.getId())){
 				repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking, client, car));
 
-				return new ResponseEntity<Void>(HttpStatus.CREATED);
+				return new ResponseEntity<>(HttpStatus.CREATED);
 			}
 		}
 
@@ -121,7 +121,7 @@ public class RepairBookingService {
 		
 		repairBookingRepository.deleteById(id);
 		
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	public ResponseEntity<Void> editRepairBooking(Long id, RepairBookingEditDto repairBookingDto) {
@@ -130,6 +130,6 @@ public class RepairBookingService {
 		repairBookingMapper.updateEntity(repairBookingDto, repairBooking);
 		repairBookingRepository.save(repairBooking);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

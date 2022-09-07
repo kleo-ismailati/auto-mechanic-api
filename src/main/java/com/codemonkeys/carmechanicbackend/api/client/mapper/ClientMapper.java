@@ -13,7 +13,7 @@ import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 @Service
 public class ClientMapper {
 	
-	private CarMapper carMapper;
+	private final CarMapper carMapper;
 	
 	public ClientMapper(CarMapper carMapper) {
 		this.carMapper = carMapper;
@@ -141,10 +141,9 @@ public class ClientMapper {
 		return clientEntity;
 	}
 	
-	public Client addCar(NewCarDto newCarDto, Client client) {
+	public void addCar(NewCarDto newCarDto, Client client) {
 		
 		client.addCar(carMapper.toNewEntity(newCarDto, client));
-		
-		return client;
+
 	}
 }

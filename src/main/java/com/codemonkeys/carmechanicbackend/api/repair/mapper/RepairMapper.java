@@ -18,7 +18,7 @@ public class RepairMapper {
 
 	public List<Repair> toNewEntityList(List<NewRepairDto> repairsDtoList, RepairBooking repairBooking) {
 		
-		List<Repair> repairEntityList = new ArrayList<Repair>();
+		List<Repair> repairEntityList = new ArrayList<>();
 		
 		for(NewRepairDto newRepairDto : repairsDtoList) {
 			
@@ -30,7 +30,7 @@ public class RepairMapper {
 
 	public List<RepairDto> toDtoList(List<Repair> repairs) {
 		
-		List<RepairDto> repairDtoList = new ArrayList<RepairDto>();
+		List<RepairDto> repairDtoList = new ArrayList<>();
 		
 		for(Repair repair : repairs) {
 			
@@ -42,7 +42,7 @@ public class RepairMapper {
 
 	public List<RepairViewDto> toViewDtoList(List<Repair> repairs) {
 		
-		List<RepairViewDto> repairViewDtoList = new ArrayList<RepairViewDto>();
+		List<RepairViewDto> repairViewDtoList = new ArrayList<>();
 		
 		for(Repair repair : repairs) {
 			
@@ -54,7 +54,7 @@ public class RepairMapper {
 
 	public List<Repair> toEntityList(RepairBooking repairBooking, List<RepairDto> repairDtoList) {
 
-		List<Repair> repairList = new ArrayList<Repair>();
+		List<Repair> repairList = new ArrayList<>();
 		
 		for(RepairDto repairDto : repairDtoList) {
 			
@@ -66,7 +66,7 @@ public class RepairMapper {
 	
 	public List<Repair> updateEntityList(RepairBooking repairBooking, List<RepairDto> repairDtoList) {
 
-		List<Repair> repairList = new ArrayList<Repair>();
+		List<Repair> repairList = new ArrayList<>();
 		
 		for(RepairDto repairDto : repairDtoList) {
 			

@@ -27,9 +27,9 @@ import com.codemonkeys.carmechanicbackend.security.service.UserDetailsServiceImp
 		prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private UserDetailsServiceImpl userDetailsService;
+	private final UserDetailsServiceImpl userDetailsService;
 
-	private AuthEntryPointJwt unauthorizedHandler;
+	private final AuthEntryPointJwt unauthorizedHandler;
 
 	@Autowired
 	public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {

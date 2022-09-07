@@ -144,7 +144,7 @@ public class CarMapper {
 
 	public List<CarDto> toDtoList(List<Car> cars) {
 		
-		List<CarDto> carDtoList = new ArrayList<CarDto>();
+		List<CarDto> carDtoList = new ArrayList<>();
 		
 		for(Car car : cars) {
 			

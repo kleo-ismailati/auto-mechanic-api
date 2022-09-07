@@ -15,9 +15,9 @@ import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository
 @Service
 public class ClientService {
 	
-	private ClientRepository clientRepository;
+	private final ClientRepository clientRepository;
 	
-	private ClientMapper clientMapper;
+	private final ClientMapper clientMapper;
 
 	public ClientService(ClientRepository clientRepository, 
 			ClientMapper clientMapper) {
@@ -36,14 +36,14 @@ public class ClientService {
 		
 		clientRepository.save(clientMapper.toNewEntity(newClient));
 		
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<Void> deleteClient(Long id) {
 		
 		clientRepository.deleteById(id);
 		
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	public ResponseEntity<Void> editClient(Long id, ClientEditDto clientDto) {
@@ -52,7 +52,7 @@ public class ClientService {
 		clientMapper.updateEntity(clientDto, client);
 		clientRepository.save(client);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	public ResponseEntity<Void> addCar(Long id, NewCarDto newCarDto) {
@@ -61,7 +61,7 @@ public class ClientService {
 		clientMapper.addCar(newCarDto, client);
 		clientRepository.save(client);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 }

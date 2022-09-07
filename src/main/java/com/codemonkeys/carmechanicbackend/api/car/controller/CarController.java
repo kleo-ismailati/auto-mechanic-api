@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Car", description = "Car Controller")
 public class CarController {
 
-	private CarService carService;
+	private final CarService carService;
 	
 	public CarController(CarService carService) {
 		this.carService = carService;

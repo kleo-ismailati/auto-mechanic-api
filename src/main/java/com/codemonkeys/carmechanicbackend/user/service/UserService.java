@@ -18,16 +18,16 @@ import com.codemonkeys.carmechanicbackend.user.repository.UserRepository;
 public class UserService {
 	
 
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	
-	private UserMapper userMapper;
+	private final UserMapper userMapper;
 	
-	private PasswordEncoder passEncrypter;
+	private final PasswordEncoder passEncryptor;
 	
-	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passEncrypter) {
+	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passEncryptor) {
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
-		this.passEncrypter = passEncrypter;
+		this.passEncryptor = passEncryptor;
 	}
 
 	public ResponseEntity<List<UserListDto>> getAllUsers() {
@@ -46,17 +46,17 @@ public class UserService {
 	public ResponseEntity<Void> addUser(NewUserDto newUser) {
 		
 		User user = userMapper.toNewEntity(newUser);
-		user.setPassword(passEncrypter.encode(user.getPassword()));
+		user.setPassword(passEncryptor.encode(user.getPassword()));
 		userRepository.save(user);
 		
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
 	public ResponseEntity<Void> deleteUser(Long id) {
 		
 		userRepository.deleteById(id);
 		
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 	public ResponseEntity<Void> editUser(Long id, UserDto userDto) {
@@ -66,6 +66,6 @@ public class UserService {
 		userMapper.updateEntity(userDto, user);
 		userRepository.save(user);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

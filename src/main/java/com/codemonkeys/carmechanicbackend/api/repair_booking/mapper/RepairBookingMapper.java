@@ -172,7 +172,7 @@ public class RepairBookingMapper {
 		
 		RepairBookingPageDto repairBookingPageDto = new RepairBookingPageDto();
 		
-		List<RepairBookingViewDto> repairBookingDtoList = new ArrayList<RepairBookingViewDto>();
+		List<RepairBookingViewDto> repairBookingDtoList = new ArrayList<>();
 		
 		for(RepairBooking repairBooking : repairBookings) {
 			repairBookingDtoList.add(toViewDto(repairBooking));

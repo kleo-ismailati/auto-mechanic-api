@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "User", description = "User Controller")
 public class UserController {
 
-	private UserService userService;
+	private final UserService userService;
 	
 	public UserController(UserService userService) {
 		this.userService = userService;
