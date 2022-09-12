@@ -1,16 +1,18 @@
 package com.codemonkeys.carmechanicbackend.api.client.service;
 
+import com.codemonkeys.carmechanicbackend.api.client.dto.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.ClientEditDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.mapper.ClientMapper;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 import com.codemonkeys.carmechanicbackend.api.client.repository.ClientRepository;
+
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -64,4 +66,24 @@ public class ClientService {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
+	public ResponseEntity<ClientPageDto> getAllClients(Optional<Integer> pageOptional,
+														Optional<Integer> sizeOptional) {
+		int page = 0;
+		int size = 10;
+
+		if(pageOptional.isPresent()) {
+			page = pageOptional.get();
+		}
+
+		if(sizeOptional.isPresent()) {
+			size = sizeOptional.get();
+		}
+
+		Page<Client> clients =
+				clientRepository.findAll(
+						PageRequest.of(page, size)
+				);
+
+		return ResponseEntity.ok(clientMapper.toClientPage(clients));
+	}
 }

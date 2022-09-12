@@ -1,25 +1,18 @@
 package com.codemonkeys.carmechanicbackend.api.client.controller;
 
+import com.codemonkeys.carmechanicbackend.api.client.dto.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.ClientDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.ClientEditDto;
-import com.codemonkeys.carmechanicbackend.api.client.dto.NewClientDto;
 import com.codemonkeys.carmechanicbackend.api.client.service.ClientService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/client")
@@ -42,7 +35,21 @@ public class ClientController {
 	public ResponseEntity<ClientDto> getClient(@PathVariable("id") Long id) {
 		return clientService.getClient(id);
 	}
-	
+
+
+	@GetMapping
+	@Operation(summary = "Get Client list", tags = { "Client" })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Client list found"),
+			@ApiResponse(responseCode = "404", description = "Client list not found")
+	})
+	public ResponseEntity<ClientPageDto> getClientList(
+			@RequestParam(required = false) Optional<Integer> page,
+			@RequestParam(required = false) Optional<Integer> size
+	) {
+		return clientService.getAllClients(page, size);
+	}
+
 	@PostMapping
 	@Operation(summary = "Add new Client", tags = { "Client" })
 	@ApiResponses(value = {
@@ -71,15 +78,5 @@ public class ClientController {
 	public ResponseEntity<Void> addCar(@PathVariable("id") Long id, @RequestBody NewCarDto newCar) {
 		return clientService.addCar(id, newCar);
 	}
-	
-//	@DeleteMapping(value = "/{id}")
-//	@Operation(summary = "Delete Client by id", tags = { "Client" })
-//	@ApiResponses(value = {
-//	  @ApiResponse(responseCode = "204", description = "Client deleted successfully"),
-//	  @ApiResponse(responseCode = "404", description = "Client not found") 
-//	  })
-//	public ResponseEntity<Void> deleteClient(@PathVariable("id") Long id) {
-//		return clientService.deleteClient(id);
-//	}
 
 }

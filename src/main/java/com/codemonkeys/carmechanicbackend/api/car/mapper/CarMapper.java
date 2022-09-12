@@ -3,12 +3,9 @@ package com.codemonkeys.carmechanicbackend.api.car.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.codemonkeys.carmechanicbackend.api.car.dto.*;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.api.car.dto.CarDto;
-import com.codemonkeys.carmechanicbackend.api.car.dto.CarEditDto;
-import com.codemonkeys.carmechanicbackend.api.car.dto.CarViewDto;
-import com.codemonkeys.carmechanicbackend.api.car.dto.NewCarDto;
 import com.codemonkeys.carmechanicbackend.api.car.model.Car;
 import com.codemonkeys.carmechanicbackend.api.client.model.Client;
 
@@ -17,8 +14,6 @@ public class CarMapper {
 	
 	
 	public CarMapper() {}
-
-
 
 	public Car toNewEntity(NewCarDto carDto, Client client) {
 		
@@ -33,87 +28,26 @@ public class CarMapper {
 		
 		return carEntity;
 	}
-	
-	public Car toEntity(Client client, CarDto carDto) {
+
+	public CarRBListItemDto toRBListItemDto(Car car) {
 		
-		Car carEntity = new Car();
+		CarRBListItemDto carRBListItemDto = new CarRBListItemDto();
+
+		carRBListItemDto.setCarModel(car.getCarModel());
+		carRBListItemDto.setCarType(car.getCarType());
 		
-		if(carDto.getCarType() != null) {
-			carEntity.setCarType(carDto.getCarType());
-		}
-		
-		if(carDto.getCarModel() != null) {
-			carEntity.setCarModel(carDto.getCarModel());
-		}
-		
-		if(carDto.getYear() != null) {
-			carEntity.setYear(carDto.getYear());
-		}
-		
-		if(carDto.getColor() != null) {
-			carEntity.setColor(carDto.getColor());
-		}
-		
-		if(carDto.getCarDescription() != null) {
-			carEntity.setCarDescription(carDto.getCarDescription());
-		}
-		
-		carEntity.setClient(client);
-		
-		return carEntity;
+		return carRBListItemDto;
 	}
-
-
 
 	public CarViewDto toViewDto(Car car) {
 		
 		CarViewDto carViewDto = new CarViewDto();
-		
-		if(car.getCarModel() != null) {
-			carViewDto.setCarModel(car.getCarModel());
-		}
-		
-		if(car.getCarType() != null) {
-			carViewDto.setCarType(car.getCarType());
-		}
+
+		carViewDto.setCarModel(car.getCarModel());
+		carViewDto.setCarType(car.getCarType());
 		
 		return carViewDto;
 	}
-
-
-
-	public CarDto toDto(Car car) {
-		
-		CarDto carDto = new CarDto();
-		
-		if(car.getId() != null) {
-			carDto.setId(car.getId());
-		}
-		
-		if(car.getYear() != null) {
-			carDto.setYear(car.getYear());
-		}
-		
-		if(car.getCarDescription() != null) {
-			carDto.setCarDescription(car.getCarDescription());
-		}
-		
-		if(car.getColor() != null) {
-			carDto.setColor(car.getColor());
-		}
-		
-		if(car.getCarModel() != null) {
-			carDto.setCarModel(car.getCarModel());
-		}
-		
-		if(car.getCarType() != null) {
-			carDto.setCarType(car.getCarType());
-		}
-		
-		return carDto;
-	}
-
-
 
 	public Car updateEntity(CarEditDto carDto, Car car) {
 		
@@ -140,17 +74,35 @@ public class CarMapper {
 		return car;
 	}
 
+    public CarGuestViewDto toGuestViewDto(Car car) {
 
+		CarGuestViewDto carGuestViewDto = new CarGuestViewDto();
+
+		carGuestViewDto.setCarModel(car.getCarModel());
+		carGuestViewDto.setCarType(car.getCarType());
+
+		return carGuestViewDto;
+    }
+
+    public CarDto toDto(Car car) {
+		CarDto carDto = new CarDto();
+
+		carDto.setYear(car.getYear());
+		carDto.setCarDescription(car.getCarDescription());
+		carDto.setColor(car.getColor());
+		carDto.setCarModel(car.getCarModel());
+		carDto.setCarType(car.getCarType());
+
+		return carDto;
+    }
 
 	public List<CarDto> toDtoList(List<Car> cars) {
-		
 		List<CarDto> carDtoList = new ArrayList<>();
-		
+
 		for(Car car : cars) {
-			
 			carDtoList.add(toDto(car));
 		}
+
 		return carDtoList;
 	}
-
 }

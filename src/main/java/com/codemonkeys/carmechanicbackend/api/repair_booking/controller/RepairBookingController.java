@@ -62,7 +62,7 @@ public class RepairBookingController {
 	  @ApiResponse(responseCode = "200", description = "Repair Booking found"),
 	  @ApiResponse(responseCode = "404", description = "Repair Booking not found") 
 	  })
-	public ResponseEntity<RepairBookingDto> getRepairBooking(@PathVariable("id") Long id) {
+	public ResponseEntity<RepairBookingViewDto> getRepairBooking(@PathVariable("id") Long id) {
 		return repairBookingService.getRepairBooking(id);
 	}
 
@@ -72,7 +72,7 @@ public class RepairBookingController {
 			@ApiResponse(responseCode = "200", description = "Repair Booking found"),
 			@ApiResponse(responseCode = "404", description = "Repair Booking not found")
 	})
-	public ResponseEntity<RepairBookingViewDto> viewRepairBooking(@PathVariable("refID") String refID) {
+	public ResponseEntity<RepairBookingGuestViewDto> viewRepairBooking(@PathVariable("refID") String refID) {
 		return repairBookingService.viewRepairBooking(refID);
 	}
 	

@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class CarViewDto {
-	
+
 	private String carType;
 	private String carModel;
-	
+
 }

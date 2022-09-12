@@ -1,5 +1,6 @@
 package com.codemonkeys.carmechanicbackend.api.repair.controller;
 
+import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
-import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
 import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairEditDto;
 import com.codemonkeys.carmechanicbackend.api.repair.service.RepairService;
 

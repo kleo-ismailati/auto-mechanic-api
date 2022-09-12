@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class RepairBookingPageDto {
 
-	private List<RepairBookingViewDto> result;
+	private List<RepairBookingListItemDto> result;
 	private int pageNo;
 	private int size;
 	private int total;

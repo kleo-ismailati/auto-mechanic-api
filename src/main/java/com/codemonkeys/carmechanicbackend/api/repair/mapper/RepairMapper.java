@@ -3,12 +3,9 @@ package com.codemonkeys.carmechanicbackend.api.repair.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.codemonkeys.carmechanicbackend.api.repair.dto.*;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.api.repair.dto.NewRepairDto;
-import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairDto;
-import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairEditDto;
-import com.codemonkeys.carmechanicbackend.api.repair.dto.RepairViewDto;
 import com.codemonkeys.carmechanicbackend.api.repair.model.Repair;
 import com.codemonkeys.carmechanicbackend.api.repair_booking.model.RepairBooking;
 import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
@@ -28,18 +25,6 @@ public class RepairMapper {
 		return repairEntityList;
 	}
 
-	public List<RepairDto> toDtoList(List<Repair> repairs) {
-		
-		List<RepairDto> repairDtoList = new ArrayList<>();
-		
-		for(Repair repair : repairs) {
-			
-			repairDtoList.add(toDto(repair));
-		}
-		
-		return repairDtoList;
-	}
-
 	public List<RepairViewDto> toViewDtoList(List<Repair> repairs) {
 		
 		List<RepairViewDto> repairViewDtoList = new ArrayList<>();
@@ -52,35 +37,16 @@ public class RepairMapper {
 		return repairViewDtoList;
 	}
 
-	public List<Repair> toEntityList(RepairBooking repairBooking, List<RepairDto> repairDtoList) {
-
-		List<Repair> repairList = new ArrayList<>();
+	public List<RepairRBListItemDto> toRBListItemDtoList(List<Repair> repairs) {
 		
-		for(RepairDto repairDto : repairDtoList) {
+		List<RepairRBListItemDto> repairRBListItemDtoList = new ArrayList<>();
+		
+		for(Repair repair : repairs) {
 			
-			repairList.add(toEntity(repairBooking, repairDto));
+			repairRBListItemDtoList.add(toRBListItemDto(repair));
 		}
 		
-		return repairList;
-	}
-	
-	public List<Repair> updateEntityList(RepairBooking repairBooking, List<RepairDto> repairDtoList) {
-
-		List<Repair> repairList = new ArrayList<>();
-		
-		for(RepairDto repairDto : repairDtoList) {
-			
-			for (Repair repair : repairBooking.getRepairs()) {
-				
-				if(repairDto.getId().equals(repair.getId())) {
-					
-					repairList.add(toEntity(repairBooking, repairDto));
-				}
-			}
-			
-		}
-		
-		return repairList;
+		return repairRBListItemDtoList;
 	}
 	
 
@@ -97,79 +63,26 @@ public class RepairMapper {
 		return repairEntity;
 	}
 	
-	public Repair toEntity(RepairBooking repairBooking, RepairDto repairDto) {
+	public RepairRBListItemDto toRBListItemDto(Repair repair) {
 		
-		Repair repairEntity = new Repair();
+		RepairRBListItemDto repairRBListItemDto = new RepairRBListItemDto();
+
+		repairRBListItemDto.setRepairCost(repair.getRepairCost());
 		
-		if(repairDto.getId() != null) {
-			repairEntity.setId(repairDto.getId());
-		}
-		
-		if(repairDto.getRepairCost() != null) {
-			repairEntity.setRepairCost(repairDto.getRepairCost());
-		}
-		
-		if(repairDto.getRepairDetails() != null) {
-			repairEntity.setRepairDetails(repairDto.getRepairDetails());
-		}
-		
-		if(repairDto.getRepairType() != null) {
-			repairEntity.setRepairType(repairDto.getRepairType());
-		}
-		
-		if(repairDto.getRepairStatus() != null) {
-			repairEntity.setRepairStatus(repairDto.getRepairStatus());
-		}
-		
-		repairEntity.setRepairBooking(repairBooking);
-		
-		return repairEntity;
+		return repairRBListItemDto;
 	}
 	
 	public RepairViewDto toViewDto(Repair repair) {
-		
+
 		RepairViewDto repairViewDto = new RepairViewDto();
-		
-		if(repair.getRepairCost() != null) {
-			repairViewDto.setRepairCost(repair.getRepairCost());
-		}
-		
-		if(repair.getRepairDetails() != null) {
-			repairViewDto.setRepairDetails(repair.getRepairDetails());
-		}
-		
-		if(repair.getRepairType() != null) {
-			repairViewDto.setRepairType(repair.getRepairType());
-		}
+
+		repairViewDto.setId(repair.getId());
+		repairViewDto.setRepairCost(repair.getRepairCost());
+		repairViewDto.setRepairDetails(repair.getRepairDetails());
+		repairViewDto.setRepairType(repair.getRepairType());
+		repairViewDto.setRepairStatus(repair.getRepairStatus());
 		
 		return repairViewDto;
-	}
-	
-	public RepairDto toDto(Repair repair) {
-
-		RepairDto repairDto = new RepairDto();
-		
-		if(repair.getId() != null) {
-			repairDto.setId(repair.getId());
-		}
-		
-		if(repair.getRepairCost() != null) {
-			repairDto.setRepairCost(repair.getRepairCost());
-		}
-		
-		if(repair.getRepairDetails() != null) {
-			repairDto.setRepairDetails(repair.getRepairDetails());
-		}
-		
-		if(repair.getRepairType() != null) {
-			repairDto.setRepairType(repair.getRepairType());
-		}
-		
-		if(repair.getRepairStatus() != null) {
-			repairDto.setRepairStatus(repair.getRepairStatus());
-		}
-		
-		return repairDto;
 	}
 	
 	public Repair updateEntity(RepairEditDto repairDto, Repair repair) {
@@ -192,4 +105,40 @@ public class RepairMapper {
 		
 		return repair;
 	}
+
+    public List<RepairGuestViewDto> toGuestViewDtoList(List<Repair> repairs) {
+
+		List<RepairGuestViewDto> repairGuestViewDtoList = new ArrayList<>();
+
+		for(Repair repair : repairs) {
+			repairGuestViewDtoList.add(toGuestViewDto(repair));
+		}
+
+		return repairGuestViewDtoList;
+
+    }
+
+	public RepairGuestViewDto toGuestViewDto(Repair repair){
+
+		RepairGuestViewDto repairGuestViewDto = new RepairGuestViewDto();
+
+		repairGuestViewDto.setRepairCost(repair.getRepairCost());
+		repairGuestViewDto.setRepairDetails(repair.getRepairDetails());
+		repairGuestViewDto.setRepairType(repair.getRepairType());
+		repairGuestViewDto.setRepairStatus(repair.getRepairStatus());
+
+		return repairGuestViewDto;
+	}
+
+    public RepairDto toDto(Repair repair) {
+		RepairDto repairDto = new RepairDto();
+
+		repairDto.setId(repair.getId());
+		repairDto.setRepairCost(repair.getRepairCost());
+		repairDto.setRepairDetails(repair.getRepairDetails());
+		repairDto.setRepairType(repair.getRepairType());
+		repairDto.setRepairStatus(repair.getRepairStatus());
+
+		return repairDto;
+    }
 }

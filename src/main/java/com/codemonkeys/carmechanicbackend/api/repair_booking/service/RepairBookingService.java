@@ -58,7 +58,7 @@ public class RepairBookingService {
 
 		Page<RepairBooking> repairBookings = repairBookingRepository.findAll(PageRequest.of(page, size));
 		
-		return ResponseEntity.ok(repairBookingMapper.toViewDtoList(repairBookings));
+		return ResponseEntity.ok(repairBookingMapper.toViewPage(repairBookings));
 	}
 
 	public ResponseEntity<RepairBookingPageDto> getUnfinishedRepairBookings(
@@ -82,21 +82,21 @@ public class RepairBookingService {
 						PageRequest.of(page, size)
 				);
 
-		return ResponseEntity.ok(repairBookingMapper.toViewDtoList(repairBookings));
+		return ResponseEntity.ok(repairBookingMapper.toViewPage(repairBookings));
 	}
 	
-	public ResponseEntity<RepairBookingDto> getRepairBooking(Long id) {
+	public ResponseEntity<RepairBookingViewDto> getRepairBooking(Long id) {
 		
 		RepairBooking repairBooking = repairBookingRepository.findById(id).get();
 		
-		return ResponseEntity.ok(repairBookingMapper.toDto(repairBooking));
+		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
 	}
 
-	public ResponseEntity<RepairBookingViewDto> viewRepairBooking(String refID) {
+	public ResponseEntity<RepairBookingGuestViewDto> viewRepairBooking(String refID) {
 
 		RepairBooking repairBooking = repairBookingRepository.findFirstByRefID(refID).get();
 
-		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
+		return ResponseEntity.ok(repairBookingMapper.toGuestViewDto(repairBooking));
 	}
 
 	public ResponseEntity<Void> addRepairBooking(NewRepairBookingDto newRepairBooking) {

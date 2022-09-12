@@ -1,7 +1,6 @@
 package com.codemonkeys.carmechanicbackend.api.repair.dto;
 
 import com.codemonkeys.carmechanicbackend.api.shared.RepairStatusEnum;
-
 import lombok.Data;
 
 @Data
