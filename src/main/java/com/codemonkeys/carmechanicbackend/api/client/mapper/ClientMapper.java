@@ -33,14 +33,14 @@ public class ClientMapper {
 		return clientEntity;
 		
 	}
-	public ClientViewDto toViewDto(Client client) {
+	public ClientRBViewDto toViewDto(Client client) {
 		
-		ClientViewDto clientViewDto = new ClientViewDto();
+		ClientRBViewDto clientRBViewDto = new ClientRBViewDto();
 
-		clientViewDto.setFirstName(client.getFirstName());
-		clientViewDto.setLastName(client.getLastName());
+		clientRBViewDto.setFirstName(client.getFirstName());
+		clientRBViewDto.setLastName(client.getLastName());
 		
-		return clientViewDto;
+		return clientRBViewDto;
 	}
 
 	public ClientRBListItemDto toRBListItemDto(Client client) {
@@ -98,14 +98,13 @@ public class ClientMapper {
 	public ClientDto toDto(Client client) {
 		ClientDto clientDto = new ClientDto();
 
-		clientDto.setId(client.getId());
 		clientDto.setFirstName(client.getFirstName());
 		clientDto.setLastName(client.getLastName());
 		clientDto.setEmail(client.getEmail());
 		clientDto.setPhoneNumber(client.getPhoneNumber());
 		clientDto.setAddress(client.getAddress());
 
-		clientDto.setCarDtoList(carMapper.toDtoList(client.getCars()));
+		clientDto.setCars(carMapper.toDtoListForClient(client.getCars()));
 
 		return clientDto;
 	}
@@ -133,6 +132,7 @@ public class ClientMapper {
 		clientListItemDto.setId(client.getId());
 		clientListItemDto.setFirstName(client.getFirstName());
 		clientListItemDto.setLastName(client.getLastName());
+		clientListItemDto.setPhoneNumber(client.getPhoneNumber());
 		clientListItemDto.setEmail(client.getEmail());
 
 		return clientListItemDto;

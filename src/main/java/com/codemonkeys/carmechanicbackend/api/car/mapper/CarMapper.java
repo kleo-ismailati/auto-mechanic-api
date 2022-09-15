@@ -39,14 +39,14 @@ public class CarMapper {
 		return carRBListItemDto;
 	}
 
-	public CarViewDto toViewDto(Car car) {
+	public CarRBViewDto toViewDto(Car car) {
 		
-		CarViewDto carViewDto = new CarViewDto();
+		CarRBViewDto carRBViewDto = new CarRBViewDto();
 
-		carViewDto.setCarModel(car.getCarModel());
-		carViewDto.setCarType(car.getCarType());
+		carRBViewDto.setCarModel(car.getCarModel());
+		carRBViewDto.setCarType(car.getCarType());
 		
-		return carViewDto;
+		return carRBViewDto;
 	}
 
 	public Car updateEntity(CarEditDto carDto, Car car) {
@@ -96,11 +96,23 @@ public class CarMapper {
 		return carDto;
     }
 
-	public List<CarDto> toDtoList(List<Car> cars) {
-		List<CarDto> carDtoList = new ArrayList<>();
+	public CarClientListItemDto toClientListItemDto(Car car) {
+		CarClientListItemDto carDto = new CarClientListItemDto();
+
+		carDto.setId(car.getId());
+		carDto.setYear(car.getYear());
+		carDto.setColor(car.getColor());
+		carDto.setCarModel(car.getCarModel());
+		carDto.setCarType(car.getCarType());
+
+		return carDto;
+	}
+
+	public List<CarClientListItemDto> toDtoListForClient(List<Car> cars) {
+		List<CarClientListItemDto> carDtoList = new ArrayList<>();
 
 		for(Car car : cars) {
-			carDtoList.add(toDto(car));
+			carDtoList.add(toClientListItemDto(car));
 		}
 
 		return carDtoList;

@@ -3,7 +3,7 @@ package com.codemonkeys.carmechanicbackend.api.car.dto;
 import lombok.Data;
 
 @Data
-public class CarViewDto {
+public class CarRBViewDto {
 
 	private String carType;
 	private String carModel;
