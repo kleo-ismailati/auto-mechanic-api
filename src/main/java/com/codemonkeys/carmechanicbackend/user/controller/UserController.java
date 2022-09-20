@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.codemonkeys.carmechanicbackend.user.dto.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codemonkeys.carmechanicbackend.user.dto.UserDto;
+import com.codemonkeys.carmechanicbackend.user.dto.UserEditDto;
 import com.codemonkeys.carmechanicbackend.user.dto.UserListDto;
 import com.codemonkeys.carmechanicbackend.user.dto.NewUserDto;
 import com.codemonkeys.carmechanicbackend.user.service.UserService;
@@ -51,7 +52,7 @@ public class UserController {
 	  @ApiResponse(responseCode = "200", description = "User found"),
 	  @ApiResponse(responseCode = "404", description = "User not found") 
 	  })
-	public ResponseEntity<UserListDto> getUser(@PathVariable("id") Long id) {
+	public ResponseEntity<UserDto> getUser(@PathVariable("id") Long id) {
 		return userService.getUser(id);
 	}
 	
@@ -70,8 +71,8 @@ public class UserController {
 	  @ApiResponse(responseCode = "200", description = "User updated successfully"),
 	  @ApiResponse(responseCode = "404", description = "User not found") 
 	  })
-	public ResponseEntity<Void> editUser(@PathVariable("id") Long id,@Valid @RequestBody UserDto userDto) {
-		return userService.editUser(id, userDto);
+	public ResponseEntity<Void> editUser(@PathVariable("id") Long id,@Valid @RequestBody UserEditDto userEditDto) {
+		return userService.editUser(id, userEditDto);
 	}
 	
 	@DeleteMapping(value = "/{id}")

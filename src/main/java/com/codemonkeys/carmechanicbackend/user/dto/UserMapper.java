@@ -21,62 +21,48 @@ public class UserMapper {
 		
 		return userEntity;
 	}
-	
-	public User toEntity(Long id, UserDto userDto) {
-		
-		User userEntity = new User();
-		
-		userEntity.setId(id);
-		
-		if(userDto.getUsername() != null) {
-			userEntity.setUsername(userDto.getUsername());
-		}
-		
-		if(userDto.getEmail() != null) {
-			userEntity.setEmail(userDto.getEmail());
-		}
-		
-		if(userDto.getPassword() != null) {
-			userEntity.setPassword(userDto.getPassword());
-		}
-		
-		return userEntity;
-	}
 
-	public UserListDto toDto(User user) {
+	public UserListDto toListItemDto(User user) {
 		
 		UserListDto userDto = new UserListDto();
-		
+
+		userDto.setId(user.getId());
 		userDto.setUsername(user.getUsername());
 		userDto.setEmail(user.getEmail());
 		
 		return userDto;
 	}
+
+	public UserDto toDto(User user) {
+
+		UserDto userDto = new UserDto();
+
+		userDto.setUsername(user.getUsername());
+		userDto.setEmail(user.getEmail());
+
+		return userDto;
+	}
 	
 	public List<UserListDto> toDtoList(List<User> users) {
 		
-		List<UserListDto> userDtoList = new ArrayList<UserListDto> ();
+		List<UserListDto> userDtoList = new ArrayList<> ();
 		
 		for(User user : users) {
-			userDtoList.add(toDto(user));
+			userDtoList.add(toListItemDto(user));
 		}
 		
 		return userDtoList;
 	}
 	
-	public User updateEntity(UserDto userDto, User userEntity) {
+	public User updateEntity(UserEditDto userEditDto, User userEntity) {
 		
 		
-		if(userDto.getUsername() != null) {
-			userEntity.setUsername(userDto.getUsername());
+		if(userEditDto.getUsername() != null) {
+			userEntity.setUsername(userEditDto.getUsername());
 		}
 		
-		if(userDto.getEmail() != null) {
-			userEntity.setEmail(userDto.getEmail());
-		}
-		
-		if(userDto.getPassword() != null) {
-			userEntity.setPassword(userDto.getPassword());
+		if(userEditDto.getEmail() != null) {
+			userEntity.setEmail(userEditDto.getEmail());
 		}
 		
 		return userEntity;

@@ -2,15 +2,12 @@ package com.codemonkeys.carmechanicbackend.user.service;
 
 import java.util.List;
 
+import com.codemonkeys.carmechanicbackend.user.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.codemonkeys.carmechanicbackend.user.dto.UserDto;
-import com.codemonkeys.carmechanicbackend.user.dto.UserListDto;
-import com.codemonkeys.carmechanicbackend.user.dto.UserMapper;
-import com.codemonkeys.carmechanicbackend.user.dto.NewUserDto;
 import com.codemonkeys.carmechanicbackend.user.model.User;
 import com.codemonkeys.carmechanicbackend.user.repository.UserRepository;
 
@@ -36,7 +33,7 @@ public class UserService {
 		return ResponseEntity.ok(userMapper.toDtoList(users));
 	}
 
-	public ResponseEntity<UserListDto> getUser(Long id) {
+	public ResponseEntity<UserDto> getUser(Long id) {
 		
 		User user = userRepository.findById(id).get();
 		
@@ -59,11 +56,15 @@ public class UserService {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	public ResponseEntity<Void> editUser(Long id, UserDto userDto) {
+	public ResponseEntity<Void> editUser(Long id, UserEditDto userEditDto) {
 		
 		User user = userRepository.findById(id).get();
-		
-		userMapper.updateEntity(userDto, user);
+
+		if(userEditDto.getPassword() != null) {
+			user.setPassword(passEncryptor.encode(userEditDto.getPassword()));
+		}
+
+		userMapper.updateEntity(userEditDto, user);
 		userRepository.save(user);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
