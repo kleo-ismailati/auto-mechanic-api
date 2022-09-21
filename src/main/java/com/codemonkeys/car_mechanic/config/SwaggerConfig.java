@@ -1,6 +1,5 @@
 package com.codemonkeys.car_mechanic.config;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,10 +28,10 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.produces(Collections.singleton("application/json"))
 				.consumes(Collections.singleton("application/json"))
-				.securityContexts(Arrays.asList(securityContext()))
-				.securitySchemes(Arrays.asList(apiKey()))
+				.securityContexts(Collections.singletonList(securityContext()))
+				.securitySchemes(List.of(apiKey()))
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.codemonkeys.carmechanicbackend")).build()
+				.apis(RequestHandlerSelectors.basePackage("com.codemonkeys.car_mechanic")).build()
 				.apiInfo(apiInfo());
    }
    
@@ -42,7 +41,7 @@ public class SwaggerConfig {
 	      "Car Mechanic Backend Endpoints", 
 	      "1.0", 
 	      "", 
-	      new Contact("CodeMonkeys", "https://gitlab.com/c2443", ""), 
+	      new Contact("Kleo Ismailati", "https://github.com/kleoIS", "kleoisma@gmail.com"),
 	      "", "", Collections.emptyList());
 	}
    
@@ -58,6 +57,6 @@ public class SwaggerConfig {
 	    AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything"); 
 	    AuthorizationScope[] authorizationScopes = new AuthorizationScope[1]; 
 	    authorizationScopes[0] = authorizationScope; 
-	    return Arrays.asList(new SecurityReference("JWT", authorizationScopes)); 
+	    return List.of(new SecurityReference("JWT", authorizationScopes));
 	}
 }
