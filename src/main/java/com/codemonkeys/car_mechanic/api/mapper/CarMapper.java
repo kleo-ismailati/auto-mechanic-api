@@ -25,11 +25,11 @@ public class CarMapper {
 		
 		Car carEntity = new Car();
 		
-		carEntity.setCarType(carDto.getCarType());
-		carEntity.setCarModel(carDto.getCarModel());
-		carEntity.setYear(carDto.getYear());
-		carEntity.setColor(carDto.getColor());
-		carEntity.setCarDescription(carDto.getCarDescription());
+		carEntity.setCarType(carDto.getCarType().trim());
+		carEntity.setCarModel(carDto.getCarModel().trim());
+		carEntity.setYear(carDto.getYear().trim());
+		carEntity.setColor(carDto.getColor().trim());
+		carEntity.setCarDescription(carDto.getCarDescription().trim());
 		carEntity.setClient(client);
 		
 		return carEntity;
@@ -58,23 +58,23 @@ public class CarMapper {
 	public Car updateEntity(CarEditDto carDto, Car car) {
 		
 		if(carDto.getCarType() != null) {
-			car.setCarType(carDto.getCarType());
+			car.setCarType(carDto.getCarType().trim());
 		}
 		
 		if(carDto.getCarModel() != null) {
-			car.setCarModel(carDto.getCarModel());
+			car.setCarModel(carDto.getCarModel().trim());
 		}
 		
 		if(carDto.getYear() != null) {
-			car.setYear(carDto.getYear());
+			car.setYear(carDto.getYear().trim());
 		}
 		
 		if(carDto.getColor() != null) {
-			car.setColor(carDto.getColor());
+			car.setColor(carDto.getColor().trim());
 		}
 		
 		if(carDto.getCarDescription() != null) {
-			car.setCarDescription(carDto.getCarDescription());
+			car.setCarDescription(carDto.getCarDescription().trim());
 		}
 		
 		return car;

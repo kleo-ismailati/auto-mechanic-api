@@ -18,7 +18,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
@@ -161,7 +164,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                         "The parameter '%s' of value '%s' could not be converted to type '%s'",
                         ex.getName(),
                         ex.getValue(),
-                        ex.getRequiredType().getSimpleName()
+                        Objects.requireNonNull(ex.getRequiredType()).getSimpleName()
                 )
         );
         apiError.setDebugMessage(ex.getMessage());
@@ -172,8 +175,25 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR);
-        apiError.setMessage(ex.getLocalizedMessage() + " - error occurred");
-        apiError.setDebugMessage(ex.getMessage());
+
+        apiError.setMessage("An internal server error has occurred");
+
+        apiError.setDebugMessage(ex.getLocalizedMessage());
+
+        if(ex.getCause()!=null) {
+
+            Throwable rootCause = ex.getCause();
+
+            List<ApiSubError> subErrors = new ArrayList<>();
+
+            while(rootCause!=null && rootCause.getCause() != rootCause) {
+                subErrors.add(new ApiGenericSubError(rootCause.getMessage()));
+                rootCause = rootCause.getCause();
+            }
+
+            apiError.setSubErrors(subErrors);
+        }
+
         return buildResponseEntity(apiError);
     }
 

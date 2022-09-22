@@ -103,6 +103,7 @@ public class RepairBookingMapper {
 
 		RepairBookingDto repairBookingDto = new RepairBookingDto();
 
+		repairBookingDto.setId(repairBooking.getId());
 		repairBookingDto.setDate(repairBooking.getDate());
 		repairBookingDto.setStatus(repairBooking.getStatus());
 		repairBookingDto.setClient(clientMapper.toViewDto(repairBooking.getClient()));

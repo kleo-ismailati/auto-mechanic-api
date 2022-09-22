@@ -30,11 +30,11 @@ public class ClientMapper {
 		
 		Client clientEntity = new Client();
 		
-		clientEntity.setFirstName(clientDto.getFirstName());
-		clientEntity.setLastName(clientDto.getLastName());
-		clientEntity.setEmail(clientDto.getEmail());
-		clientEntity.setPhoneNumber(clientDto.getPhoneNumber());
-		clientEntity.setAddress(clientDto.getAddress());
+		clientEntity.setFirstName(clientDto.getFirstName().trim());
+		clientEntity.setLastName(clientDto.getLastName().trim());
+		clientEntity.setEmail(clientDto.getEmail().trim());
+		clientEntity.setPhoneNumber(clientDto.getPhoneNumber().trim());
+		clientEntity.setAddress(clientDto.getAddress().trim());
 		
 		return clientEntity;
 		
@@ -63,23 +63,23 @@ public class ClientMapper {
 		
 		
 		if(clientDto.getFirstName() != null) {
-			clientEntity.setFirstName(clientDto.getFirstName());
+			clientEntity.setFirstName(clientDto.getFirstName().trim());
 		}
 
 		if(clientDto.getLastName() != null) {
-			clientEntity.setLastName(clientDto.getLastName());
+			clientEntity.setLastName(clientDto.getLastName().trim());
 		}
 		
 		if(clientDto.getEmail() != null) {
-			clientEntity.setEmail(clientDto.getEmail());
+			clientEntity.setEmail(clientDto.getEmail().trim());
 		}
 		
 		if(clientDto.getPhoneNumber() != null) {
-			clientEntity.setPhoneNumber(clientDto.getPhoneNumber());
+			clientEntity.setPhoneNumber(clientDto.getPhoneNumber().trim());
 		}
 		
 		if(clientDto.getAddress() != null) {
-			clientEntity.setAddress(clientDto.getAddress());
+			clientEntity.setAddress(clientDto.getAddress().trim());
 		}
 		
 		return clientEntity;

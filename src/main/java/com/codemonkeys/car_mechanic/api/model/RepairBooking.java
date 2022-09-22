@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 
 import com.codemonkeys.car_mechanic.api.model.shared.RepairStatusEnum;
 import lombok.Data;
@@ -30,7 +31,8 @@ public class RepairBooking {
 	@OneToOne
 	@JoinColumn(name = "car_id")
 	private Car car;
-	
+
+	@Valid
 	@OneToMany(mappedBy = "repairBooking", cascade=CascadeType.ALL)
 	private List<Repair> repairs;
 	

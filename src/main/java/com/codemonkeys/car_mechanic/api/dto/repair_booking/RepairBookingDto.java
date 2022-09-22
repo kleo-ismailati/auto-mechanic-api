@@ -11,6 +11,7 @@ import lombok.Data;
 @Data
 public class RepairBookingDto {
 
+	private Long id;
 	private ClientRBDto client;
 	private CarRBDto car;
 	private List<RepairRBDto> repairs;

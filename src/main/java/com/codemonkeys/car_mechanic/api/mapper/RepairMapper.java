@@ -60,8 +60,8 @@ public class RepairMapper {
 		Repair repairEntity = new Repair();
 		
 		repairEntity.setRepairCost(repairDto.getRepairCost());
-		repairEntity.setRepairDetails(repairDto.getRepairDetails());
-		repairEntity.setRepairType(repairDto.getRepairType());
+		repairEntity.setRepairDetails(repairDto.getRepairDetails().trim());
+		repairEntity.setRepairType(repairDto.getRepairType().trim());
 		repairEntity.setRepairStatus(RepairStatusEnum.toBeDone);
 		repairEntity.setRepairBooking(repairBooking);
 		
@@ -97,11 +97,11 @@ public class RepairMapper {
 		}
 		
 		if(repairDto.getRepairDetails() != null) {
-			repair.setRepairDetails(repairDto.getRepairDetails());
+			repair.setRepairDetails(repairDto.getRepairDetails().trim());
 		}
 		
 		if(repairDto.getRepairType() != null) {
-			repair.setRepairType(repairDto.getRepairType());
+			repair.setRepairType(repairDto.getRepairType().trim());
 		}
 		
 		if(repairDto.getRepairStatus() != null) {
