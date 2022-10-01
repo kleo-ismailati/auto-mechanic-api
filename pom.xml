@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.codemonkeys</groupId>
-	<artifactId>car-mechanic-backend</artifactId>
+	<artifactId>car-mechanic</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>car-mechanic-backend</name>
-	<description>Car Mechanic Backend</description>
+	<name>car-mechanic</name>
+	<description>Car Mechanic</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

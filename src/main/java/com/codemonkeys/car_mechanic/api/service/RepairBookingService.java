@@ -8,6 +8,8 @@ import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_guest.
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairBookingPageDto;
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.RepairBookingDto;
 import com.codemonkeys.car_mechanic.api.model.shared.RepairStatusEnum;
+import com.codemonkeys.car_mechanic.email.model.EmailDetails;
+import com.codemonkeys.car_mechanic.email.service.EmailService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -33,16 +35,19 @@ public class RepairBookingService {
 	
 	private final CarRepository carRepository;
 
+	private final EmailService emailService;
+
 	public RepairBookingService(
 			RepairBookingRepository repairBookingRepository, 
 			RepairBookingMapper repairBookingMapper,
 			ClientRepository clientRepository,
-			CarRepository carRepository
-			) {
+			CarRepository carRepository,
+			EmailService emailService) {
 		this.repairBookingRepository = repairBookingRepository;
 		this.repairBookingMapper = repairBookingMapper;
 		this.clientRepository = clientRepository;
 		this.carRepository = carRepository;
+		this.emailService = emailService;
 	}
 
 	public ResponseEntity<RepairBookingPageDto> getAllRepairBookings(
@@ -111,7 +116,13 @@ public class RepairBookingService {
 
 		for (Car aCar : client.getCars()){
 			if(aCar.getId().equals(car.getId())){
-				repairBookingRepository.save(repairBookingMapper.toNewEntity(newRepairBooking, client, car));
+				RepairBooking booking = repairBookingMapper.toNewEntity(newRepairBooking, client, car);
+
+				repairBookingRepository.save(booking);
+
+				emailService.sendSimpleMail(new EmailDetails(
+						client.getEmail(), booking.getRefID(), "Your Reference Code"
+				));
 
 				return new ResponseEntity<>(HttpStatus.CREATED);
 			}
