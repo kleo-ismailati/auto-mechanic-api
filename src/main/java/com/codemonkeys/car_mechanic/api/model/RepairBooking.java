@@ -1,5 +1,6 @@
 package com.codemonkeys.car_mechanic.api.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,7 +23,10 @@ public class RepairBooking {
 	@Enumerated(EnumType.ORDINAL)
 	private RepairStatusEnum status;
 
+	@Column(unique = true)
 	private String refID;
+
+	private LocalDate dueDate;
 	
 	@OneToOne
 	@JoinColumn(name = "client_id")

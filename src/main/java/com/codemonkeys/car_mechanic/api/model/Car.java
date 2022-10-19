@@ -1,15 +1,11 @@
 package com.codemonkeys.car_mechanic.api.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.codemonkeys.car_mechanic.image.model.Image;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -37,6 +33,13 @@ public class Car {
 	@Size(min = 3, max = 15)
 	private String color;
 	private String carDescription;
+
+	@Column(unique = true)
+	private String licensePlate;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "image_id")
+	private Image image;
 	
 	@JsonIgnore
 	@ManyToOne

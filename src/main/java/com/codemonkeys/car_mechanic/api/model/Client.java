@@ -3,13 +3,7 @@ package com.codemonkeys.car_mechanic.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -34,6 +28,7 @@ public class Client {
 	private String lastName;
 
 	@Email
+	@Column(unique = true)
 	private String email;
 
 	@Pattern(regexp="^\\d{10}$",message="Phone number must be 10 numbers long")
