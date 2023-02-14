@@ -12,19 +12,19 @@
 	<artifactId>car-mechanic</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>car-mechanic</name>
-	<description>Car Mechanic</description>
+	<description>Car Mechanic API</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-		<!-- MySql -->
+		<!-- MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		
-		<!-- Spring boot starters -->
+		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

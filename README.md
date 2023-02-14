@@ -1,13 +1,13 @@
-# Car Mechanic Backend
+# Car Mechanic API
 
 ## Description
-Car repair status tracking application made in Spring
+Car Repair Status Tracking Application made in Spring Boot
 
 ### Technologies used
 * Java 11
 * Spring Boot 2.5.5
 * Lombok
-* Swagger Documentation (OpenAPI v3)
+* Swagger 2 Documentation
 * MySQL
 
 ### Tools used
