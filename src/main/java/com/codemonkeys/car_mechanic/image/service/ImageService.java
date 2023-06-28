@@ -32,6 +32,9 @@ public class ImageService {
     private final UserRepository userRepository;
     private final Path fileStorageLocation;
 
+    //TODO fix image storing procedure
+    //TODO make dto simpler
+
     public ImageService(ImageRepository imageRepository, CarRepository carRepository, UserRepository userRepository, ConfigProperties configProperties) {
         this.imageRepository = imageRepository;
         this.carRepository = carRepository;
