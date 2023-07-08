@@ -12,9 +12,11 @@ public class RepairBookingListItemDto {
 	private Long id;
 	private LocalDateTime date;
 	private RepairStatusEnum status;
-	private ClientRBListItemDto client;
-	private CarRBListItemDto car;
-	private List<RepairRBListItemDto> repairs;
+	private String firstName;
+	private String lastName;
+	private String carType;
+	private String carModel;
+	private List<RepairForRepairBookingListItemDto> repairs;
 	private Long totalPrice;
 	
 }

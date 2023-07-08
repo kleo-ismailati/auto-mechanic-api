@@ -6,8 +6,8 @@ import java.util.List;
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.new_repair_booking.NewRepairDto;
 import com.codemonkeys.car_mechanic.api.dto.repair.RepairDto;
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_guest.RepairGuestViewDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairRBListItemDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.RepairRBDto;
+import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairForRepairBookingListItemDto;
+import com.codemonkeys.car_mechanic.api.dto.repair_booking.RepairForRepairBookingDto;
 import com.codemonkeys.car_mechanic.api.dto.repair.repair_edit.RepairEditDto;
 import org.springframework.stereotype.Service;
 
@@ -30,28 +30,28 @@ public class RepairMapper {
 		return repairEntityList;
 	}
 
-	public List<RepairRBDto> toViewDtoList(List<Repair> repairs) {
+	public List<RepairForRepairBookingDto> toViewDtoList(List<Repair> repairs) {
 		
-		List<RepairRBDto> repairRBDtoList = new ArrayList<>();
+		List<RepairForRepairBookingDto> repairForRepairBookingDtoList = new ArrayList<>();
 		
 		for(Repair repair : repairs) {
 			
-			repairRBDtoList.add(toViewDto(repair));
+			repairForRepairBookingDtoList.add(toViewDto(repair));
 		}
 		
-		return repairRBDtoList;
+		return repairForRepairBookingDtoList;
 	}
 
-	public List<RepairRBListItemDto> toRBListItemDtoList(List<Repair> repairs) {
+	public List<RepairForRepairBookingListItemDto> toRBListItemDtoList(List<Repair> repairs) {
 		
-		List<RepairRBListItemDto> repairRBListItemDtoList = new ArrayList<>();
+		List<RepairForRepairBookingListItemDto> repairForRepairBookingListItemDtoList = new ArrayList<>();
 		
 		for(Repair repair : repairs) {
 			
-			repairRBListItemDtoList.add(toRBListItemDto(repair));
+			repairForRepairBookingListItemDtoList.add(toRBListItemDto(repair));
 		}
 		
-		return repairRBListItemDtoList;
+		return repairForRepairBookingListItemDtoList;
 	}
 	
 
@@ -68,26 +68,26 @@ public class RepairMapper {
 		return repairEntity;
 	}
 	
-	public RepairRBListItemDto toRBListItemDto(Repair repair) {
+	public RepairForRepairBookingListItemDto toRBListItemDto(Repair repair) {
 		
-		RepairRBListItemDto repairRBListItemDto = new RepairRBListItemDto();
+		RepairForRepairBookingListItemDto repairForRepairBookingListItemDto = new RepairForRepairBookingListItemDto();
 
-		repairRBListItemDto.setRepairCost(repair.getRepairCost());
+		repairForRepairBookingListItemDto.setRepairCost(repair.getRepairCost());
 		
-		return repairRBListItemDto;
+		return repairForRepairBookingListItemDto;
 	}
 	
-	public RepairRBDto toViewDto(Repair repair) {
+	public RepairForRepairBookingDto toViewDto(Repair repair) {
 
-		RepairRBDto repairRBDto = new RepairRBDto();
+		RepairForRepairBookingDto repairForRepairBookingDto = new RepairForRepairBookingDto();
 
-		repairRBDto.setId(repair.getId());
-		repairRBDto.setRepairCost(repair.getRepairCost());
-		repairRBDto.setRepairDetails(repair.getRepairDetails());
-		repairRBDto.setRepairType(repair.getRepairType());
-		repairRBDto.setRepairStatus(repair.getRepairStatus());
+		repairForRepairBookingDto.setId(repair.getId());
+		repairForRepairBookingDto.setRepairCost(repair.getRepairCost());
+		repairForRepairBookingDto.setRepairDetails(repair.getRepairDetails());
+		repairForRepairBookingDto.setRepairType(repair.getRepairType());
+		repairForRepairBookingDto.setRepairStatus(repair.getRepairStatus());
 		
-		return repairRBDto;
+		return repairForRepairBookingDto;
 	}
 	
 	public Repair updateEntity(RepairEditDto repairDto, Repair repair) {

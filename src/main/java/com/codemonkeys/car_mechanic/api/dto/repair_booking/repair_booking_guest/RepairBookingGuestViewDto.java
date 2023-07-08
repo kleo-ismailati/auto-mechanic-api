@@ -11,8 +11,10 @@ public class RepairBookingGuestViewDto {
 
 	private LocalDateTime date;
 	private RepairStatusEnum status;
-	private ClientGuestViewDto client;
-	private CarGuestViewDto car;
+	private String firstName;
+	private String lastName;
+	private String carType;
+	private String carModel;
 	private List<RepairGuestViewDto> repairs;
 	private Long totalPrice;
 	

@@ -10,5 +10,6 @@ public class CarDto {
 	private String year;
 	private String color;
 	private String carDescription;
+	private String imageId;
 
 }

@@ -12,13 +12,13 @@ import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_guest.
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairBookingListItemDto;
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairBookingPageDto;
 import com.codemonkeys.car_mechanic.api.dto.repair_booking.RepairBookingDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.RepairRBDto;
+import com.codemonkeys.car_mechanic.api.dto.repair_booking.RepairForRepairBookingDto;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.codemonkeys.car_mechanic.api.model.Car;
 import com.codemonkeys.car_mechanic.api.model.Client;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairRBListItemDto;
+import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.RepairForRepairBookingListItemDto;
 import com.codemonkeys.car_mechanic.api.model.RepairBooking;
 import com.codemonkeys.car_mechanic.api.model.shared.RepairStatusEnum;
 
@@ -26,15 +26,10 @@ import com.codemonkeys.car_mechanic.api.model.shared.RepairStatusEnum;
 public class RepairBookingMapper {
 	
 	private final RepairMapper repairMapper;
+
 	
-	private final ClientMapper clientMapper;
-	
-	private final CarMapper carMapper;
-	
-	public RepairBookingMapper(RepairMapper repairMapper, ClientMapper clientMapper, CarMapper carMapper) {
+	public RepairBookingMapper(RepairMapper repairMapper) {
 		this.repairMapper = repairMapper;
-		this.clientMapper = clientMapper;
-		this.carMapper = carMapper;
 	}
 
 	public RepairBooking toNewEntity(NewRepairBookingDto repairBookingDto, Client client, Car car) {
@@ -59,8 +54,10 @@ public class RepairBookingMapper {
 
 		rbGuestViewDto.setDate(repairBooking.getDate());
 		rbGuestViewDto.setStatus(repairBooking.getStatus());
-		rbGuestViewDto.setClient(clientMapper.toGuestViewDto(repairBooking.getClient()));
-		rbGuestViewDto.setCar(carMapper.toGuestViewDto(repairBooking.getCar()));
+		rbGuestViewDto.setFirstName(repairBooking.getClient().getFirstName());
+		rbGuestViewDto.setLastName(repairBooking.getClient().getLastName());
+		rbGuestViewDto.setCarModel(repairBooking.getCar().getCarModel());
+		rbGuestViewDto.setCarType(repairBooking.getCar().getCarType());
 
 		List<RepairGuestViewDto> repairs = repairMapper.toGuestViewDtoList(repairBooking.getRepairs());
 		rbGuestViewDto.setRepairs(repairs);
@@ -79,18 +76,21 @@ public class RepairBookingMapper {
 	public RepairBookingListItemDto toRBListItemDto(RepairBooking repairBooking) {
 		
 		RepairBookingListItemDto repairBookingListItemDto = new RepairBookingListItemDto();
+
 		repairBookingListItemDto.setId(repairBooking.getId());
 		repairBookingListItemDto.setDate(repairBooking.getDate());
 		repairBookingListItemDto.setStatus(repairBooking.getStatus());
-		repairBookingListItemDto.setClient(clientMapper.toRBListItemDto(repairBooking.getClient()));
-		repairBookingListItemDto.setCar(carMapper.toRBListItemDto(repairBooking.getCar()));
+		repairBookingListItemDto.setFirstName(repairBooking.getClient().getFirstName());
+		repairBookingListItemDto.setLastName(repairBooking.getClient().getLastName());
+		repairBookingListItemDto.setCarModel(repairBooking.getCar().getCarModel());
+		repairBookingListItemDto.setCarType(repairBooking.getCar().getCarType());
 
-		List<RepairRBListItemDto> repairs = repairMapper.toRBListItemDtoList(repairBooking.getRepairs());
+		List<RepairForRepairBookingListItemDto> repairs = repairMapper.toRBListItemDtoList(repairBooking.getRepairs());
 		repairBookingListItemDto.setRepairs(repairs);
 
 		long total = 0L;
 
-		for(RepairRBListItemDto repair : repairs) {
+		for(RepairForRepairBookingListItemDto repair : repairs) {
 			total += repair.getRepairCost();
 		}
 
@@ -106,15 +106,17 @@ public class RepairBookingMapper {
 		repairBookingDto.setId(repairBooking.getId());
 		repairBookingDto.setDate(repairBooking.getDate());
 		repairBookingDto.setStatus(repairBooking.getStatus());
-		repairBookingDto.setClient(clientMapper.toViewDto(repairBooking.getClient()));
-		repairBookingDto.setCar(carMapper.toViewDto(repairBooking.getCar()));
+		repairBookingDto.setFirstName(repairBooking.getClient().getFirstName());
+		repairBookingDto.setLastName(repairBooking.getClient().getLastName());
+		repairBookingDto.setCarModel(repairBooking.getCar().getCarModel());
+		repairBookingDto.setCarType(repairBooking.getCar().getCarType());
 
-		List<RepairRBDto> repairs = repairMapper.toViewDtoList(repairBooking.getRepairs());
+		List<RepairForRepairBookingDto> repairs = repairMapper.toViewDtoList(repairBooking.getRepairs());
 		repairBookingDto.setRepairs(repairs);
 
 		long total = 0L;
 
-		for(RepairRBDto repair : repairs) {
+		for(RepairForRepairBookingDto repair : repairs) {
 			total += repair.getRepairCost();
 		}
 

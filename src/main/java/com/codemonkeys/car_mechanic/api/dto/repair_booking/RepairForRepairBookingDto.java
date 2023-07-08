@@ -5,7 +5,7 @@ import com.codemonkeys.car_mechanic.api.model.shared.RepairStatusEnum;
 import lombok.Data;
 
 @Data
-public class RepairRBDto {
+public class RepairForRepairBookingDto {
 	
 	private Long id;
 	private String repairType;

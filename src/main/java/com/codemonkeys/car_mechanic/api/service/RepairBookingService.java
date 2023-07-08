@@ -101,7 +101,7 @@ public class RepairBookingService {
 		return ResponseEntity.ok(repairBookingMapper.toViewDto(repairBooking));
 	}
 
-	public ResponseEntity<RepairBookingGuestViewDto> viewRepairBooking(String refID) {
+	public ResponseEntity<RepairBookingGuestViewDto> viewRepairBookingAsGuest(String refID) {
 
 		RepairBooking repairBooking = repairBookingRepository.findFirstByRefID(refID).get();
 

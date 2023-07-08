@@ -1,18 +1,14 @@
 package com.codemonkeys.car_mechanic.api.mapper;
 
+import com.codemonkeys.car_mechanic.api.dto.car.new_car.NewCarDto;
 import com.codemonkeys.car_mechanic.api.dto.client.ClientDto;
 import com.codemonkeys.car_mechanic.api.dto.client.client_edit.ClientEditDto;
 import com.codemonkeys.car_mechanic.api.dto.client.client_list.ClientListItemDto;
 import com.codemonkeys.car_mechanic.api.dto.client.client_list.ClientPageDto;
 import com.codemonkeys.car_mechanic.api.dto.client.new_client.NewClientDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_guest.ClientGuestViewDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.ClientRBListItemDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.ClientRBDto;
+import com.codemonkeys.car_mechanic.api.model.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import com.codemonkeys.car_mechanic.api.dto.car.new_car.NewCarDto;
-import com.codemonkeys.car_mechanic.api.model.Client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,26 +35,7 @@ public class ClientMapper {
 		return clientEntity;
 		
 	}
-	public ClientRBDto toViewDto(Client client) {
-		
-		ClientRBDto clientRBDto = new ClientRBDto();
 
-		clientRBDto.setFirstName(client.getFirstName());
-		clientRBDto.setLastName(client.getLastName());
-		
-		return clientRBDto;
-	}
-
-	public ClientRBListItemDto toRBListItemDto(Client client) {
-
-		ClientRBListItemDto clientRBListItemDto = new ClientRBListItemDto();
-
-		clientRBListItemDto.setFirstName(client.getFirstName());
-		clientRBListItemDto.setLastName(client.getLastName());
-
-		return clientRBListItemDto;
-	}
-	
 	public Client updateEntity(ClientEditDto clientDto, Client clientEntity) {
 		
 		
@@ -89,16 +66,6 @@ public class ClientMapper {
 		
 		client.addCar(carMapper.toNewEntity(newCarDto, client));
 
-	}
-
-	public ClientGuestViewDto toGuestViewDto(Client client) {
-
-		ClientGuestViewDto clientGuestViewDto = new ClientGuestViewDto();
-
-		clientGuestViewDto.setFirstName(client.getFirstName());
-		clientGuestViewDto.setLastName(client.getLastName());
-
-		return clientGuestViewDto;
 	}
 
 	public ClientDto toDto(Client client) {

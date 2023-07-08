@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,28 +33,28 @@ public class ImageController {
         return this.imageService.getImage(id);
     }
 
-    @PostMapping("/setCarImg/{id}")
+    @PostMapping(value = "/setCarImg/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Upload car image", tags = { "Image" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image uploaded")
     })
     public ResponseEntity<Image> setCarImg(
             @PathVariable("id") Long id,
-            @RequestBody MultipartFile file
+            @RequestPart("image") MultipartFile image
     ) {
-        return this.imageService.setCarImg(id, file);
+        return this.imageService.setCarImg(id, image);
     }
 
-    @PostMapping("/setUserImg/{id}")
+    @PostMapping(value = "/setUserImg/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Upload user image", tags = { "Image" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image uploaded")
     })
     public ResponseEntity<Image> setUserImg(
             @PathVariable("id") Long id,
-            @RequestBody MultipartFile file
+            @RequestPart("image") MultipartFile image
     ) {
-        return this.imageService.setUserImg(id,file);
+        return this.imageService.setUserImg(id,image);
     }
 
 }

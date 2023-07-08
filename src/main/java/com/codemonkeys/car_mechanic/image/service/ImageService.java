@@ -33,7 +33,7 @@ public class ImageService {
     private final Path fileStorageLocation;
 
     //TODO fix image storing procedure
-    //TODO make dto simpler
+    //TODO fix image update, delete
 
     public ImageService(ImageRepository imageRepository, CarRepository carRepository, UserRepository userRepository, ConfigProperties configProperties) {
         this.imageRepository = imageRepository;
@@ -107,8 +107,8 @@ public class ImageService {
     public ResponseEntity<Image> setUserImg(Long id, MultipartFile file) {
         try {
             User user = this.userRepository.findById(id).get();
-            Image carImg = this.saveImage(file);
             if(user.getImage() == null){
+                Image carImg = this.saveImage(file);
                 user.setImage(carImg);
                 this.userRepository.save(user);
                 return ResponseEntity.ok(carImg);
@@ -121,8 +121,8 @@ public class ImageService {
     public ResponseEntity<Image> setCarImg(Long id, MultipartFile file) {
         try {
             Car car = this.carRepository.findById(id).get();
-            Image carImg = this.saveImage(file);
             if(car.getImage() == null){
+                Image carImg = this.saveImage(file);
                 car.setImage(carImg);
                 this.carRepository.save(car);
                 return ResponseEntity.ok(carImg);

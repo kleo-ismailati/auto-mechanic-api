@@ -1,19 +1,15 @@
 package com.codemonkeys.car_mechanic.api.mapper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.codemonkeys.car_mechanic.api.dto.car.CarDto;
 import com.codemonkeys.car_mechanic.api.dto.car.car_edit.CarEditDto;
-import com.codemonkeys.car_mechanic.api.dto.client.CarClientListItemDto;
 import com.codemonkeys.car_mechanic.api.dto.car.new_car.NewCarDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_guest.CarGuestViewDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.repair_booking_list.CarRBListItemDto;
-import com.codemonkeys.car_mechanic.api.dto.repair_booking.CarRBDto;
-import org.springframework.stereotype.Service;
-
+import com.codemonkeys.car_mechanic.api.dto.client.CarClientListItemDto;
 import com.codemonkeys.car_mechanic.api.model.Car;
 import com.codemonkeys.car_mechanic.api.model.Client;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CarMapper {
@@ -33,26 +29,6 @@ public class CarMapper {
 		carEntity.setClient(client);
 		
 		return carEntity;
-	}
-
-	public CarRBListItemDto toRBListItemDto(Car car) {
-		
-		CarRBListItemDto carRBListItemDto = new CarRBListItemDto();
-
-		carRBListItemDto.setCarModel(car.getCarModel());
-		carRBListItemDto.setCarType(car.getCarType());
-		
-		return carRBListItemDto;
-	}
-
-	public CarRBDto toViewDto(Car car) {
-		
-		CarRBDto carRBDto = new CarRBDto();
-
-		carRBDto.setCarModel(car.getCarModel());
-		carRBDto.setCarType(car.getCarType());
-		
-		return carRBDto;
 	}
 
 	public Car updateEntity(CarEditDto carDto, Car car) {
@@ -80,17 +56,7 @@ public class CarMapper {
 		return car;
 	}
 
-    public CarGuestViewDto toGuestViewDto(Car car) {
-
-		CarGuestViewDto carGuestViewDto = new CarGuestViewDto();
-
-		carGuestViewDto.setCarModel(car.getCarModel());
-		carGuestViewDto.setCarType(car.getCarType());
-
-		return carGuestViewDto;
-    }
-
-    public CarDto toDto(Car car) {
+	public CarDto toDto(Car car) {
 		CarDto carDto = new CarDto();
 
 		carDto.setYear(car.getYear());
@@ -98,6 +64,7 @@ public class CarMapper {
 		carDto.setColor(car.getColor());
 		carDto.setCarModel(car.getCarModel());
 		carDto.setCarType(car.getCarType());
+		carDto.setImageId(car.getImage().getId());
 
 		return carDto;
     }

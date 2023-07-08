@@ -71,13 +71,13 @@ public class RepairBookingController {
 	}
 
 	@GetMapping(value = "/view/{refID}")
-	@Operation(summary = "Get Repair Booking by reference id", tags = { "Repair Booking" })
+	@Operation(summary = "Get Repair Booking Information by reference id", tags = { "Repair Booking" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Repair Booking found"),
 			@ApiResponse(responseCode = "404", description = "Repair Booking not found")
 	})
-	public ResponseEntity<RepairBookingGuestViewDto> viewRepairBooking(@PathVariable("refID") String refID) {
-		return repairBookingService.viewRepairBooking(refID);
+	public ResponseEntity<RepairBookingGuestViewDto> viewRepairBookingAsGuest(@PathVariable("refID") String refID) {
+		return repairBookingService.viewRepairBookingAsGuest(refID);
 	}
 	
 	@PostMapping
