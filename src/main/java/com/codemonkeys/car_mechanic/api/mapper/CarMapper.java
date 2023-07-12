@@ -64,7 +64,9 @@ public class CarMapper {
 		carDto.setColor(car.getColor());
 		carDto.setCarModel(car.getCarModel());
 		carDto.setCarType(car.getCarType());
-		carDto.setImageId(car.getImage().getId());
+		if(car.getImage() != null){
+			carDto.setImageId(car.getImage().getId());
+		}
 
 		return carDto;
     }

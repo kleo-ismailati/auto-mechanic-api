@@ -33,7 +33,6 @@ public class ImageService {
     private final Path fileStorageLocation;
 
     //TODO fix image storing procedure
-    //TODO fix image update, delete
 
     public ImageService(ImageRepository imageRepository, CarRepository carRepository, UserRepository userRepository, ConfigProperties configProperties) {
         this.imageRepository = imageRepository;
@@ -126,9 +125,35 @@ public class ImageService {
                 car.setImage(carImg);
                 this.carRepository.save(car);
                 return ResponseEntity.ok(carImg);
-            } else return ResponseEntity.badRequest().body(null);
+            } else {
+                Image carImg = car.getImage();
+                car.setImage(null);
+                deleteCarImage(carImg);
+                Image newCarImg = this.saveImage(file);
+                car.setImage(newCarImg);
+                this.carRepository.save(car);
+                return ResponseEntity.ok(newCarImg);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void deleteCarImage(Image image) {
+        deleteImage(image);
+        this.imageRepository.delete(image);
+    }
+
+    public void deleteImage(Image image){
+        try {
+            this.checkFilenameValid(image.getName());
+
+            Path targetLocation = this.fileStorageLocation.toAbsolutePath().resolve(image.getName());
+
+            Files.deleteIfExists(targetLocation.toAbsolutePath());
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
         }
     }
 }
