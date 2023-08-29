@@ -8,11 +8,11 @@
 		<version>2.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.codemonkeys</groupId>
-	<artifactId>car-mechanic</artifactId>
+	<groupId>com.auto_mechanic</groupId>
+	<artifactId>auto_mechanic_api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>car-mechanic</name>
-	<description>Car Mechanic API</description>
+	<name>auto-mechanic</name>
+	<description>Auto Mechanic API</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
