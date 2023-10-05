@@ -1,4 +1,4 @@
-package com.auto_mechanic.auto_mechanic_api.security.service;
+package com.auto_mechanic.auto_mechanic_api.user.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.auto_mechanic.auto_mechanic_api.security.jwt.JwtUtils;
-import com.auto_mechanic.auto_mechanic_api.security.service.UserDetailsImpl;
+import com.auto_mechanic.auto_mechanic_api.user.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

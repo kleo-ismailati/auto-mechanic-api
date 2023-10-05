@@ -1,12 +1,14 @@
 package com.auto_mechanic.auto_mechanic_api.user.mapper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.auto_mechanic.auto_mechanic_api.user.dto.UserEditDto;
 import com.auto_mechanic.auto_mechanic_api.user.dto.NewUserDto;
 import com.auto_mechanic.auto_mechanic_api.user.dto.UserDto;
 import com.auto_mechanic.auto_mechanic_api.user.dto.UserListDto;
+import com.auto_mechanic.auto_mechanic_api.user.model.Role;
 import org.springframework.stereotype.Service;
 
 import com.auto_mechanic.auto_mechanic_api.user.model.User;
@@ -14,14 +16,16 @@ import com.auto_mechanic.auto_mechanic_api.user.model.User;
 @Service
 public class UserMapper {
 
-	public User toNewEntity(NewUserDto newUser) {
+	public User toNewEntity(NewUserDto newUser, Role adminRole) {
 		
 		User userEntity = new User();
+		HashSet<Role> roles = new HashSet<>();
+		roles.add(adminRole);
 		
 		userEntity.setUsername(newUser.getUsername());
 		userEntity.setEmail(newUser.getEmail());
 		userEntity.setPassword(newUser.getPassword());
-		userEntity.setRole("ADMIN");
+		userEntity.setRoles(roles);
 		
 		return userEntity;
 	}

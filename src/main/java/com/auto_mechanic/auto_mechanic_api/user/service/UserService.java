@@ -5,7 +5,9 @@ import com.auto_mechanic.auto_mechanic_api.user.dto.UserDto;
 import com.auto_mechanic.auto_mechanic_api.user.dto.UserEditDto;
 import com.auto_mechanic.auto_mechanic_api.user.dto.UserListDto;
 import com.auto_mechanic.auto_mechanic_api.user.mapper.UserMapper;
+import com.auto_mechanic.auto_mechanic_api.user.model.Role;
 import com.auto_mechanic.auto_mechanic_api.user.model.User;
+import com.auto_mechanic.auto_mechanic_api.user.repository.RoleRepository;
 import com.auto_mechanic.auto_mechanic_api.user.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +21,16 @@ public class UserService {
 	
 
 	private final UserRepository userRepository;
+
+	private final RoleRepository roleRepository;
 	
 	private final UserMapper userMapper;
 	
 	private final PasswordEncoder passEncryptor;
 	
-	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passEncryptor) {
+	public UserService(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, PasswordEncoder passEncryptor) {
 		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
 		this.userMapper = userMapper;
 		this.passEncryptor = passEncryptor;
 	}
@@ -44,8 +49,8 @@ public class UserService {
 	}
 
 	public ResponseEntity<Void> addUser(NewUserDto newUser) {
-		
-		User user = userMapper.toNewEntity(newUser);
+		Role adminRole = roleRepository.findByName(RolesConstants.ADMIN).get();
+		User user = userMapper.toNewEntity(newUser, adminRole);
 		user.setPassword(passEncryptor.encode(user.getPassword()));
 		userRepository.save(user);
 		

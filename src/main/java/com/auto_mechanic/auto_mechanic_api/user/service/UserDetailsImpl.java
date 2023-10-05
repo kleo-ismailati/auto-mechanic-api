@@ -1,9 +1,10 @@
-package com.auto_mechanic.auto_mechanic_api.security.service;
+package com.auto_mechanic.auto_mechanic_api.user.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.auto_mechanic.auto_mechanic_api.user.model.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,7 +41,9 @@ public class UserDetailsImpl implements UserDetails {
 
 	public static UserDetailsImpl build(User user) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(user.getRole()));
+		for(Role role: user.getRoles()){
+			authorities.add(new SimpleGrantedAuthority(role.getName()));
+		}
 
 		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
 	}

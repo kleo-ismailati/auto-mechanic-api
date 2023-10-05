@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import com.auto_mechanic.auto_mechanic_api.security.service.UserDetailsImpl;
+import com.auto_mechanic.auto_mechanic_api.user.service.UserDetailsImpl;
 
 import io.jsonwebtoken.*;
 
