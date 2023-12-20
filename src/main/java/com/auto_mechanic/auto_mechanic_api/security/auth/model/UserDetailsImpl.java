@@ -1,15 +1,15 @@
-package com.auto_mechanic.auto_mechanic_api.user.service;
+package com.auto_mechanic.auto_mechanic_api.security.auth.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import com.auto_mechanic.auto_mechanic_api.user.model.Role;
+import com.auto_mechanic.auto_mechanic_api.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.auto_mechanic.auto_mechanic_api.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;

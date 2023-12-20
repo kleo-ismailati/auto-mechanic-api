@@ -1,4 +1,4 @@
-package com.auto_mechanic.auto_mechanic_api.user.service;
+package com.auto_mechanic.auto_mechanic_api.user.model;
 
 public final class RolesConstants {
 

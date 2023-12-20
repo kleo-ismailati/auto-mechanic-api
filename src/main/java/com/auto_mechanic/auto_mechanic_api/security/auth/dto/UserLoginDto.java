@@ -1,4 +1,4 @@
-package com.auto_mechanic.auto_mechanic_api.user.dto;
+package com.auto_mechanic.auto_mechanic_api.security.auth.dto;
 
 import lombok.Data;
 

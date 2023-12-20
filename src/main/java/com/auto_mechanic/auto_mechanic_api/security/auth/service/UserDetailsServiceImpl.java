@@ -1,5 +1,6 @@
-package com.auto_mechanic.auto_mechanic_api.user.service;
+package com.auto_mechanic.auto_mechanic_api.security.auth.service;
 
+import com.auto_mechanic.auto_mechanic_api.security.auth.model.UserDetailsImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

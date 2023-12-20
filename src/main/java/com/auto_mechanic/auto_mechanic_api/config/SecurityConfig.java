@@ -2,7 +2,7 @@ package com.auto_mechanic.auto_mechanic_api.config;
 
 import com.auto_mechanic.auto_mechanic_api.security.jwt.AuthEntryPointJwt;
 import com.auto_mechanic.auto_mechanic_api.security.jwt.AuthTokenFilter;
-import com.auto_mechanic.auto_mechanic_api.user.service.UserDetailsServiceImpl;
+import com.auto_mechanic.auto_mechanic_api.security.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -6,6 +6,7 @@ import com.auto_mechanic.auto_mechanic_api.user.dto.UserEditDto;
 import com.auto_mechanic.auto_mechanic_api.user.dto.UserListDto;
 import com.auto_mechanic.auto_mechanic_api.user.mapper.UserMapper;
 import com.auto_mechanic.auto_mechanic_api.user.model.Role;
+import com.auto_mechanic.auto_mechanic_api.user.model.RolesConstants;
 import com.auto_mechanic.auto_mechanic_api.user.model.User;
 import com.auto_mechanic.auto_mechanic_api.user.repository.RoleRepository;
 import com.auto_mechanic.auto_mechanic_api.user.repository.UserRepository;
