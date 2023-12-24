@@ -8,6 +8,7 @@ import com.auto_mechanic.auto_mechanic_api.api.model.Auto;
 import com.auto_mechanic.auto_mechanic_api.api.repository.AutoRepository;
 import com.auto_mechanic.auto_mechanic_api.user.model.User;
 import com.auto_mechanic.auto_mechanic_api.user.repository.UserRepository;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -96,6 +98,39 @@ public class ImageService {
         }
     }
 
+    public Image saveAndCompressImage(MultipartFile file) throws IOException {
+
+        String fileName = RandomStringUtils.randomAlphabetic(12);
+
+        try {
+            this.checkFilenameValid(fileName);
+
+            // Copy file to the target location and compress to thumbnail (Replacing existing file with the same name)
+            String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+
+            String fileFullName = fileName + "." + fileExtension;
+
+            Path targetLocation = this.fileStorageLocation.toAbsolutePath().resolve(fileFullName);
+
+            File output = targetLocation.toFile();
+
+            Thumbnails.of(file.getInputStream())
+                    .size(200, 200)
+                    .toFile(output);
+
+            Files.copy(targetLocation, targetLocation.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING);
+
+            Image image = new Image();
+            image.setName(fileFullName);
+            image.setType(file.getContentType());
+
+            return image;
+
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+    }
+
     private void checkFilenameValid(String fileName){
         // Check if the file's name contains invalid characters
         if(fileName.contains("..")) {
@@ -107,7 +142,7 @@ public class ImageService {
         try {
             User user = this.userRepository.findById(id).get();
             if(user.getImage() == null){
-                Image autoImg = this.saveImage(file);
+                Image autoImg = this.saveAndCompressImage(file);
                 user.setImage(autoImg);
                 this.userRepository.save(user);
                 return ResponseEntity.ok(autoImg);
@@ -121,7 +156,7 @@ public class ImageService {
         try {
             Auto auto = this.autoRepository.findById(id).get();
             if(auto.getImage() == null){
-                Image autoImg = this.saveImage(file);
+                Image autoImg = this.saveAndCompressImage(file);
                 auto.setImage(autoImg);
                 this.autoRepository.save(auto);
                 return ResponseEntity.ok(autoImg);
@@ -129,7 +164,7 @@ public class ImageService {
                 Image autoImg = auto.getImage();
                 auto.setImage(null);
                 deleteAutoImage(autoImg);
-                Image newAutoImg = this.saveImage(file);
+                Image newAutoImg = this.saveAndCompressImage(file);
                 auto.setImage(newAutoImg);
                 this.autoRepository.save(auto);
                 return ResponseEntity.ok(newAutoImg);
