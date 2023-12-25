@@ -6,6 +6,7 @@ import com.auto_mechanic.auto_mechanic_api.api.dto.auto.new_auto.NewAutoDto;
 import com.auto_mechanic.auto_mechanic_api.api.dto.client.AutoClientListItemDto;
 import com.auto_mechanic.auto_mechanic_api.api.model.Auto;
 import com.auto_mechanic.auto_mechanic_api.api.model.Client;
+import com.auto_mechanic.auto_mechanic_api.image.service.ImageService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,8 +15,12 @@ import java.util.List;
 @Service
 public class AutoMapper {
 	
-	
-	public AutoMapper() {}
+	private final ImageService imageService;
+
+
+	public AutoMapper(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
 	public Auto toNewEntity(NewAutoDto autoDto, Client client) {
 		
@@ -80,6 +85,11 @@ public class AutoMapper {
 		autoDto.setAutoModel(auto.getAutoModel());
 		autoDto.setAutoType(auto.getAutoType());
 
+		if(auto.getImage() != null){
+			byte[] imageData = imageService.getImageData(auto.getImage().getId());
+
+			autoDto.setThumbnail(imageData);
+		}
 		return autoDto;
 	}
 

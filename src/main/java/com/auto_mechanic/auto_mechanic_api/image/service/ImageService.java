@@ -10,6 +10,7 @@ import com.auto_mechanic.auto_mechanic_api.user.model.User;
 import com.auto_mechanic.auto_mechanic_api.user.repository.UserRepository;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -66,6 +67,27 @@ public class ImageService {
                 throw new RuntimeException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
+            throw new RuntimeException("Error: " + e.getMessage());
+        }
+
+    }
+
+    public byte[] getImageData(String id){
+        Image image = imageRepository.findById(id).get();
+
+        try {
+            this.checkFilenameValid(image.getName());
+
+            Path imagePath = Paths.get(this.fileStorageLocation.toString() , image.getName());
+
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(imagePath));
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource.getByteArray();
+            } else {
+                return null;
+            }
+        } catch (IOException e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
 

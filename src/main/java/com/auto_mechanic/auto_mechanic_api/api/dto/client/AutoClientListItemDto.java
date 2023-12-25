@@ -11,4 +11,6 @@ public class AutoClientListItemDto {
 	private String year;
 	private String color;
 
+	private byte[] thumbnail;
+
 }
