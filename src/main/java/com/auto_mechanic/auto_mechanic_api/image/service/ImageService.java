@@ -1,6 +1,7 @@
 package com.auto_mechanic.auto_mechanic_api.image.service;
 
 import com.auto_mechanic.auto_mechanic_api.exception.FileStorageException;
+import com.auto_mechanic.auto_mechanic_api.image.dto.ImageDto;
 import com.auto_mechanic.auto_mechanic_api.image.model.Image;
 import com.auto_mechanic.auto_mechanic_api.image.repository.ImageRepository;
 import com.auto_mechanic.auto_mechanic_api.property.ConfigProperties;
@@ -72,7 +73,7 @@ public class ImageService {
 
     }
 
-    public byte[] getImageData(String id){
+    public ImageDto getImageData(String id){
         Image image = imageRepository.findById(id).get();
 
         try {
@@ -83,7 +84,13 @@ public class ImageService {
             ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(imagePath));
 
             if (resource.exists() || resource.isReadable()) {
-                return resource.getByteArray();
+                ImageDto imageDto = new ImageDto();
+
+                imageDto.setType(image.getType());
+                imageDto.setName(image.getName());
+                imageDto.setData(resource.getByteArray());
+
+                return imageDto;
             } else {
                 return null;
             }
@@ -132,19 +139,18 @@ public class ImageService {
 
             String fileFullName = fileName + "." + fileExtension;
 
-            Path targetLocation = this.fileStorageLocation.toAbsolutePath().resolve(fileFullName);
+            Path targetFile = this.fileStorageLocation.toAbsolutePath().resolve(fileFullName);
 
-            File output = targetLocation.toFile();
+            File compressedImage = targetFile.toFile();
 
             Thumbnails.of(file.getInputStream())
                     .size(200, 200)
-                    .toFile(output);
-
-            Files.copy(targetLocation, targetLocation.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING);
+                    .toFile(compressedImage);
 
             Image image = new Image();
             image.setName(fileFullName);
             image.setType(file.getContentType());
+            image.setLocation(this.fileStorageLocation.toAbsolutePath().toString());
 
             return image;
 

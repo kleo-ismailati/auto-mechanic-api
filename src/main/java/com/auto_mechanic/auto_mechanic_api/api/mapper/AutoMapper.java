@@ -6,6 +6,7 @@ import com.auto_mechanic.auto_mechanic_api.api.dto.auto.new_auto.NewAutoDto;
 import com.auto_mechanic.auto_mechanic_api.api.dto.client.AutoClientListItemDto;
 import com.auto_mechanic.auto_mechanic_api.api.model.Auto;
 import com.auto_mechanic.auto_mechanic_api.api.model.Client;
+import com.auto_mechanic.auto_mechanic_api.image.dto.ImageDto;
 import com.auto_mechanic.auto_mechanic_api.image.service.ImageService;
 import org.springframework.stereotype.Service;
 
@@ -86,7 +87,7 @@ public class AutoMapper {
 		autoDto.setAutoType(auto.getAutoType());
 
 		if(auto.getImage() != null){
-			byte[] imageData = imageService.getImageData(auto.getImage().getId());
+			ImageDto imageData = imageService.getImageData(auto.getImage().getId());
 
 			autoDto.setThumbnail(imageData);
 		}
