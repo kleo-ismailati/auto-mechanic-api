@@ -1,12 +1,12 @@
 package com.auto_mechanic.auto_mechanic_api.image.service;
 
+import com.auto_mechanic.auto_mechanic_api.api.model.Auto;
+import com.auto_mechanic.auto_mechanic_api.api.repository.AutoRepository;
 import com.auto_mechanic.auto_mechanic_api.exception.FileStorageException;
 import com.auto_mechanic.auto_mechanic_api.image.dto.ImageDto;
 import com.auto_mechanic.auto_mechanic_api.image.model.Image;
 import com.auto_mechanic.auto_mechanic_api.image.repository.ImageRepository;
 import com.auto_mechanic.auto_mechanic_api.property.ConfigProperties;
-import com.auto_mechanic.auto_mechanic_api.api.model.Auto;
-import com.auto_mechanic.auto_mechanic_api.api.repository.AutoRepository;
 import com.auto_mechanic.auto_mechanic_api.user.model.User;
 import com.auto_mechanic.auto_mechanic_api.user.repository.UserRepository;
 import net.coobird.thumbnailator.Thumbnails;
@@ -26,7 +26,6 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Service
 public class ImageService {
@@ -52,8 +51,8 @@ public class ImageService {
         }
     }
 
-    public ResponseEntity<Resource> getImage(String id){
-        Image image = imageRepository.findById(id).get();
+    public ResponseEntity<Resource> getImage(String id) {
+        Image image = imageRepository.findById(id).orElseThrow();
 
         try {
             this.checkFilenameValid(image.getName());
@@ -70,16 +69,15 @@ public class ImageService {
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());
         }
-
     }
 
-    public ImageDto getImageData(String id){
-        Image image = imageRepository.findById(id).get();
+    public ImageDto getImageData(String id) {
+        Image image = imageRepository.findById(id).orElseThrow();
 
         try {
             this.checkFilenameValid(image.getName());
 
-            Path imagePath = Paths.get(this.fileStorageLocation.toString() , image.getName());
+            Path imagePath = Paths.get(this.fileStorageLocation.toString(), image.getName());
 
             ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(imagePath));
 
@@ -100,34 +98,7 @@ public class ImageService {
 
     }
 
-    public Image saveImage(MultipartFile file) throws IOException {
-
-        String fileName = RandomStringUtils.randomAlphabetic(12);
-
-        try {
-            this.checkFilenameValid(fileName);
-
-            // Copy file to the target location (Replacing existing file with the same name)
-            String fileExtension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-
-            String fileFullName = fileName + "." + fileExtension;
-
-            Path targetLocation = this.fileStorageLocation.toAbsolutePath().resolve(fileFullName);
-
-            Files.copy(file.getInputStream(), targetLocation.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING);
-
-            Image image = new Image();
-            image.setName(fileFullName);
-            image.setType(file.getContentType());
-
-            return image;
-
-        } catch (IOException ex) {
-            throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
-        }
-    }
-
-    public Image saveAndCompressImage(MultipartFile file) throws IOException {
+    public Image saveAndCompressImage(MultipartFile file) {
 
         String fileName = RandomStringUtils.randomAlphabetic(12);
 
@@ -159,46 +130,43 @@ public class ImageService {
         }
     }
 
-    private void checkFilenameValid(String fileName){
+    private void checkFilenameValid(String fileName) {
         // Check if the file's name contains invalid characters
-        if(fileName.contains("..")) {
+        if (fileName.contains("..")) {
             throw new FileStorageException("Sorry! Filename contains invalid path sequence " + fileName);
         }
     }
 
     public ResponseEntity<Image> setUserImg(Long id, MultipartFile file) {
-        try {
-            User user = this.userRepository.findById(id).get();
-            if(user.getImage() == null){
-                Image autoImg = this.saveAndCompressImage(file);
-                user.setImage(autoImg);
-                this.userRepository.save(user);
-                return ResponseEntity.ok(autoImg);
-            } else return ResponseEntity.badRequest().body(null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        User user = this.userRepository.findById(id).orElseThrow();
+        if (user.getImage() == null) {
+            Image autoImg = this.saveAndCompressImage(file);
+            user.setImage(autoImg);
+            this.userRepository.save(user);
+            return ResponseEntity.ok(autoImg);
+        } else return ResponseEntity.badRequest().body(null);
+
     }
 
     public ResponseEntity<Image> setAutoImg(Long id, MultipartFile file) {
-        try {
-            Auto auto = this.autoRepository.findById(id).get();
-            if(auto.getImage() == null){
-                Image autoImg = this.saveAndCompressImage(file);
-                auto.setImage(autoImg);
-                this.autoRepository.save(auto);
-                return ResponseEntity.ok(autoImg);
-            } else {
-                Image autoImg = auto.getImage();
-                auto.setImage(null);
-                deleteAutoImage(autoImg);
-                Image newAutoImg = this.saveAndCompressImage(file);
-                auto.setImage(newAutoImg);
-                this.autoRepository.save(auto);
-                return ResponseEntity.ok(newAutoImg);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Auto auto = this.autoRepository.findById(id).orElseThrow();
+        if (auto.getImage() == null) {
+            Image autoImg = this.saveAndCompressImage(file);
+            auto.setImage(autoImg);
+            this.autoRepository.save(auto);
+            return ResponseEntity.ok(autoImg);
+        } else {
+            // Remove old image
+            Image autoImg = auto.getImage();
+            auto.setImage(null);
+            deleteAutoImage(autoImg);
+
+            // Add new image
+            Image newAutoImg = this.saveAndCompressImage(file);
+            auto.setImage(newAutoImg);
+            this.autoRepository.save(auto);
+            return ResponseEntity.ok(newAutoImg);
         }
     }
 
@@ -207,7 +175,7 @@ public class ImageService {
         this.imageRepository.delete(image);
     }
 
-    public void deleteImage(Image image){
+    public void deleteImage(Image image) {
         try {
             this.checkFilenameValid(image.getName());
 

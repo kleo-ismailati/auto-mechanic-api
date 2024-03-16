@@ -1,68 +1,68 @@
 package com.auto_mechanic.auto_mechanic_api.api.model;
 
+import com.auto_mechanic.auto_mechanic_api.image.model.Image;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.auto_mechanic.auto_mechanic_api.image.model.Image;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
-
 @Data
 @Entity
 public class Auto {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 
-	@NotEmpty(message = "Please enter auto type")
-	@Size(min = 3, max = 15)
-	private String autoType;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@NotEmpty(message = "Please enter auto model")
-	@Size(min = 3, max = 15)
-	private String autoModel;
+    @NotEmpty(message = "Please enter auto type")
+    @Size(min = 3, max = 15)
+    private String autoType;
 
-	@Pattern(regexp="^(19|20)\\d{2}$",message="Please enter valid year")
-	private String year;
+    @NotEmpty(message = "Please enter auto model")
+    @Size(min = 3, max = 15)
+    private String autoModel;
 
-	@NotEmpty(message = "Please enter auto color")
-	@Size(min = 3, max = 15)
-	private String color;
-	private String autoDescription;
+    @Pattern(regexp = "^(19|20)\\d{2}$", message = "Please enter valid year")
+    private String year;
 
-	@Column(unique = true)
-	private String licensePlate;
+    @NotEmpty(message = "Please enter auto color")
+    @Size(min = 3, max = 15)
+    private String color;
+    private String autoDescription;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "image_id")
-	private Image image;
-	
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "client_id", nullable = false)
-	private Client client;
-	
-	public Auto() {}
+    @Column(unique = true)
+    private String licensePlate;
 
-	public Auto(Long id, String autoType, String autoModel, String year, String color, String autoDescription,
-			Client client) {
-		this.id = id;
-		this.autoType = autoType;
-		this.autoModel = autoModel;
-		this.year = year;
-		this.color = color;
-		this.autoDescription = autoDescription;
-		this.client = client;
-	}
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
+    private Image image;
 
-	@Override
-	public String toString() {
-		return "Auto [id=" + id + ", autoType=" + autoType + ", autoModel=" + autoModel + ", year=" + year + ", color="
-				+ color + ", autoDescription=" + autoDescription + "]";
-	}
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
+    public Auto() {
+    }
+
+    public Auto(Long id, String autoType, String autoModel, String year, String color, String autoDescription,
+                Client client) {
+        this.id = id;
+        this.autoType = autoType;
+        this.autoModel = autoModel;
+        this.year = year;
+        this.color = color;
+        this.autoDescription = autoDescription;
+        this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "Auto [id=" + id + ", autoType=" + autoType + ", autoModel=" + autoModel + ", year=" + year + ", color="
+                + color + ", autoDescription=" + autoDescription + "]";
+    }
 
 }

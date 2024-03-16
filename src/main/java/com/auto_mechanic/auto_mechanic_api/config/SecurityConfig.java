@@ -1,8 +1,8 @@
 package com.auto_mechanic.auto_mechanic_api.config;
 
+import com.auto_mechanic.auto_mechanic_api.security.auth.service.UserDetailsServiceImpl;
 import com.auto_mechanic.auto_mechanic_api.security.jwt.AuthEntryPointJwt;
 import com.auto_mechanic.auto_mechanic_api.security.jwt.AuthTokenFilter;
-import com.auto_mechanic.auto_mechanic_api.security.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,65 +21,65 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-		// securedEnabled = true,
-		// jsr250Enabled = true,
-		prePostEnabled = true)
+        // securedEnabled = true,
+        // jsr250Enabled = true,
+        prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsServiceImpl userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-	private final AuthEntryPointJwt unauthorizedHandler;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
-	@Autowired
-	public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
-		super();
-		this.userDetailsService = userDetailsService;
-		this.unauthorizedHandler = unauthorizedHandler;
-	}
+    @Autowired
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler) {
+        super();
+        this.userDetailsService = userDetailsService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
-	@Bean
-	public AuthTokenFilter authenticationJwtTokenFilter() {
-		return new AuthTokenFilter();
-	}
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
 
-	@Override
-	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+    @Override
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable()
-		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		.authorizeRequests()
-				.antMatchers(HttpMethod.GET ,"/api/repair_booking/view/**").permitAll()
-				.antMatchers(HttpMethod.GET ,"/api/**").authenticated()
-				.antMatchers(HttpMethod.POST ,"/api/**").authenticated()
-				.antMatchers(HttpMethod.DELETE ,"/api/**").authenticated()
-				.antMatchers(HttpMethod.PUT ,"/api/**").authenticated()
-				.antMatchers(HttpMethod.GET ,"/user/**").authenticated()
-				.antMatchers(HttpMethod.POST ,"/user/**").authenticated()
-				.antMatchers(HttpMethod.DELETE ,"/user/**").authenticated()
-				.antMatchers(HttpMethod.PUT ,"/user/**").authenticated()
-				.antMatchers(HttpMethod.GET ,"/image/**").authenticated()
-				.antMatchers(HttpMethod.POST ,"/image/**").authenticated()
-				.antMatchers(HttpMethod.DELETE ,"/image/**").authenticated()
-				.antMatchers(HttpMethod.PUT ,"/image/**").authenticated()
-				.antMatchers("/auth/**").permitAll()
-				.anyRequest().permitAll();
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/repair_booking/view/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/api/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/api/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/user/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/user/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/user/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/user/**").authenticated()
+                .antMatchers(HttpMethod.GET, "/image/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/image/**").authenticated()
+                .antMatchers(HttpMethod.DELETE, "/image/**").authenticated()
+                .antMatchers(HttpMethod.PUT, "/image/**").authenticated()
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().permitAll();
 
-		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-	}
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
 }

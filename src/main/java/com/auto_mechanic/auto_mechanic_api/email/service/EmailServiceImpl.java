@@ -11,11 +11,12 @@ import java.time.ZoneOffset;
 import java.util.Date;
 
 @Service
-public class EmailServiceImpl implements EmailService{
+public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
 
-    @Value("${spring.mail.username}") private String sender;
+    @Value("${spring.mail.username}")
+    private String sender;
 
     public EmailServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;

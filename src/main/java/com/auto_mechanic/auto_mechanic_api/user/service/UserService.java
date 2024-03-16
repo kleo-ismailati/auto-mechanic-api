@@ -19,63 +19,63 @@ import java.util.List;
 
 @Service
 public class UserService {
-	
 
-	private final UserRepository userRepository;
 
-	private final RoleRepository roleRepository;
-	
-	private final UserMapper userMapper;
-	
-	private final PasswordEncoder passEncryptor;
-	
-	public UserService(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, PasswordEncoder passEncryptor) {
-		this.userRepository = userRepository;
-		this.roleRepository = roleRepository;
-		this.userMapper = userMapper;
-		this.passEncryptor = passEncryptor;
-	}
+    private final UserRepository userRepository;
 
-	public ResponseEntity<List<UserListDto>> getAllUsers() {
-		
-		List<User> users = userRepository.findAll();
-		return ResponseEntity.ok(userMapper.toDtoList(users));
-	}
+    private final RoleRepository roleRepository;
 
-	public ResponseEntity<UserDto> getUser(Long id) {
-		
-		User user = userRepository.findById(id).get();
-		
-		return ResponseEntity.ok(userMapper.toDto(user));
-	}
+    private final UserMapper userMapper;
 
-	public ResponseEntity<Void> addUser(NewUserDto newUser) {
-		Role adminRole = roleRepository.findByName(RolesConstants.ADMIN).get();
-		User user = userMapper.toNewEntity(newUser, adminRole);
-		user.setPassword(passEncryptor.encode(user.getPassword()));
-		userRepository.save(user);
-		
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
+    private final PasswordEncoder passEncryptor;
 
-	public ResponseEntity<Void> deleteUser(Long id) {
-		
-		userRepository.deleteById(id);
-		
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-	}
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, UserMapper userMapper, PasswordEncoder passEncryptor) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userMapper = userMapper;
+        this.passEncryptor = passEncryptor;
+    }
 
-	public ResponseEntity<Void> editUser(Long id, UserEditDto userEditDto) {
-		
-		User user = userRepository.findById(id).get();
+    public ResponseEntity<List<UserListDto>> getAllUsers() {
 
-		if(userEditDto.getPassword() != null) {
-			user.setPassword(passEncryptor.encode(userEditDto.getPassword()));
-		}
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(userMapper.toDtoList(users));
+    }
 
-		userMapper.updateEntity(userEditDto, user);
-		userRepository.save(user);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
+    public ResponseEntity<UserDto> getUser(Long id) {
+
+        User user = userRepository.findById(id).orElseThrow();
+
+        return ResponseEntity.ok(userMapper.toDto(user));
+    }
+
+    public ResponseEntity<Void> addUser(NewUserDto newUser) {
+        Role adminRole = roleRepository.findByName(RolesConstants.ADMIN).orElseThrow();
+        User user = userMapper.toNewEntity(newUser, adminRole);
+        user.setPassword(passEncryptor.encode(user.getPassword()));
+        userRepository.save(user);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<Void> deleteUser(Long id) {
+
+        userRepository.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<Void> editUser(Long id, UserEditDto userEditDto) {
+
+        User user = userRepository.findById(id).orElseThrow();
+
+        if (userEditDto.getPassword() != null) {
+            user.setPassword(passEncryptor.encode(userEditDto.getPassword()));
+        }
+
+        userMapper.updateEntity(userEditDto, user);
+        userRepository.save(user);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

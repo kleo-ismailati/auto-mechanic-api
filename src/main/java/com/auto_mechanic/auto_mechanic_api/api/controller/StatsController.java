@@ -23,7 +23,7 @@ public class StatsController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all API Stats", tags = { "Statistic" })
+    @Operation(summary = "Get all API Stats", tags = {"Statistic"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Stats found"),
             @ApiResponse(responseCode = "404", description = "Stats not found")

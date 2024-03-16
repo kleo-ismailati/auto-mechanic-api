@@ -14,30 +14,30 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class RepairEditDto {
 
-	@NotEmpty(message = "Please enter repair type")
-	@Size(min = 3, max = 30)
-	private String repairType;
+    @NotEmpty(message = "Please enter repair type")
+    @Size(min = 3, max = 30)
+    private String repairType;
 
-	@NotEmpty(message = "Please enter repair details")
-	@Size(min = 3, max = 200)
-	private String repairDetails;
+    @NotEmpty(message = "Please enter repair details")
+    @Size(min = 3, max = 200)
+    private String repairDetails;
 
-	@Min(0)
-	@Max(99999)
-	private Long repairCost;
+    @Min(0)
+    @Max(99999)
+    private Long repairCost;
 
-	@ApiModelProperty(dataType = "java.lang.Integer")
-	private RepairStatusEnum repairStatus;
+    @ApiModelProperty(dataType = "java.lang.Integer")
+    private RepairStatusEnum repairStatus;
 
-	public RepairEditDto(
-			String repairType,
-			String repairDetails,
-			Long repairCost,
-			RepairStatusEnum repairStatus
-	) {
-		this.repairType = repairType.trim();
-		this.repairDetails = repairDetails.trim();
-		this.repairCost = repairCost;
-		this.repairStatus = repairStatus;
-	}
+    public RepairEditDto(
+            String repairType,
+            String repairDetails,
+            Long repairCost,
+            RepairStatusEnum repairStatus
+    ) {
+        this.repairType = repairType.trim();
+        this.repairDetails = repairDetails.trim();
+        this.repairCost = repairCost;
+        this.repairStatus = repairStatus;
+    }
 }

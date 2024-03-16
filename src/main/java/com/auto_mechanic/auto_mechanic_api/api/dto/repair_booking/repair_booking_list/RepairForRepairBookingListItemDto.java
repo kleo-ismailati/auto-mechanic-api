@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class RepairForRepairBookingListItemDto {
 
-	private Long repairCost;
+    private Long repairCost;
 
 }

@@ -7,12 +7,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-		ConfigProperties.class
+        ConfigProperties.class
 })
 public class AutoMechanicApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AutoMechanicApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AutoMechanicApplication.class, args);
+    }
 
 }

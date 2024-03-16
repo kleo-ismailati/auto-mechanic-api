@@ -1,11 +1,11 @@
 package com.auto_mechanic.auto_mechanic_api.api.service;
 
+import com.auto_mechanic.auto_mechanic_api.api.model.Stats;
+import com.auto_mechanic.auto_mechanic_api.api.model.shared.RepairStatusEnum;
 import com.auto_mechanic.auto_mechanic_api.api.repository.AutoRepository;
 import com.auto_mechanic.auto_mechanic_api.api.repository.ClientRepository;
 import com.auto_mechanic.auto_mechanic_api.api.repository.RepairBookingRepository;
 import com.auto_mechanic.auto_mechanic_api.api.repository.RepairRepository;
-import com.auto_mechanic.auto_mechanic_api.api.model.shared.RepairStatusEnum;
-import com.auto_mechanic.auto_mechanic_api.api.model.Stats;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -47,11 +47,9 @@ public class StatsService {
 
         stats.setTotalAutos(autoRepository.count());
 
-        Long totalPrice = repairRepository.sumTotalPrice();
+        long totalPrice = repairRepository.sumTotalPrice();
 
-        if(totalPrice!=null){
-            stats.setTotalIncome(totalPrice);
-        }else stats.setTotalIncome(0);
+        stats.setTotalIncome(totalPrice);
 
 
         return ResponseEntity.ok(stats);

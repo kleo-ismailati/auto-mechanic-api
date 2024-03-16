@@ -1,11 +1,12 @@
 package com.auto_mechanic.auto_mechanic_api.security.auth.service;
 
 import com.auto_mechanic.auto_mechanic_api.security.auth.dto.LoggedUserDto;
-import com.auto_mechanic.auto_mechanic_api.security.jwt.JwtUtils;
 import com.auto_mechanic.auto_mechanic_api.security.auth.model.UserDetailsImpl;
+import com.auto_mechanic.auto_mechanic_api.security.jwt.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class AuthService {
         this.jwtUtils = jwtUtils;
     }
 
-    public LoggedUserDto authenticateUser(String username, String password){
+    public LoggedUserDto authenticateUser(String username, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
 
@@ -32,7 +33,7 @@ public class AuthService {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
         return new LoggedUserDto(

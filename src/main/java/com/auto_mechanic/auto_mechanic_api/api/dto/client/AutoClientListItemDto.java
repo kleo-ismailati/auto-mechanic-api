@@ -6,12 +6,12 @@ import lombok.Data;
 @Data
 public class AutoClientListItemDto {
 
-	private long id;
-	private String autoType;
-	private String autoModel;
-	private String year;
-	private String color;
+    private long id;
+    private String autoType;
+    private String autoModel;
+    private String year;
+    private String color;
 
-	private ImageDto thumbnail;
+    private ImageDto thumbnail;
 
 }

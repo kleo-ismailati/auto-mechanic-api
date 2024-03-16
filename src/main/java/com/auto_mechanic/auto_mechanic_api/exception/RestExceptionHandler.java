@@ -18,13 +18,12 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.ConstraintViolationException;
 
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -126,7 +125,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }
-    
+
     // Handles NoSuchElementException
     @ExceptionHandler(NoSuchElementException.class)
     protected ResponseEntity<Object> handleNoSuchElement(NoSuchElementException ex) {
@@ -146,8 +145,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Handle DataIntegrityViolationException, inspects the cause for different DB causes
     @ExceptionHandler(DataIntegrityViolationException.class)
-    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
-                                                                  WebRequest request) {
+    protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         if (ex.getCause() instanceof ConstraintViolationException) {
             return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
         }
@@ -156,8 +154,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Handle MethodArgumentTypeMismatchException. Thrown when method argument is not the expected type
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
-                                                                      WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
         apiError.setMessage(
                 String.format(
@@ -173,20 +170,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Handle Exception.class, handle generic errors
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+    public ResponseEntity<Object> handleAll(Exception ex) {
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR);
 
         apiError.setMessage("An internal server error has occurred");
 
         apiError.setDebugMessage(ex.getLocalizedMessage());
 
-        if(ex.getCause()!=null) {
+        if (ex.getCause() != null) {
 
             Throwable rootCause = ex.getCause();
 
             List<ApiSubError> subErrors = new ArrayList<>();
 
-            while(rootCause!=null && rootCause.getCause() != rootCause) {
+            while (rootCause != null && rootCause.getCause() != rootCause) {
                 subErrors.add(new ApiGenericSubError(rootCause.getMessage()));
                 rootCause = rootCause.getCause();
             }

@@ -10,22 +10,22 @@ import javax.validation.constraints.Size;
 @Data
 public class NewRepairDto {
 
-	@NotEmpty(message = "Please enter repair type")
-	@Size(min = 3, max = 30)
-	private String repairType;
+    @NotEmpty(message = "Please enter repair type")
+    @Size(min = 3, max = 30)
+    private String repairType;
 
-	@NotEmpty(message = "Please enter repair details")
-	@Size(min = 3, max = 200)
-	private String repairDetails;
+    @NotEmpty(message = "Please enter repair details")
+    @Size(min = 3, max = 200)
+    private String repairDetails;
 
-	@Min(0)
-	@Max(99999)
-	private Long repairCost;
+    @Min(0)
+    @Max(99999)
+    private Long repairCost;
 
-	public NewRepairDto(String repairType, String repairDetails, Long repairCost) {
-		this.repairType = repairType.trim();
-		this.repairDetails = repairDetails.trim();
-		this.repairCost = repairCost;
-	}
+    public NewRepairDto(String repairType, String repairDetails, Long repairCost) {
+        this.repairType = repairType.trim();
+        this.repairDetails = repairDetails.trim();
+        this.repairCost = repairCost;
+    }
 
 }

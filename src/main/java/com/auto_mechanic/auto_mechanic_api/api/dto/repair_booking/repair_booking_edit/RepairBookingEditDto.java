@@ -9,7 +9,7 @@ import lombok.Data;
 @ApiModel
 public class RepairBookingEditDto {
 
-	@ApiModelProperty(dataType = "java.lang.Integer")
-	private RepairStatusEnum status;
-	
+    @ApiModelProperty(dataType = "java.lang.Integer")
+    private RepairStatusEnum status;
+
 }

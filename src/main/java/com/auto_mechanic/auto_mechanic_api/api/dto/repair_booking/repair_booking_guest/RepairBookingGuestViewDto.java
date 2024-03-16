@@ -9,13 +9,13 @@ import java.util.List;
 @Data
 public class RepairBookingGuestViewDto {
 
-	private LocalDateTime date;
-	private RepairStatusEnum status;
-	private String firstName;
-	private String lastName;
-	private String autoType;
-	private String autoModel;
-	private List<RepairGuestViewDto> repairs;
-	private Long totalPrice;
-	
+    private LocalDateTime date;
+    private RepairStatusEnum status;
+    private String firstName;
+    private String lastName;
+    private String autoType;
+    private String autoModel;
+    private List<RepairGuestViewDto> repairs;
+    private Long totalPrice;
+
 }

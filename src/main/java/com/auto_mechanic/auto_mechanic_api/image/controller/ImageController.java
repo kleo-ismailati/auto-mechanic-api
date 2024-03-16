@@ -24,17 +24,17 @@ public class ImageController {
     }
 
     @GetMapping(value = "/{id}")
-    @Operation(summary = "Get Image", tags = { "Image" })
+    @Operation(summary = "Get Image", tags = {"Image"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image found"),
             @ApiResponse(responseCode = "404", description = "Image not found")
     })
-    public ResponseEntity<Resource> getImage(@PathVariable("id") String id){
+    public ResponseEntity<Resource> getImage(@PathVariable("id") String id) {
         return this.imageService.getImage(id);
     }
 
-    @PostMapping(value = "/setAutoImg/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Upload auto image", tags = { "Image" })
+    @PostMapping(value = "/setAutoImg/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Upload auto image", tags = {"Image"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image uploaded")
     })
@@ -45,8 +45,8 @@ public class ImageController {
         return this.imageService.setAutoImg(id, image);
     }
 
-    @PostMapping(value = "/setUserImg/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Upload user image", tags = { "Image" })
+    @PostMapping(value = "/setUserImg/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Upload user image", tags = {"Image"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image uploaded")
     })
@@ -54,7 +54,7 @@ public class ImageController {
             @PathVariable("id") Long id,
             @RequestPart("image") MultipartFile image
     ) {
-        return this.imageService.setUserImg(id,image);
+        return this.imageService.setUserImg(id, image);
     }
 
 }

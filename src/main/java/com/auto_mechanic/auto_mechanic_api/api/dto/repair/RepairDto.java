@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class RepairDto {
-	
-	private Long id;
-	private String repairType;
-	private String repairDetails;
-	private Long repairCost;
-	private RepairStatusEnum repairStatus;
+
+    private Long id;
+    private String repairType;
+    private String repairDetails;
+    private Long repairCost;
+    private RepairStatusEnum repairStatus;
 }

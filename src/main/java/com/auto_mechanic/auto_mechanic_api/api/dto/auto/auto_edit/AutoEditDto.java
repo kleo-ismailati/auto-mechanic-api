@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class AutoEditDto {
 
-	private String autoType;
-	private String autoModel;
-	private String year;
-	private String color;
-	private String autoDescription;
+    private String autoType;
+    private String autoModel;
+    private String year;
+    private String color;
+    private String autoDescription;
 
 }
