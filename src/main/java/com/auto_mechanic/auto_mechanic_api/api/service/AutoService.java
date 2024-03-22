@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AutoService {
 
@@ -23,9 +25,15 @@ public class AutoService {
 
     public ResponseEntity<AutoDto> getAuto(Long id) {
 
-        Auto auto = autoRepository.findById(id).orElseThrow();
+        Optional<Auto> autoOptional = autoRepository.findById(id);
 
-        return ResponseEntity.ok(autoMapper.toDto(auto));
+        if (autoOptional.isPresent()) {
+            Auto auto = autoOptional.get();
+            return ResponseEntity.ok(autoMapper.toDto(auto));
+        }
+
+        return ResponseEntity.notFound().build();
+
     }
 
     public ResponseEntity<Void> editAuto(Long id, AutoEditDto autoDto) {
