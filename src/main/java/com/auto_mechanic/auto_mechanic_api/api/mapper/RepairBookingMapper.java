@@ -1,5 +1,6 @@
 package com.auto_mechanic.auto_mechanic_api.api.mapper;
 
+import com.auto_mechanic.auto_mechanic_api.api.dto.repair_booking.RepairBookingBaseDto;
 import com.auto_mechanic.auto_mechanic_api.api.dto.repair_booking.RepairBookingDto;
 import com.auto_mechanic.auto_mechanic_api.api.dto.repair_booking.RepairForRepairBookingDto;
 import com.auto_mechanic.auto_mechanic_api.api.dto.repair_booking.new_repair_booking.NewRepairBookingDto;
@@ -51,23 +52,7 @@ public class RepairBookingMapper {
 
         RepairBookingGuestViewDto rbGuestViewDto = new RepairBookingGuestViewDto();
 
-        rbGuestViewDto.setDate(repairBooking.getDate());
-        rbGuestViewDto.setStatus(repairBooking.getStatus());
-        rbGuestViewDto.setFirstName(repairBooking.getClient().getFirstName());
-        rbGuestViewDto.setLastName(repairBooking.getClient().getLastName());
-        rbGuestViewDto.setAutoModel(repairBooking.getAuto().getAutoModel());
-        rbGuestViewDto.setAutoType(repairBooking.getAuto().getAutoType());
-
-        List<RepairGuestViewDto> repairs = repairMapper.toGuestViewDtoList(repairBooking.getRepairs());
-        rbGuestViewDto.setRepairs(repairs);
-
-        long total = 0L;
-
-        for (RepairGuestViewDto repair : repairs) {
-            total += repair.getRepairCost();
-        }
-
-        rbGuestViewDto.setTotalPrice(total);
+        this.setBaseDtoValues(rbGuestViewDto, repairBooking);
 
         return rbGuestViewDto;
     }
@@ -77,23 +62,7 @@ public class RepairBookingMapper {
         RepairBookingListItemDto repairBookingListItemDto = new RepairBookingListItemDto();
 
         repairBookingListItemDto.setId(repairBooking.getId());
-        repairBookingListItemDto.setDate(repairBooking.getDate());
-        repairBookingListItemDto.setStatus(repairBooking.getStatus());
-        repairBookingListItemDto.setFirstName(repairBooking.getClient().getFirstName());
-        repairBookingListItemDto.setLastName(repairBooking.getClient().getLastName());
-        repairBookingListItemDto.setAutoModel(repairBooking.getAuto().getAutoModel());
-        repairBookingListItemDto.setAutoType(repairBooking.getAuto().getAutoType());
-
-        List<RepairForRepairBookingListItemDto> repairs = repairMapper.toRBListItemDtoList(repairBooking.getRepairs());
-        repairBookingListItemDto.setRepairs(repairs);
-
-        long total = 0L;
-
-        for (RepairForRepairBookingListItemDto repair : repairs) {
-            total += repair.getRepairCost();
-        }
-
-        repairBookingListItemDto.setTotalPrice(total);
+        this.setBaseDtoValues(repairBookingListItemDto, repairBooking);
 
         return repairBookingListItemDto;
     }
@@ -103,23 +72,7 @@ public class RepairBookingMapper {
         RepairBookingDto repairBookingDto = new RepairBookingDto();
 
         repairBookingDto.setId(repairBooking.getId());
-        repairBookingDto.setDate(repairBooking.getDate());
-        repairBookingDto.setStatus(repairBooking.getStatus());
-        repairBookingDto.setFirstName(repairBooking.getClient().getFirstName());
-        repairBookingDto.setLastName(repairBooking.getClient().getLastName());
-        repairBookingDto.setAutoModel(repairBooking.getAuto().getAutoModel());
-        repairBookingDto.setAutoType(repairBooking.getAuto().getAutoType());
-
-        List<RepairForRepairBookingDto> repairs = repairMapper.toViewDtoList(repairBooking.getRepairs());
-        repairBookingDto.setRepairs(repairs);
-
-        long total = 0L;
-
-        for (RepairForRepairBookingDto repair : repairs) {
-            total += repair.getRepairCost();
-        }
-
-        repairBookingDto.setTotalPrice(total);
+        this.setBaseDtoValues(repairBookingDto, repairBooking);
 
         return repairBookingDto;
     }
@@ -149,6 +102,54 @@ public class RepairBookingMapper {
         }
 
         return repairBookingEntity;
+    }
+
+    private void setBaseDtoValues(RepairBookingBaseDto repairBookingBaseDto, RepairBooking repairBooking) {
+
+        repairBookingBaseDto.setDate(repairBooking.getDate());
+        repairBookingBaseDto.setStatus(repairBooking.getStatus());
+        repairBookingBaseDto.setFirstName(repairBooking.getClient().getFirstName());
+        repairBookingBaseDto.setLastName(repairBooking.getClient().getLastName());
+        repairBookingBaseDto.setAutoModel(repairBooking.getAuto().getAutoModel());
+        repairBookingBaseDto.setAutoType(repairBooking.getAuto().getAutoType());
+
+        if (repairBookingBaseDto instanceof RepairBookingGuestViewDto) {
+            List<RepairGuestViewDto> repairs = repairMapper.toGuestViewDtoList(repairBooking.getRepairs());
+
+            ((RepairBookingGuestViewDto) repairBookingBaseDto).setRepairs(repairs);
+
+            long total = 0L;
+
+            for (RepairGuestViewDto repair : repairs) {
+                total += repair.getRepairCost();
+            }
+
+            repairBookingBaseDto.setTotalPrice(total);
+        } else if (repairBookingBaseDto instanceof RepairBookingListItemDto) {
+            List<RepairForRepairBookingListItemDto> repairs = repairMapper.toRBListItemDtoList(repairBooking.getRepairs());
+            ((RepairBookingListItemDto) repairBookingBaseDto).setRepairs(repairs);
+
+            long total = 0L;
+
+            for (RepairForRepairBookingListItemDto repair : repairs) {
+                total += repair.getRepairCost();
+            }
+
+            repairBookingBaseDto.setTotalPrice(total);
+        } else if (repairBookingBaseDto instanceof RepairBookingDto) {
+            List<RepairForRepairBookingDto> repairs = repairMapper.toViewDtoList(repairBooking.getRepairs());
+            ((RepairBookingDto) repairBookingBaseDto).setRepairs(repairs);
+
+            long total = 0L;
+
+            for (RepairForRepairBookingDto repair : repairs) {
+                total += repair.getRepairCost();
+            }
+
+            repairBookingBaseDto.setTotalPrice(total);
+        }
+
+
     }
 
 
