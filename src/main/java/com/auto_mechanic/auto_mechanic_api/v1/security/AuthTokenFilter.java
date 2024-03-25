@@ -1,6 +1,7 @@
 package com.auto_mechanic.auto_mechanic_api.v1.security;
 
 import com.auto_mechanic.auto_mechanic_api.v1.serviceImpls.UserDetailsServiceImpl;
+import com.auto_mechanic.auto_mechanic_api.v1.utilities.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

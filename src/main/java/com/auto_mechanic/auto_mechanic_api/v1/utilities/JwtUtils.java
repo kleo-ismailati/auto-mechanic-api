@@ -1,4 +1,4 @@
-package com.auto_mechanic.auto_mechanic_api.v1.security;
+package com.auto_mechanic.auto_mechanic_api.v1.utilities;
 
 import com.auto_mechanic.auto_mechanic_api.v1.models.UserDetailsImpl;
 import io.jsonwebtoken.*;

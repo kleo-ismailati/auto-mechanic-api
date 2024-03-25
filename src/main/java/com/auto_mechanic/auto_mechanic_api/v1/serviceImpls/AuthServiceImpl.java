@@ -2,8 +2,8 @@ package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
 import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.LoggedUserDto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.UserDetailsImpl;
-import com.auto_mechanic.auto_mechanic_api.v1.security.JwtUtils;
 import com.auto_mechanic.auto_mechanic_api.v1.services.AuthService;
+import com.auto_mechanic.auto_mechanic_api.v1.utilities.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
