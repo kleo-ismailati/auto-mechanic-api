@@ -38,7 +38,7 @@ Auto Repair Status Tracking Application made in Spring Boot
    to ```spring.profiles.active=setup-dev```
 6. Run the application and quit it once it is done creating the tables
 7. Reset **application.properties** entry to ```spring.profiles.active=dev``` (Adds new admin with username/password:
-   monkey/Monkey123)
+   admin/Admin123)
 8. You are done! Run your application at ```localhost:8080/swagger-ui/``` if you didn't change the URL and access it.
 9. You can now sign in as admin with credentials ```admin``` as username and ```Admin123``` as password for testing
    purposes.
