@@ -1,6 +1,6 @@
 package com.auto_mechanic.auto_mechanic_api;
 
-import com.auto_mechanic.auto_mechanic_api.property.ConfigProperties;
+import com.auto_mechanic.auto_mechanic_api.v1.config.ConfigProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
