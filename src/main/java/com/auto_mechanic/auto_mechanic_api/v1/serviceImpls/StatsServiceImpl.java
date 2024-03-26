@@ -48,10 +48,9 @@ public class StatsServiceImpl implements StatsService {
 
         stats.setTotalAutos(autoRepository.count());
 
-        long totalPrice = repairRepository.sumTotalPrice();
+        long totalPrice = this.repairRepository.sumTotalPrice() != null ? this.repairRepository.sumTotalPrice() : 0;
 
         stats.setTotalIncome(totalPrice);
-
 
         return ResponseEntity.ok(stats);
     }
