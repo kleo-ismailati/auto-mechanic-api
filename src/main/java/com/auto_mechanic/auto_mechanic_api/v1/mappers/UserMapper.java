@@ -1,9 +1,9 @@
 package com.auto_mechanic.auto_mechanic_api.v1.mappers;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewUserDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.UserEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.UserDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.list_items.UserListItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.UserCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.UserUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.UserItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.UserDto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Role;
 import com.auto_mechanic.auto_mechanic_api.v1.models.User;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class UserMapper {
 
-    public User toNewEntity(NewUserDto newUser, Role adminRole) {
+    public User toNewEntity(UserCreateDto newUser, Role adminRole) {
 
         User userEntity = new User();
         HashSet<Role> roles = new HashSet<>();
@@ -29,9 +29,9 @@ public class UserMapper {
         return userEntity;
     }
 
-    public UserListItemDto toListItemDto(User user) {
+    public UserItemDto toUserItemDto(User user) {
 
-        UserListItemDto userDto = new UserListItemDto();
+        UserItemDto userDto = new UserItemDto();
 
         userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
@@ -50,26 +50,26 @@ public class UserMapper {
         return userDto;
     }
 
-    public List<UserListItemDto> toDtoList(List<User> users) {
+    public List<UserItemDto> toUserDtoList(List<User> users) {
 
-        List<UserListItemDto> userDtoList = new ArrayList<>();
+        List<UserItemDto> userDtoList = new ArrayList<>();
 
         for (User user : users) {
-            userDtoList.add(toListItemDto(user));
+            userDtoList.add(toUserItemDto(user));
         }
 
         return userDtoList;
     }
 
-    public User updateEntity(UserEditDto userEditDto, User userEntity) {
+    public User updateEntity(UserUpdateDto userUpdateDto, User userEntity) {
 
 
-        if (userEditDto.getUsername() != null) {
-            userEntity.setUsername(userEditDto.getUsername());
+        if (userUpdateDto.getUsername() != null) {
+            userEntity.setUsername(userUpdateDto.getUsername());
         }
 
-        if (userEditDto.getEmail() != null) {
-            userEntity.setEmail(userEditDto.getEmail());
+        if (userUpdateDto.getEmail() != null) {
+            userEntity.setEmail(userUpdateDto.getEmail());
         }
 
         return userEntity;

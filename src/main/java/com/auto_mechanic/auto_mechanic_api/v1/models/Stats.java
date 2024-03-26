@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Stats {
 
-    long totalRepairBookingsActive;
+    long totalBookingsActive;
     long totalClients;
     long totalIncome;
     long totalAutos;

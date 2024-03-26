@@ -1,11 +1,11 @@
 package com.auto_mechanic.auto_mechanic_api.v1.mappers;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewAutoDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewClientDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.ClientEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.ClientDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.list_items.ClientListItemDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.pages.ClientPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.AutoCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.ClientCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.ClientUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.ClientItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.ClientPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.ClientDto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class ClientMapper {
         this.autoMapper = autoMapper;
     }
 
-    public Client toNewEntity(NewClientDto clientDto) {
+    public Client toNewEntity(ClientCreateDto clientDto) {
 
         Client clientEntity = new Client();
 
@@ -36,7 +36,7 @@ public class ClientMapper {
 
     }
 
-    public Client updateEntity(ClientEditDto clientDto, Client clientEntity) {
+    public Client updateEntity(ClientUpdateDto clientDto, Client clientEntity) {
 
 
         if (clientDto.getFirstName() != null) {
@@ -62,7 +62,7 @@ public class ClientMapper {
         return clientEntity;
     }
 
-    public void addAuto(NewAutoDto newAutoDto, Client client) {
+    public void addAuto(AutoCreateDto newAutoDto, Client client) {
 
         client.addAuto(autoMapper.toNewEntity(newAutoDto, client));
 
@@ -77,18 +77,18 @@ public class ClientMapper {
         clientDto.setPhoneNumber(client.getPhoneNumber());
         clientDto.setAddress(client.getAddress());
 
-        clientDto.setAutos(autoMapper.toDtoListForClient(client.getAutos()));
+        clientDto.setAutos(autoMapper.toClientAutoDtoList(client.getAutos()));
 
         return clientDto;
     }
 
-    public ClientPageDto toClientPage(Page<Client> clients) {
+    public ClientPageDto toClientPageDto(Page<Client> clients) {
         ClientPageDto clientPageDto = new ClientPageDto();
 
-        List<ClientListItemDto> clientDtoList = new ArrayList<>();
+        List<ClientItemDto> clientDtoList = new ArrayList<>();
 
         for (Client client : clients) {
-            clientDtoList.add(toListItem(client));
+            clientDtoList.add(toClientItemDto(client));
         }
 
         clientPageDto.setResult(clientDtoList);
@@ -99,15 +99,15 @@ public class ClientMapper {
         return clientPageDto;
     }
 
-    private ClientListItemDto toListItem(Client client) {
-        ClientListItemDto clientListItemDto = new ClientListItemDto();
+    private ClientItemDto toClientItemDto(Client client) {
+        ClientItemDto clientDto = new ClientItemDto();
 
-        clientListItemDto.setId(client.getId());
-        clientListItemDto.setFirstName(client.getFirstName());
-        clientListItemDto.setLastName(client.getLastName());
-        clientListItemDto.setPhoneNumber(client.getPhoneNumber());
-        clientListItemDto.setEmail(client.getEmail());
+        clientDto.setId(client.getId());
+        clientDto.setFirstName(client.getFirstName());
+        clientDto.setLastName(client.getLastName());
+        clientDto.setPhoneNumber(client.getPhoneNumber());
+        clientDto.setEmail(client.getEmail());
 
-        return clientListItemDto;
+        return clientDto;
     }
 }

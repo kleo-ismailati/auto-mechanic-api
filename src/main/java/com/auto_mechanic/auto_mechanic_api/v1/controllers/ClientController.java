@@ -1,10 +1,10 @@
 package com.auto_mechanic.auto_mechanic_api.v1.controllers;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewAutoDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewClientDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.ClientEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.ClientDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.pages.ClientPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.AutoCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.ClientCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.ClientUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.ClientPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.ClientDto;
 import com.auto_mechanic.auto_mechanic_api.v1.services.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/client")
-@Tag(name = "Client", description = "Client Controller")
+@RequestMapping("/api/clients")
+@Tag(name = "Clients", description = "Clients Controller")
 public class ClientController {
 
 
@@ -28,7 +28,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    @Operation(summary = "Get Client by id", tags = {"Client"})
+    @Operation(summary = "Get client by id", tags = {"Clients"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Client found"),
             @ApiResponse(responseCode = "404", description = "Client not found")
@@ -39,7 +39,7 @@ public class ClientController {
 
 
     @GetMapping
-    @Operation(summary = "Get Client list", tags = {"Client"})
+    @Operation(summary = "Get client list", tags = {"Clients"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Client list found"),
             @ApiResponse(responseCode = "404", description = "Client list not found")
@@ -52,31 +52,31 @@ public class ClientController {
     }
 
     @PostMapping
-    @Operation(summary = "Add new Client", tags = {"Client"})
+    @Operation(summary = "Add new client", tags = {"Clients"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Client added successfully")
     })
-    public ResponseEntity<Void> addClient(@RequestBody NewClientDto newClient) {
+    public ResponseEntity<Void> addClient(@RequestBody ClientCreateDto newClient) {
         return clientService.addClient(newClient);
     }
 
     @PutMapping(value = "/{id}")
-    @Operation(summary = "Update Client by id", tags = {"Client"})
+    @Operation(summary = "Update client by id", tags = {"Clients"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Client updated successfully"),
             @ApiResponse(responseCode = "404", description = "Client not found")
     })
     public ResponseEntity<Void> editClient(@PathVariable("id") Long id,
-                                           @RequestBody ClientEditDto clientDto) {
+                                           @RequestBody ClientUpdateDto clientDto) {
         return clientService.editClient(id, clientDto);
     }
 
     @PostMapping(value = "/{id}/addAuto")
-    @Operation(summary = "Add new Auto to a Client", tags = {"Client"})
+    @Operation(summary = "Add new auto to a client", tags = {"Clients"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Auto added successfully")
     })
-    public ResponseEntity<Void> addAuto(@PathVariable("id") Long id, @RequestBody NewAutoDto newAuto) {
+    public ResponseEntity<Void> addAuto(@PathVariable("id") Long id, @RequestBody AutoCreateDto newAuto) {
         return clientService.addAuto(id, newAuto);
     }
 

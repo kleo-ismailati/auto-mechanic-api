@@ -1,9 +1,9 @@
 package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewUserDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.UserEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.UserDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.list_items.UserListItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.UserCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.UserUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.UserItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.UserDto;
 import com.auto_mechanic.auto_mechanic_api.v1.mappers.UserMapper;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Role;
 import com.auto_mechanic.auto_mechanic_api.v1.models.RolesConstants;
@@ -37,10 +37,10 @@ public class UserServiceImpl implements UserService {
         this.passEncryptor = passEncryptor;
     }
 
-    public ResponseEntity<List<UserListItemDto>> getAllUsers() {
+    public ResponseEntity<List<UserItemDto>> getAllUsers() {
 
         List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(userMapper.toDtoList(users));
+        return ResponseEntity.ok(userMapper.toUserDtoList(users));
     }
 
     public ResponseEntity<UserDto> getUser(Long id) {
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.ok(userMapper.toDto(user));
     }
 
-    public ResponseEntity<Void> addUser(NewUserDto newUser) {
+    public ResponseEntity<Void> addUser(UserCreateDto newUser) {
         Role adminRole = roleRepository.findByName(RolesConstants.ADMIN).orElseThrow();
         User user = userMapper.toNewEntity(newUser, adminRole);
         user.setPassword(passEncryptor.encode(user.getPassword()));
@@ -66,15 +66,15 @@ public class UserServiceImpl implements UserService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<Void> editUser(Long id, UserEditDto userEditDto) {
+    public ResponseEntity<Void> editUser(Long id, UserUpdateDto userUpdateDto) {
 
         User user = userRepository.findById(id).orElseThrow();
 
-        if (userEditDto.getPassword() != null) {
-            user.setPassword(passEncryptor.encode(userEditDto.getPassword()));
+        if (userUpdateDto.getPassword() != null) {
+            user.setPassword(passEncryptor.encode(userUpdateDto.getPassword()));
         }
 
-        userMapper.updateEntity(userEditDto, user);
+        userMapper.updateEntity(userUpdateDto, user);
         userRepository.save(user);
 
         return new ResponseEntity<>(HttpStatus.OK);

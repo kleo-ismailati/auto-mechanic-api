@@ -1,10 +1,10 @@
 package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewAutoDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewClientDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.ClientEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.ClientDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.pages.ClientPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.AutoCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.ClientCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.ClientUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.ClientDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.ClientPageDto;
 import com.auto_mechanic.auto_mechanic_api.v1.mappers.ClientMapper;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Client;
 import com.auto_mechanic.auto_mechanic_api.v1.repositories.ClientRepository;
@@ -35,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
         return ResponseEntity.ok(clientMapper.toDto(client));
     }
 
-    public ResponseEntity<Void> addClient(NewClientDto newClient) {
+    public ResponseEntity<Void> addClient(ClientCreateDto newClient) {
 
         clientRepository.save(clientMapper.toNewEntity(newClient));
 
@@ -43,7 +43,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
 
-    public ResponseEntity<Void> editClient(Long id, ClientEditDto clientDto) {
+    public ResponseEntity<Void> editClient(Long id, ClientUpdateDto clientDto) {
 
         Client client = clientRepository.findById(id).orElseThrow();
         clientMapper.updateEntity(clientDto, client);
@@ -52,7 +52,7 @@ public class ClientServiceImpl implements ClientService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> addAuto(Long id, NewAutoDto newAutoDto) {
+    public ResponseEntity<Void> addAuto(Long id, AutoCreateDto newAutoDto) {
 
         Client client = clientRepository.findById(id).orElseThrow();
         clientMapper.addAuto(newAutoDto, client);
@@ -68,6 +68,6 @@ public class ClientServiceImpl implements ClientService {
                         PageRequest.of(page, size)
                 );
 
-        return ResponseEntity.ok(clientMapper.toClientPage(clients));
+        return ResponseEntity.ok(clientMapper.toClientPageDto(clients));
     }
 }

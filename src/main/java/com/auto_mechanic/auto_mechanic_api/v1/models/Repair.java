@@ -35,8 +35,8 @@ public class Repair {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "rb_id", nullable = false)
-    private RepairBooking repairBooking;
+    @JoinColumn(name = "booking_id", nullable = false)
+    private Booking booking;
 
     public Repair() {
     }

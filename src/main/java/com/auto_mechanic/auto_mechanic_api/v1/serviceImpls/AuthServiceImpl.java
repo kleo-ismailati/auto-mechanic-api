@@ -1,6 +1,6 @@
 package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.LoggedUserDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.UserAuthenticationInfoDto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.UserDetailsImpl;
 import com.auto_mechanic.auto_mechanic_api.v1.services.AuthService;
 import com.auto_mechanic.auto_mechanic_api.v1.utilities.JwtUtils;
@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
         this.jwtUtils = jwtUtils;
     }
 
-    public LoggedUserDto authenticateUser(String username, String password) {
+    public UserAuthenticationInfoDto authenticateUser(String username, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
 
@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
-        return new LoggedUserDto(
+        return new UserAuthenticationInfoDto(
                 jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),

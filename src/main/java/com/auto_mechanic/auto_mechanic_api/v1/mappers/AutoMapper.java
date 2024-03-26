@@ -1,10 +1,10 @@
 package com.auto_mechanic.auto_mechanic_api.v1.mappers;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewAutoDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.AutoEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.AutoDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.ImageDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.list_items.AutoClientListItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.AutoCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.AutoUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.AutoDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.ClientAutoDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.ImageDataDto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Auto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Client;
 import com.auto_mechanic.auto_mechanic_api.v1.serviceImpls.ImageServiceImpl;
@@ -23,7 +23,7 @@ public class AutoMapper {
         this.imageService = imageService;
     }
 
-    public Auto toNewEntity(NewAutoDto autoDto, Client client) {
+    public Auto toNewEntity(AutoCreateDto autoDto, Client client) {
 
         Auto autoEntity = new Auto();
 
@@ -37,7 +37,7 @@ public class AutoMapper {
         return autoEntity;
     }
 
-    public Auto updateEntity(AutoEditDto autoDto, Auto auto) {
+    public Auto updateEntity(AutoUpdateDto autoDto, Auto auto) {
 
         if (autoDto.getAutoType() != null) {
             auto.setAutoType(autoDto.getAutoType().trim());
@@ -77,8 +77,8 @@ public class AutoMapper {
         return autoDto;
     }
 
-    public AutoClientListItemDto toClientListItemDto(Auto auto) {
-        AutoClientListItemDto autoDto = new AutoClientListItemDto();
+    public ClientAutoDto toClientAutoDto(Auto auto) {
+        ClientAutoDto autoDto = new ClientAutoDto();
 
         autoDto.setId(auto.getId());
         autoDto.setYear(auto.getYear());
@@ -87,18 +87,18 @@ public class AutoMapper {
         autoDto.setAutoType(auto.getAutoType());
 
         if (auto.getImage() != null) {
-            ImageDto imageData = imageService.getImageData(auto.getImage().getId());
+            ImageDataDto imageData = imageService.getImageData(auto.getImage().getId());
 
             autoDto.setThumbnail(imageData);
         }
         return autoDto;
     }
 
-    public List<AutoClientListItemDto> toDtoListForClient(List<Auto> autos) {
-        List<AutoClientListItemDto> autoDtoList = new ArrayList<>();
+    public List<ClientAutoDto> toClientAutoDtoList(List<Auto> autos) {
+        List<ClientAutoDto> autoDtoList = new ArrayList<>();
 
         for (Auto auto : autos) {
-            autoDtoList.add(toClientListItemDto(auto));
+            autoDtoList.add(toClientAutoDto(auto));
         }
 
         return autoDtoList;

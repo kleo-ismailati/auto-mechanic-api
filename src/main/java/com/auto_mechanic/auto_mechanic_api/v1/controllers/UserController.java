@@ -1,9 +1,9 @@
 package com.auto_mechanic.auto_mechanic_api.v1.controllers;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewUserDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.UserEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.UserDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.list_items.UserListItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.UserCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.UserUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.UserItemDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.UserDto;
 import com.auto_mechanic.auto_mechanic_api.v1.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,8 +16,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
-@Tag(name = "User", description = "User Controller")
+@RequestMapping("/users")
+@Tag(name = "Users", description = "Users Controller")
 public class UserController {
 
     private final UserService userService;
@@ -27,17 +27,17 @@ public class UserController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all Users", tags = {"User"})
+    @Operation(summary = "Get all users", tags = {"Users"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Users List found"),
-            @ApiResponse(responseCode = "404", description = "Users List not found")
+            @ApiResponse(responseCode = "200", description = "User list found"),
+            @ApiResponse(responseCode = "404", description = "User list not found")
     })
-    public ResponseEntity<List<UserListItemDto>> getAllUsers() {
+    public ResponseEntity<List<UserItemDto>> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping(value = "/{id}")
-    @Operation(summary = "Get User by id", tags = {"User"})
+    @Operation(summary = "Get user by id", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found"),
             @ApiResponse(responseCode = "404", description = "User not found")
@@ -47,26 +47,26 @@ public class UserController {
     }
 
     @PostMapping
-    @Operation(summary = "Add new User", tags = {"User"})
+    @Operation(summary = "Add new user", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User added successfully")
     })
-    public ResponseEntity<Void> addUser(@Valid @RequestBody NewUserDto newUser) {
+    public ResponseEntity<Void> addUser(@Valid @RequestBody UserCreateDto newUser) {
         return userService.addUser(newUser);
     }
 
     @PutMapping(value = "/{id}")
-    @Operation(summary = "Update User by id", tags = {"User"})
+    @Operation(summary = "Update user by id", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User updated successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<Void> editUser(@PathVariable("id") Long id, @Valid @RequestBody UserEditDto userEditDto) {
-        return userService.editUser(id, userEditDto);
+    public ResponseEntity<Void> editUser(@PathVariable("id") Long id, @Valid @RequestBody UserUpdateDto userUpdateDto) {
+        return userService.editUser(id, userUpdateDto);
     }
 
     @DeleteMapping(value = "/{id}")
-    @Operation(summary = "Delete User by id", tags = {"User"})
+    @Operation(summary = "Delete user by id", tags = {"Users"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "User deleted successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")

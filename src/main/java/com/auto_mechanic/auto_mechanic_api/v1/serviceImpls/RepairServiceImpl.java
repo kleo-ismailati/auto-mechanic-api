@@ -1,12 +1,12 @@
 package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.NewRepairDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.RepairEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.RepairDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.RepairCreateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.RepairUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.RepairDto;
 import com.auto_mechanic.auto_mechanic_api.v1.mappers.RepairMapper;
+import com.auto_mechanic.auto_mechanic_api.v1.models.Booking;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Repair;
-import com.auto_mechanic.auto_mechanic_api.v1.models.RepairBooking;
-import com.auto_mechanic.auto_mechanic_api.v1.repositories.RepairBookingRepository;
+import com.auto_mechanic.auto_mechanic_api.v1.repositories.BookingRepository;
 import com.auto_mechanic.auto_mechanic_api.v1.repositories.RepairRepository;
 import com.auto_mechanic.auto_mechanic_api.v1.services.RepairService;
 import org.springframework.http.HttpStatus;
@@ -18,11 +18,11 @@ public class RepairServiceImpl implements RepairService {
 
     private final RepairRepository repairRepository;
 
-    private final RepairBookingRepository rbRepository;
+    private final BookingRepository rbRepository;
 
     private final RepairMapper repairMapper;
 
-    public RepairServiceImpl(RepairRepository repairRepository, RepairBookingRepository rbRepository,
+    public RepairServiceImpl(RepairRepository repairRepository, BookingRepository rbRepository,
                              RepairMapper repairMapper) {
         this.repairRepository = repairRepository;
         this.rbRepository = rbRepository;
@@ -36,11 +36,11 @@ public class RepairServiceImpl implements RepairService {
         return ResponseEntity.ok(repairMapper.toDto(repair));
     }
 
-    public ResponseEntity<Void> addRepair(Long id, NewRepairDto newRepair) {
+    public ResponseEntity<Void> addRepair(Long id, RepairCreateDto newRepair) {
 
-        RepairBooking repairBooking = rbRepository.findById(id).orElseThrow();
+        Booking booking = rbRepository.findById(id).orElseThrow();
 
-        repairRepository.save(repairMapper.toNewEntity(newRepair, repairBooking));
+        repairRepository.save(repairMapper.toNewEntity(newRepair, booking));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -52,7 +52,7 @@ public class RepairServiceImpl implements RepairService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<Void> editRepair(Long id, RepairEditDto repairDto) {
+    public ResponseEntity<Void> editRepair(Long id, RepairUpdateDto repairDto) {
 
         Repair repair = repairRepository.findById(id).orElseThrow();
 

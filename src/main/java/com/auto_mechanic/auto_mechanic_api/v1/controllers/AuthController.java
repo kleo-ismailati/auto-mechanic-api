@@ -1,7 +1,7 @@
 package com.auto_mechanic.auto_mechanic_api.v1.controllers;
 
 import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.UserLoginDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.LoggedUserDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.UserAuthenticationInfoDto;
 import com.auto_mechanic.auto_mechanic_api.v1.services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,11 +30,11 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User authenticated successfully")
     })
-    public ResponseEntity<LoggedUserDto> authenticateUser(@RequestBody UserLoginDto userLogin) {
+    public ResponseEntity<UserAuthenticationInfoDto> authenticateUser(@RequestBody UserLoginDto userLogin) {
 
-        LoggedUserDto loggedUserDto = authService.authenticateUser(userLogin.getUsername(), userLogin.getPassword());
+        UserAuthenticationInfoDto userAuthenticationInfoDto = authService.authenticateUser(userLogin.getUsername(), userLogin.getPassword());
 
-        return ResponseEntity.ok(loggedUserDto);
+        return ResponseEntity.ok(userAuthenticationInfoDto);
     }
 
 }

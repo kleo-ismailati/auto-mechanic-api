@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/stats")
-@Tag(name = "Statistic", description = "Statistic Controller")
+@Tag(name = "Statistics", description = "Booking statistics Controller")
 public class StatsController {
 
     private final StatsService statsService;
@@ -23,12 +23,12 @@ public class StatsController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all API Stats", tags = {"Statistic"})
+    @Operation(summary = "Get all booking stats", tags = {"Statistics"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Stats found"),
             @ApiResponse(responseCode = "404", description = "Stats not found")
     })
-    public ResponseEntity<Stats> getAllRepairBookings() {
-        return statsService.getStats();
+    public ResponseEntity<Stats> getAllStatistics() {
+        return statsService.getStatistics();
     }
 }

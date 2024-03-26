@@ -3,8 +3,8 @@ package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 import com.auto_mechanic.auto_mechanic_api.v1.enums.RepairStatusEnum;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Stats;
 import com.auto_mechanic.auto_mechanic_api.v1.repositories.AutoRepository;
+import com.auto_mechanic.auto_mechanic_api.v1.repositories.BookingRepository;
 import com.auto_mechanic.auto_mechanic_api.v1.repositories.ClientRepository;
-import com.auto_mechanic.auto_mechanic_api.v1.repositories.RepairBookingRepository;
 import com.auto_mechanic.auto_mechanic_api.v1.repositories.RepairRepository;
 import com.auto_mechanic.auto_mechanic_api.v1.services.StatsService;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatsServiceImpl implements StatsService {
 
-    private final RepairBookingRepository repairBookingRepository;
+    private final BookingRepository bookingRepository;
 
     private final ClientRepository clientRepository;
 
@@ -22,23 +22,23 @@ public class StatsServiceImpl implements StatsService {
     private final RepairRepository repairRepository;
 
     public StatsServiceImpl(
-            RepairBookingRepository repairBookingRepository,
+            BookingRepository bookingRepository,
             ClientRepository clientRepository,
             AutoRepository autoRepository,
             RepairRepository repairRepository
     ) {
-        this.repairBookingRepository = repairBookingRepository;
+        this.bookingRepository = bookingRepository;
         this.clientRepository = clientRepository;
         this.autoRepository = autoRepository;
         this.repairRepository = repairRepository;
     }
 
 
-    public ResponseEntity<Stats> getStats() {
+    public ResponseEntity<Stats> getStatistics() {
         Stats stats = new Stats();
 
-        stats.setTotalRepairBookingsActive(
-                this.repairBookingRepository.countAllByStatusOrStatus(
+        stats.setTotalBookingsActive(
+                this.bookingRepository.countAllByStatusOrStatus(
                         RepairStatusEnum.toBeDone,
                         RepairStatusEnum.inProgress
                 )

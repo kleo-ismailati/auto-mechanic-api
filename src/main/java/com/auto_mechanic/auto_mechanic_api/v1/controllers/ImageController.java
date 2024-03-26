@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/image")
-@Tag(name = "Image", description = "Image Controller")
+@RequestMapping("/images")
+@Tag(name = "Images", description = "Images Controller")
 public class ImageController {
 
     private final ImageService imageService;
@@ -24,7 +24,7 @@ public class ImageController {
     }
 
     @GetMapping(value = "/{id}")
-    @Operation(summary = "Get Image", tags = {"Image"})
+    @Operation(summary = "Get image", tags = {"Images"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image found"),
             @ApiResponse(responseCode = "404", description = "Image not found")
@@ -34,7 +34,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/setAutoImg/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Upload auto image", tags = {"Image"})
+    @Operation(summary = "Upload auto image", tags = {"Images"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image uploaded")
     })
@@ -46,7 +46,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/setUserImg/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "Upload user image", tags = {"Image"})
+    @Operation(summary = "Upload user image", tags = {"Images"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Image uploaded")
     })

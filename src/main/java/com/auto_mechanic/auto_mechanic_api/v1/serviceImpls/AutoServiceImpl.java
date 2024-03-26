@@ -1,7 +1,7 @@
 package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.AutoEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.AutoDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.AutoUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.AutoDto;
 import com.auto_mechanic.auto_mechanic_api.v1.mappers.AutoMapper;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Auto;
 import com.auto_mechanic.auto_mechanic_api.v1.repositories.AutoRepository;
@@ -37,7 +37,7 @@ public class AutoServiceImpl implements AutoService {
 
     }
 
-    public ResponseEntity<Void> editAuto(Long id, AutoEditDto autoDto) {
+    public ResponseEntity<Void> editAuto(Long id, AutoUpdateDto autoDto) {
 
         Auto auto = autoRepository.findById(id).orElseThrow();
 

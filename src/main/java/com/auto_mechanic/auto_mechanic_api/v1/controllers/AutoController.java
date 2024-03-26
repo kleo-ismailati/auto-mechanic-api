@@ -1,7 +1,7 @@
 package com.auto_mechanic.auto_mechanic_api.v1.controllers;
 
-import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.edit.AutoEditDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.AutoDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.AutoUpdateDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.AutoDto;
 import com.auto_mechanic.auto_mechanic_api.v1.services.AutoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,8 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auto")
-@Tag(name = "Auto", description = "Auto Controller")
+@RequestMapping("/api/autos")
+@Tag(name = "Autos", description = "Autos Controller")
 public class AutoController {
 
     private final AutoService autoService;
@@ -22,7 +22,7 @@ public class AutoController {
     }
 
     @GetMapping(value = "/{id}")
-    @Operation(summary = "Get Auto by id", tags = {"Auto"})
+    @Operation(summary = "Get auto by id", tags = {"Autos"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Auto found"),
             @ApiResponse(responseCode = "404", description = "Auto not found")
@@ -32,13 +32,13 @@ public class AutoController {
     }
 
     @PutMapping(value = "/{id}")
-    @Operation(summary = "Update Auto by id", tags = {"Auto"})
+    @Operation(summary = "Update auto by id", tags = {"Autos"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Auto updated successfully"),
             @ApiResponse(responseCode = "404", description = "Auto not found")
     })
     public ResponseEntity<Void> editAuto(@PathVariable("id") Long id,
-                                         @RequestBody AutoEditDto autoDto) {
+                                         @RequestBody AutoUpdateDto autoDto) {
         return autoService.editAuto(id, autoDto);
     }
 }

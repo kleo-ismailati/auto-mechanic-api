@@ -1,7 +1,7 @@
 package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
 import com.auto_mechanic.auto_mechanic_api.v1.config.ConfigProperties;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.ImageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.ImageDataDto;
 import com.auto_mechanic.auto_mechanic_api.v1.exceptions.FileStorageException;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Auto;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Image;
@@ -70,7 +70,7 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    public ImageDto getImageData(String id) {
+    public ImageDataDto getImageData(String id) {
         Image image = imageRepository.findById(id).orElseThrow();
 
         try {
@@ -81,7 +81,7 @@ public class ImageServiceImpl implements ImageService {
             ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(imagePath));
 
             if (resource.exists() || resource.isReadable()) {
-                ImageDto imageDto = new ImageDto();
+                ImageDataDto imageDto = new ImageDataDto();
 
                 imageDto.setType(image.getType());
                 imageDto.setName(image.getName());
