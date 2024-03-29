@@ -12,8 +12,6 @@ services:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
     environment:
       - SPRING_PROFILES_ACTIVE=${PROFILE}
-    volumes:
-      - .m2:/root/.m2
     stdin_open: true
     tty: true
   mysqldb:
