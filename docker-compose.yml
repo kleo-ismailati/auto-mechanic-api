@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  app:
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    build: ./
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+    environment:
+      - SPRING_PROFILES_ACTIVE=${PROFILE}
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+  mysqldb:
+    image: mysql:8.0.26
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQLDB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQLDB_DATABASE}
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQLDB_ROOT_PASSWORD" ]
+      timeout: 20s
+      retries: 10
+    ports:
+      - ${MYSQLDB_LOCAL_PORT}:${MYSQLDB_DOCKER_PORT}
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
