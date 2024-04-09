@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 public class ApiError {
 
-    private HttpStatus status;
+    private int status;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
@@ -33,19 +33,19 @@ public class ApiError {
 
     public ApiError(HttpStatus status) {
         this();
-        this.status = status;
+        this.status = status.value();
     }
 
     public ApiError(HttpStatus status, Throwable ex) {
         this();
-        this.status = status;
+        this.status = status.value();
         this.message = "Unexpected error";
         this.debugMessage = ex.getLocalizedMessage();
     }
 
     public ApiError(HttpStatus status, String message, Throwable ex) {
         this();
-        this.status = status;
+        this.status = status.value();
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();
     }

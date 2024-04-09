@@ -31,7 +31,7 @@ import java.util.Objects;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
-        return new ResponseEntity<>(apiError, apiError.getStatus());
+        return new ResponseEntity<>(apiError, HttpStatus.valueOf(apiError.getStatus()));
     }
 
     // Handle HttpMessageNotReadableException. Happens when request JSON is malformed
