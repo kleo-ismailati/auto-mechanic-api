@@ -46,17 +46,20 @@ Auto Repair Status Tracking Application made in Spring Boot
 
 ## Setup Docker
 
-1. Run ```docker-compose up -d``` in command line inside project folder.
+1. Run ```$env:PROFILE="setup-docker";docker-compose up -d``` in powershell inside project folder, or \
+   ```PROFILE=setup-docker docker-compose up -d``` in shell.
 2. Run ```docker-compose stop app``` to stop your application service.
-3. Run ```$env:PROFILE="docker";docker-compose build app``` in powershell or \
-   ```PROFILE=docker docker-compose build app``` in terminal to rebuild app with new environment variable.
-4. Run ```docker-compose up app -d``` in command line inside project folder.
-5. Done! You can access your API in ```http://localhost:6868```.
+3. Run ```$env:PROFILE="docker";docker-compose up app -d``` in powershell or \
+   ```PROFILE=docker docker-compose up app -d``` in shell to rebuild app with new environment variable.
+4. Done! You can access your API in ```http://localhost:6868```.
+
+## Rebuild app in Docker
+
+1. Run ```docker-compose stop app``` to stop the application.
+2. Run ```docker-compose up app -d``` to rebuild.
 
 **(CAUTION!)** \
-You can run ```docker compose down --rmi all -v``` to clean **EVERYTHING** created by docker-compose.\
-After that you can redo the steps above in a new terminal to reset the environment variable or \
-use ```$env:PROFILE="setup-docker";docker-compose up -d``` in **step no.1**.
+You can run ```docker compose down --rmi all -v``` to clean **EVERYTHING** created by docker-compose.
 
 ## Project status
 
