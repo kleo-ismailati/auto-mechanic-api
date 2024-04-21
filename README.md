@@ -56,7 +56,7 @@ Auto Repair Status Tracking Application made in Spring Boot
 ## Rebuild app in Docker
 
 1. Run ```docker-compose stop app``` to stop the application.
-2. Run ```docker-compose up app -d``` to rebuild.
+2. Run ```docker-compose up --build app -d``` to rebuild.
 
 **(CAUTION!)** \
 You can run ```docker compose down --rmi all -v``` to clean **EVERYTHING** created by docker-compose.

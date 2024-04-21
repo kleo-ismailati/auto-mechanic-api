@@ -17,4 +17,6 @@ public class ConfigProperties {
 
     private String uploadDir;
 
+    private String allowedOrigins;
+
 }
