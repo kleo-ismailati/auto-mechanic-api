@@ -12,6 +12,8 @@ services:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
     environment:
       - SPRING_PROFILES_ACTIVE=${PROFILE}
+    volumes:
+      - app_images:/home/uploads
     stdin_open: true
     tty: true
   mysqldb:
@@ -32,3 +34,4 @@ services:
 
 volumes:
   db_data:
+  app_images:

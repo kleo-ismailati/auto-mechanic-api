@@ -2,9 +2,9 @@ package com.auto_mechanic.auto_mechanic_api.v1.serviceImpls;
 
 import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.BookingCreateDto;
 import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.BookingUpdateDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.BookingDto;
 import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.BookingSummaryDto;
 import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.BookingPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.BookingDto;
 import com.auto_mechanic.auto_mechanic_api.v1.enums.RepairStatusEnum;
 import com.auto_mechanic.auto_mechanic_api.v1.mappers.BookingMapper;
 import com.auto_mechanic.auto_mechanic_api.v1.models.Auto;
@@ -18,6 +18,8 @@ import com.auto_mechanic.auto_mechanic_api.v1.services.BookingService;
 import com.auto_mechanic.auto_mechanic_api.v1.services.EmailService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,9 +52,15 @@ public class BookingServiceImpl implements BookingService {
         this.emailService = emailService;
     }
 
-    public ResponseEntity<BookingPageDto> getAllBookings(int page, int size) {
+    public ResponseEntity<BookingPageDto> getAllBookings(Pageable pageable) {
 
-        Page<Booking> bookings = bookingRepository.findAll(PageRequest.of(page, size));
+        Page<Booking> bookings = bookingRepository.findAll(
+                PageRequest.of(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        pageable.getSortOr(Sort.by(Sort.Direction.DESC, "date"))
+                )
+        );
 
         return ResponseEntity.ok(bookingMapper.toBookingPageDto(bookings));
     }
@@ -98,11 +106,11 @@ public class BookingServiceImpl implements BookingService {
                         client.getEmail(), booking.getRefID(), "Your Reference Code"
                 ));
 
-                return new ResponseEntity<>(HttpStatus.CREATED);
+                return ResponseEntity.status(HttpStatus.CREATED).build();
             }
         }
 
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
     }
 

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,10 +33,8 @@ public class BookingController {
             @ApiResponse(responseCode = "200", description = "Booking list found"),
             @ApiResponse(responseCode = "404", description = "Booking list not found")
     })
-    public ResponseEntity<BookingPageDto> getAllBookings(
-            @RequestParam(required = false) Optional<Integer> page,
-            @RequestParam(required = false) Optional<Integer> size) {
-        return bookingService.getAllBookings(page.orElse(0), size.orElse(10));
+    public ResponseEntity<BookingPageDto> getAllBookings(Pageable pageable) {
+        return bookingService.getAllBookings(pageable);
     }
 
     @GetMapping(value = "/tbd")

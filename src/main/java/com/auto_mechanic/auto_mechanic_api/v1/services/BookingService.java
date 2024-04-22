@@ -2,13 +2,15 @@ package com.auto_mechanic.auto_mechanic_api.v1.services;
 
 import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.create.BookingCreateDto;
 import com.auto_mechanic.auto_mechanic_api.v1.dto.requests.update.BookingUpdateDto;
-import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.BookingDto;
 import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.BookingSummaryDto;
 import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getMany.BookingPageDto;
+import com.auto_mechanic.auto_mechanic_api.v1.dto.responses.getSingle.BookingDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+
 public interface BookingService {
-    ResponseEntity<BookingPageDto> getAllBookings(int page, int size);
+    ResponseEntity<BookingPageDto> getAllBookings(Pageable pageable);
 
     ResponseEntity<BookingPageDto> getUnfinishedBookings(int pageOptional, int sizeOptional);
 
