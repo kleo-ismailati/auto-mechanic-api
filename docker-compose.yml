@@ -6,7 +6,7 @@ services:
       mysqldb:
         condition: service_healthy
     build: ./
-    restart: on-failure
+    restart: unless-stopped
     env_file: ./.env
     ports:
       - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
